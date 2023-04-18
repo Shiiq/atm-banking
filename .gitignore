@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/atm_dev.db
+**.db
+/for_debuging.py

@@ -1,16 +1,16 @@
-from cli.constants import BankOperationEnum
+from common.constants import BankOperationsFromInput
 
 from common.database.dto_models import BankStatementDTO, DepositOrWithdrawDTO
 
 
 def parse_args(input_args: str) -> BankStatementDTO | DepositOrWithdrawDTO:
     operation, *args = input_args.strip().split()
-    if operation.lower() == BankOperationEnum.BANK_STATEMENT:
+    if operation.lower() == BankOperationsFromInput.BANK_STATEMENT:
         bank_statement_dto = _validate_bank_statement_operation(operation,
                                                                 args)
         return bank_statement_dto
-    elif operation.lower() in [BankOperationEnum.DEPOSIT,
-                               BankOperationEnum.WITHDRAW]:
+    elif operation.lower() in [BankOperationsFromInput.DEPOSIT,
+                               BankOperationsFromInput.WITHDRAW]:
         deposit_withdraw_dto = _validate_deposit_withdraw_operation(operation,
                                                                     args)
         return deposit_withdraw_dto

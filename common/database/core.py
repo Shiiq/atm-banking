@@ -11,22 +11,6 @@ db_engine = create_async_engine(url=settings.SQLITE_DATABASE_URL,
 session_factory = async_sessionmaker(bind=db_engine,
                                      expire_on_commit=False)
 
-
-# class Database:
-#
-#     def __init__(self, db_url: str):
-#         self.__engine: AsyncEngine = create_async_engine(url=db_url,
-#                                                          echo=True)
-#         self.__session_factory: async_sessionmaker[AsyncSession] = async_sessionmaker(bind=self.__engine,
-#                                                                                       expire_on_commit=False)
-#
-#     def get_session_factory(self):
-#         return self.__session_factory
-#
-#     def get_engine(self):
-#         return self.__engine
-#
-#
 # async def create_engine(
 #         db_url: str
 # ) -> AsyncGenerator[AsyncEngine, None]:
@@ -42,3 +26,14 @@ session_factory = async_sessionmaker(bind=db_engine,
 #     async_session_factory = async_sessionmaker(bind=db_engine,
 #                                                expire_on_commit=False)
 #     return async_session_factory
+
+
+class DBEngine:
+    def __init__(self, db_url: str):
+        self._engine = create_async_engine(url=db_url, echo=True)
+
+    def __aenter__(self):
+        return self._engine
+
+    def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self._engine.dispose()

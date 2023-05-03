@@ -13,18 +13,20 @@ class BankClientRepository:
 
     async def get_by_full_name_or_none(
             self, session: AsyncSession, first_name: str, last_name: str
-    ) -> BankClientModel:
+    ) -> BankClientModel | None:
         stmt = (select(BankClientModel)
                 .where(BankClientModel.first_name == first_name,
                        BankClientModel.last_name == last_name))
         client = await session.execute(stmt)
         return client.scalars().first()
 
-
     async def add(
-            self, session: AsyncSession, bank_client: BankClientModel
+            self,
+            session: AsyncSession,
+            bank_customer: BankClientModel,
+            bank_account: BankAccountModel
     ) -> BankClientModel:
-        session.add(bank_client)
+        session.add_all([bank_customer, bank_account])
         await session.commit()
-        await session.refresh(bank_client)
-        return bank_client
+        await session.refresh(bank_customer)
+        return bank_customer

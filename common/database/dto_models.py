@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, PositiveInt
 
 
 class BankClientDTO(BaseModel):
@@ -16,4 +16,4 @@ class BankStatementDTO(BankOperationDTO):
 
 
 class DepositOrWithdrawDTO(BankOperationDTO):
-    amount: int
+    amount: PositiveInt

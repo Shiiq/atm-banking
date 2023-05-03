@@ -15,6 +15,8 @@ mapper_registry = registry(metadata=MetaData(naming_convention=convention))
 
 
 class UpdatedAtTimestamp:
+    """Add 'updated_at' datetime column to DB model"""
+
     updated_at = mapped_column(DateTime,
                                nullable=False,
                                server_default=sql.func.now(),
@@ -22,8 +24,10 @@ class UpdatedAtTimestamp:
 
 
 class BaseModel(DeclarativeBase):
+    """Base model"""
 
     __abstract__ = True
+
     registry = mapper_registry
     metadata = mapper_registry.metadata
     id = mapped_column(Integer, primary_key=True, autoincrement=True)
@@ -32,8 +36,8 @@ class BaseModel(DeclarativeBase):
                                server_default=sql.func.now())
 
 
-class BankClientModel(UpdatedAtTimestamp, BaseModel):
-    __tablename__ = "bank_client"
+class BankCustomerModel(UpdatedAtTimestamp, BaseModel):
+    __tablename__ = "bank_customer"
 
     first_name = mapped_column(String(length=50), nullable=False)
     last_name = mapped_column(String(length=50), nullable=False)
@@ -54,7 +58,7 @@ class BankAccountModel(UpdatedAtTimestamp, BaseModel):
     __tablename__ = "bank_account"
 
     deposit = mapped_column(Integer, default=0)
-    holder = relationship("BankClientModel",
+    holder = relationship("BankCustomerModel",
                           uselist=False,
                           back_populates="bank_account")
 

@@ -34,8 +34,8 @@ async def main():
         cli = BankClientModel(first_name="john",
                               last_name="jakes",
                               bank_account=acc)
-        # session.add_all([acc, cli])
-        # await session.commit()
+        session.add_all([acc, cli])
+        await session.commit()
 
         r = BankClientRepository()
         from common.database.dto_models import DepositOrWithdrawDTO
@@ -46,7 +46,7 @@ async def main():
             amount=1500
         )
         # c = await r.get_or_none(s=session, data=d)
-        print()
+        # print()
 
 
     # await create_db(db_engine=engine, base_model=BaseModel)

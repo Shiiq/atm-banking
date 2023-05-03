@@ -130,3 +130,5 @@ dmypy.json
 /atm_dev.db
 **.db
 /for_debuging.py
+
+.idea

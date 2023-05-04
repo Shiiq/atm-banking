@@ -3,9 +3,7 @@ import asyncio
 
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, create_async_engine
 
-from cli.constants import EXITING_MESSAGE, WELCOME_MESSAGE, ExitCommand
-from cli.input_parser import parse_args
-from common.database.db_models import BaseModel, BankAccountModel, BankClientModel
+from common.database.models.db_models import BankAccountModel, BankClientModel
 from common.settings import settings
 
 
@@ -38,7 +36,7 @@ async def main():
         await session.commit()
 
         r = BankClientRepository()
-        from common.database.dto_models import DepositOrWithdrawDTO
+        from common.database.models.dto_models import DepositOrWithdrawDTO
         d = DepositOrWithdrawDTO(
             first_name="john",
             last_name="jakes",

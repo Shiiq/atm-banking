@@ -1,6 +1,6 @@
 from common.constants import BankOperationsFromInput
 
-from common.database.dto_models import BankStatementDTO, DepositOrWithdrawDTO
+from common.database.models.dto_models import BankStatementDTO, DepositOrWithdrawDTO
 
 
 def parse_args(input_args: str) -> BankStatementDTO | DepositOrWithdrawDTO:

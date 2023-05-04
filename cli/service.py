@@ -1,6 +1,5 @@
-from common.database.core import session_factory
-from common.database.db_models import BankAccountModel, BankClientModel, BankOperationModel
-from common.database.dto_models import BankStatementDTO, DepositOrWithdrawDTO
+from common.database.models.db_models import BankAccountModel, BankClientModel
+from common.database.models.dto_models import DepositOrWithdrawDTO
 from common.database.repository import BankClientRepository
 
 

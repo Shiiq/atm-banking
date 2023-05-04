@@ -4,7 +4,7 @@ from typing import Generic, Optional, TypeVar
 DBModel = TypeVar("DBModel")
 
 
-class BaseRepository(ABC, Generic[DBModel]):
+class AbstractRepository(ABC, Generic[DBModel]):
 
     @abstractmethod
     async def add(self, model: DBModel) -> None:

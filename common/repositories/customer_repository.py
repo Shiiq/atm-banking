@@ -11,14 +11,23 @@ class CustomerRepository(BaseRepository[BankCustomerModel]):
 
     def __init__(self, session: AsyncSession):
         self.__session = session
-        self.__model = BankCustomerModel
 
-    async def add(self, model: BankCustomerModel):
-        pass
+    async def add(self, customer: BankCustomerModel):
+        self.__session.add(customer)
+        await self.__session.commit()
+        await self.__session.refresh(customer)
+        return customer
 
-    async def get_by_id(self, model_id: int) -> Optional[BankCustomerModel]:
+    async def get_by_id(self, customer_id: int) -> Optional[BankCustomerModel]:
         stmt = (select(BankCustomerModel)
-                .where(BankCustomerModel.id == model_id))
+                .where(BankCustomerModel.id == customer_id))
+        customer = await self.__session.execute(stmt)
+        return customer.scalars().first()
+
+    async def get_by_fullname(self, first_name: str, last_name: str) -> Optional[BankCustomerModel]:
+        stmt = (select(BankCustomerModel)
+                .where(BankCustomerModel.first_name == first_name,
+                       BankCustomerModel.last_name == last_name))
         customer = await self.__session.execute(stmt)
         return customer.scalars().first()
 

@@ -1,22 +1,21 @@
 from abc import ABC, abstractmethod
 from typing import Generic, Optional, TypeVar
 
-T = TypeVar("T")
 DBModel = TypeVar("DBModel")
 
 
-class BaseRepository(ABC, Generic[T]):
+class BaseRepository(ABC, Generic[DBModel]):
 
     @abstractmethod
-    async def add(self, model: T) -> None:
+    async def add(self, model: DBModel) -> None:
         raise NotImplementedError
 
     @abstractmethod
-    async def get_by_id(self, model_id: int) -> Optional[T]:
+    async def get_by_id(self, model_id: int) -> Optional[DBModel]:
         raise NotImplementedError
 
     @abstractmethod
-    async def update(self, model: T) -> None:
+    async def update(self, model: DBModel) -> None:
         raise NotImplementedError
 
     @abstractmethod

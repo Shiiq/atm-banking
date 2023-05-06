@@ -3,8 +3,12 @@ import asyncio
 
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, create_async_engine
 
-from common.database.models.db_models import BankAccountModel, BankClientModel
+from common.database.models.db_models import BankAccountModel, BankCustomerModel
 from common.settings import settings
+
+from common.database.repositories.account_repository import AccountRepository
+from common.database.repositories.customer_repository import CustomerRepository
+from common.uow import UnitOfWork
 
 
 def init_db_engine(db_url: str) -> AsyncEngine:
@@ -23,41 +27,24 @@ def send_message_to_stdout(message: str) -> None:
     """Writes message to the stdout stream"""
     sys.stdout.write(message)
 
-from common.database.repository import BankClientRepository
+
 async def main():
     engine = init_db_engine(db_url=settings.SQLITE_DATABASE_URL)
     session_factory = async_sessionmaker(bind=engine, expire_on_commit=False)
     async with session_factory() as session:
+
+        uow = UnitOfWork(session=session,
+                         account_repo=AccountRepository,
+                         customer_repo=CustomerRepository)
+
         acc = BankAccountModel(deposit=1000)
-        cli = BankClientModel(first_name="john",
-                              last_name="jakes",
-                              bank_account=acc)
-        session.add_all([acc, cli])
-        await session.commit()
+        cus = BankCustomerModel(first_name="john",
+                                last_name="jakes",
+                                bank_account=acc)
 
-        r = BankClientRepository()
-        from common.database.models.dto_models import DepositOrWithdrawDTO
-        d = DepositOrWithdrawDTO(
-            first_name="john",
-            last_name="jakes",
-            operation="deposit",
-            amount=1500
-        )
-        # c = await r.get_or_none(s=session, data=d)
-        # print()
-
-
-    # await create_db(db_engine=engine, base_model=BaseModel)
-    # send_message_to_stdout(WELCOME_MESSAGE)
-    # while True:
-    #     input_args = input("request >>>  ")
-    #     if input_args.strip().lower() == ExitCommand.EXIT:
-    #         send_message_to_stdout(EXITING_MESSAGE)
-    #         break
-    #     else:
-    #         data = parse_args(input_args)
-    #         print(data)
-    # sys.exit(1)
+        cus = await uow.customer_repo.add(cus)
+        acc = await uow.account_repo.add(acc)
+        await uow.commit()
 
 
 if __name__ == "__main__":

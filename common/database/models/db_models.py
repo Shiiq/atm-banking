@@ -67,7 +67,7 @@ class BankOperationModel(BaseModel):
     __tablename__ = "bank_operation"
 
     bank_client = mapped_column(Integer,
-                                ForeignKey("bank_client.id"),
+                                ForeignKey("bank_customer.id"),
                                 nullable=False)
     bank_account = mapped_column(Integer,
                                  ForeignKey("bank_account.id"),

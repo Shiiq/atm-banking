@@ -3,12 +3,12 @@ import asyncio
 
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, create_async_engine
 
-from common.database.models.db_models import BankAccountModel, BankCustomerModel
+from common.database.models import BankAccountModel, BankCustomerModel
+from common.database.repositories import AccountRepository, CustomerRepository
 from common.settings import settings
-
-from common.database.repositories.account_repository import AccountRepository
-from common.database.repositories.customer_repository import CustomerRepository
 from common.uow import UnitOfWork
+
+from cli.input_parser import InputParserService
 
 
 def init_db_engine(db_url: str) -> AsyncEngine:
@@ -31,20 +31,24 @@ def send_message_to_stdout(message: str) -> None:
 async def main():
     engine = init_db_engine(db_url=settings.SQLITE_DATABASE_URL)
     session_factory = async_sessionmaker(bind=engine, expire_on_commit=False)
-    async with session_factory() as session:
+    input_data = input("please input --->       ")
+    i_service = InputParserService()
+    print(i_service.get_output_data(input_data))
 
-        uow = UnitOfWork(session=session,
-                         account_repo=AccountRepository,
-                         customer_repo=CustomerRepository)
-
-        acc = BankAccountModel(deposit=1000)
-        cus = BankCustomerModel(first_name="john",
-                                last_name="jakes",
-                                bank_account=acc)
-
-        cus = await uow.customer_repo.add(cus)
-        acc = await uow.account_repo.add(acc)
-        await uow.commit()
+    # async with session_factory() as session:
+    #
+    #     uow = UnitOfWork(session=session,
+    #                      account_repo=AccountRepository,
+    #                      customer_repo=CustomerRepository)
+    #
+    #     acc = BankAccountModel(deposit=1000)
+    #     cus = BankCustomerModel(first_name="john",
+    #                             last_name="jakes",
+    #                             bank_account=acc)
+    #
+    #     cus = await uow.customer_repo.add(cus)
+    #     acc = await uow.account_repo.add(acc)
+    #     await uow.commit()
 
 
 if __name__ == "__main__":

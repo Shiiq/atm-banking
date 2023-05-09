@@ -3,7 +3,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from common.database.models.db_models import BankAccountModel
 from common.database.repositories.abstract_repository import (
-    AbstractRepository,
     ProtocolRepository,
     ConnHolder)
 

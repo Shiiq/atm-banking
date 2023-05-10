@@ -9,7 +9,7 @@ class BankClientDTO(BaseModel):
 
 
 class BankOperationDTO(BankClientDTO):
-    operation: str
+    operation: BankOperationsFromInput
 
 
 class BankStatementDTO(BankOperationDTO):

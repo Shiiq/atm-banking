@@ -1,7 +1,7 @@
 from cli.constants import BankOperationsFromInput
-from common.database.models.dto_models import (BankStatementDTO,
-                                               DepositDTO,
-                                               WithdrawDTO)
+from common.database.models.dto2_models import (BankStatementDTO,
+                                                DepositDTO,
+                                                WithdrawDTO)
 
 
 class InputParserService:
@@ -20,6 +20,7 @@ class InputParserService:
     def _set_output_data(self, output_data: BankStatementDTO | DepositDTO | WithdrawDTO) -> None:
         self._output_data = output_data
 
+    # TODO edit "_parse_args" method
     def _parse_args(self, input_data: str):
         operation, *args = input_data.strip().split()
         output_dto = None

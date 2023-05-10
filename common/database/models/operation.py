@@ -15,9 +15,9 @@ class BankOperationsToDB(StrEnum):
 class BankOperationModel(BaseModel):
     __tablename__ = "bank_operation"
 
-    bank_client = mapped_column(Integer,
-                                ForeignKey("bank_customer.id"),
-                                nullable=False)
+    bank_customer = mapped_column(Integer,
+                                  ForeignKey("bank_customer.id"),
+                                  nullable=False)
     bank_account = mapped_column(Integer,
                                  ForeignKey("bank_account.id"),
                                  nullable=False)

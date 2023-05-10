@@ -1,13 +1,9 @@
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from common.database.models.db_models import BankAccountModel
-from common.database.repositories.abstract_repository import (
-    ProtocolRepository,
-    ConnHolder)
+from common.database.models import BankAccountModel
+from common.database.repositories.abstract_repository import (ProtocolRepository,ConnHolder)
 
 
-# class AccountRepository(AbstractRepository[BankAccountModel]):
 class AccountRepository(ConnHolder, ProtocolRepository):
 
     async def add(self, account: BankAccountModel):

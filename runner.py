@@ -31,9 +31,9 @@ def send_message_to_stdout(message: str) -> None:
 async def main():
     engine = init_db_engine(db_url=settings.SQLITE_DATABASE_URL)
     session_factory = async_sessionmaker(bind=engine, expire_on_commit=False)
-    input_data = input("please input --->       ")
-    i_service = InputParserService()
-    print(i_service.get_output_data(input_data))
+    # input_data = input("please input --->       ")
+    # i_service = InputParserService()
+    # print(InputParserService().get_output_data(input_data))
 
     # async with session_factory() as session:
     #

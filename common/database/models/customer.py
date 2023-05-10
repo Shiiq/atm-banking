@@ -11,7 +11,7 @@ class BankCustomerModel(UpdatedAtTimestamp, BaseModel):
     last_name = mapped_column(String(length=50), nullable=False)
     bank_account = relationship("BankAccountModel",
                                 uselist=False,
-                                back_populates="holder")
+                                back_populates="customer")
     bank_account_id = mapped_column(Integer,
                                     ForeignKey("bank_account.id"),
                                     nullable=True)

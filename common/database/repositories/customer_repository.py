@@ -1,16 +1,11 @@
 from typing import Optional
 
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from common.database.models.db_models import BankCustomerModel
-from common.database.repositories.abstract_repository import (
-    AbstractRepository,
-    ProtocolRepository,
-    ConnHolder)
+from common.database.models import BankCustomerModel
+from common.database.repositories.abstract_repository import (ProtocolRepository, ConnHolder)
 
 
-# class CustomerRepository(AbstractRepository[BankCustomerModel]):
 class CustomerRepository(ConnHolder, ProtocolRepository):
 
     async def add(self, customer: BankCustomerModel):

@@ -1,9 +1,12 @@
+from datetime import date
+
 from pydantic import BaseModel, NonNegativeInt, PositiveInt
 
 from cli.constants import BankOperationsFromInput
 
 
 class BankCustomerDTO(BaseModel):
+    """Bank customer model"""
     first_name: str
     last_name: str
 
@@ -14,28 +17,29 @@ class BankCustomerDTO(BaseModel):
 #
 #
 # class BankAccountFromDB(BaseModel):
-#     customer: int
+#     customer: BankCustomerDTO
 #     deposit: NonNegativeInt
 
 
 class BankStatementDTO(BaseModel):
-    """Output bank statement model"""
+    """Output 'Bank Statement' model"""
     customer: BankCustomerDTO
     operation: BankOperationsFromInput = BankOperationsFromInput.BANK_STATEMENT
-    # TODO convert to datetime fields
-    since: str
-    till: str
+    since: date
+    till: date
 
 
-class DepositDTO(BaseModel):
-    """Output deposit model"""
+class DepositOrWithdrawBaseDTO(BaseModel):
+    """Base model for 'Deposit' or 'Withdraw' DTO"""
     customer: BankCustomerDTO
+    amount: PositiveInt
+
+
+class DepositDTO(DepositOrWithdrawBaseDTO):
+    """Output 'Deposit' model"""
     operation: BankOperationsFromInput = BankOperationsFromInput.DEPOSIT
-    amount: PositiveInt
 
 
-class WithdrawDTO(BaseModel):
-    """Output withdraw model"""
-    customer: BankCustomerDTO
+class WithdrawDTO(DepositOrWithdrawBaseDTO):
+    """Output 'Withdraw' model"""
     operation: BankOperationsFromInput = BankOperationsFromInput.WITHDRAW
-    amount: PositiveInt

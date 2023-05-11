@@ -3,15 +3,15 @@ from .account import BankAccountModel
 from .customer import BankCustomerModel
 from .operation import BankOperationModel
 
-from .dto_models import BankStatementDTO, DepositOrWithdrawDTO, DepositDTO, WithdrawDTO
+from .dto import BankCustomerDTO, BankStatementDTO, DepositDTO, WithdrawDTO
 
 __all__ = (
     "BaseModel",
     "BankAccountModel",
     "BankCustomerModel",
     "BankOperationModel",
+    "BankCustomerDTO",
     "BankStatementDTO",
-    "DepositOrWithdrawDTO",
     "DepositDTO",
     "WithdrawDTO"
 )

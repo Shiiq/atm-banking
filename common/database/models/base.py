@@ -22,7 +22,7 @@ class UpdatedAtTimestamp:
 
 
 class BaseModel(DeclarativeBase):
-    """Base model"""
+    """Base DB model"""
 
     __abstract__ = True
 

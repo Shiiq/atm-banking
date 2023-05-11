@@ -1,9 +1,6 @@
-from abc import ABC, abstractmethod
-from typing import Generic, Optional, Protocol, TypeVar
+from typing import Protocol
 
 from sqlalchemy.ext.asyncio import AsyncSession
-
-DBModel = TypeVar("DBModel")
 
 
 class ConnHolder:
@@ -25,22 +22,3 @@ class ProtocolRepository(Protocol):
 
     async def delete(self, model_id):
         ...
-
-
-class AbstractRepository(ABC, Generic[DBModel]):
-
-    @abstractmethod
-    async def add(self, model: DBModel) -> None:
-        raise NotImplementedError
-
-    @abstractmethod
-    async def get_by_id(self, model_id: int) -> Optional[DBModel]:
-        raise NotImplementedError
-
-    @abstractmethod
-    async def update(self, model: DBModel) -> None:
-        raise NotImplementedError
-
-    @abstractmethod
-    async def delete(self, model_id: int) -> None:
-        raise NotImplementedError

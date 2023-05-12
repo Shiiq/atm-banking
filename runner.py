@@ -3,7 +3,7 @@ import asyncio
 
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, create_async_engine
 
-from common.database.models import BankAccountModel, BankCustomerModel
+from common.database.models import *
 from common.database.repositories import AccountRepository, CustomerRepository
 from common.settings import settings
 from common.uow import UnitOfWork
@@ -31,23 +31,24 @@ def send_message_to_stdout(message: str) -> None:
 async def main():
     engine = init_db_engine(db_url=settings.SQLITE_DATABASE_URL)
     session_factory = async_sessionmaker(bind=engine, expire_on_commit=False)
-    input_data = input("please input --->  ")
-    print(InputParserService.parse_input(input_data))
-    output_data = InputParserService.parse_input(input_data)
-    # async with session_factory() as session:
-    #
-    #     uow = UnitOfWork(session=session,
-    #                      account_repo=AccountRepository,
-    #                      customer_repo=CustomerRepository)
-    #
-    #     acc = BankAccountModel(deposit=1000)
-    #     cus = BankCustomerModel(first_name="john",
-    #                             last_name="jakes",
-    #                             bank_account=acc)
-    #
-    #     cus = await uow.customer_repo.add(cus)
-    #     acc = await uow.account_repo.add(acc)
-    #     await uow.commit()
+    # input_data = input("please input --->  ")
+    # print(InputParserService.parse_input(input_data))
+    # output_data = InputParserService.parse_input(input_data)
+    async with session_factory() as session:
+
+        uow = UnitOfWork(session=session,
+                         account_repo=AccountRepository,
+                         customer_repo=CustomerRepository)
+        # acc = BankAccountModel(deposit=1000)
+        # cus = BankCustomerModel(first_name="john",
+        #                         last_name="jakes",
+        #                         bank_account=acc)
+        cus_dto_in = BankCustomerBaseDTO(first_name="john", last_name="jakes")
+        cus_dto_to_db = BankCustomerToDB(**cus_dto_in.dict())
+        cus_orm_to_db = BankCustomerModel(**cus_dto_to_db.dict())
+        cus_new = await uow.customer_repo.add(cus_orm_to_db)
+        # acc = await uow.account_repo.add(acc)
+        await uow.commit()
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 from cli.constants import BankOperationsFromInput
-from common.database.models import (BankCustomerDTO,
+from common.database.models import (BankCustomerBaseDTO,
                                     BankStatementDTO,
                                     DepositDTO,
                                     WithdrawDTO)
@@ -15,8 +15,8 @@ class InputParserService:
     @staticmethod
     def parse_input(input_data: str) -> BankStatementDTO | DepositDTO | WithdrawDTO:
         operation, first_name, last_name, *args = input_data.strip().split()
-        customer_dto = BankCustomerDTO(first_name=first_name.lower(),
-                                       last_name=last_name.lower())
+        customer_dto = BankCustomerBaseDTO(first_name=first_name.lower(),
+                                           last_name=last_name.lower())
 
         if operation.lower() == BankOperationsFromInput.BANK_STATEMENT:
             since, till = args[0], args[1]

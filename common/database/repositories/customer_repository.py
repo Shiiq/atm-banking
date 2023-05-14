@@ -8,14 +8,14 @@ from common.database.repositories.abstract_repository import ProtocolRepository,
 
 class CustomerRepository(ConnHolder, ProtocolRepository):
 
-    async def add(self, customer: BankCustomerModel):
-        self._session.add(customer)
-        await self._session.flush((customer,))
-        return customer
+    async def add(self, obj: BankCustomerModel) -> BankCustomerModel:
+        self._session.add(obj)
+        await self._session.flush()
+        return obj
 
-    async def get_by_id(self, customer_id: int) -> Optional[BankCustomerModel]:
+    async def get_by_id(self, obj_id: int) -> Optional[BankCustomerModel]:
         query = (select(BankCustomerModel)
-                 .where(BankCustomerModel.id == customer_id))
+                 .where(BankCustomerModel.id == obj_id))
         customer = await self._session.execute(query)
         return customer.scalars().first()
 
@@ -26,8 +26,8 @@ class CustomerRepository(ConnHolder, ProtocolRepository):
         customer = await self._session.execute(query)
         return customer.scalars().first()
 
-    async def update(self, customer: BankCustomerModel):
+    async def update(self, obj: BankCustomerModel):
         pass
 
-    async def delete(self, customer_id: int):
+    async def delete(self, obj_id: int):
         pass

@@ -1,9 +1,10 @@
-from .base import BaseModel
+from .base import Base
 from .account import BankAccountModel
 from .customer import BankCustomerModel
 from .operation import BankOperationModel
 
-from .dto import (BankCustomerBaseDTO,
+from .dto import (AccountBaseDTO,
+                  CustomerBaseDTO,
                   BankCustomerToDB,
                   BankCustomerFromDB,
                   BankStatementDTO,
@@ -11,11 +12,12 @@ from .dto import (BankCustomerBaseDTO,
                   WithdrawDTO)
 
 __all__ = (
-    "BaseModel",
+    "Base",
     "BankAccountModel",
     "BankCustomerModel",
     "BankOperationModel",
-    "BankCustomerBaseDTO",
+    "AccountBaseDTO",
+    "CustomerBaseDTO",
     "BankCustomerToDB",
     "BankCustomerFromDB",
     "BankStatementDTO",

@@ -1,10 +1,10 @@
 from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.orm import mapped_column, relationship
 
-from .base import BaseModel, UpdatedAtTimestamp
+from .base import Base, UpdatedAtTimestamp
 
 
-class BankCustomerModel(UpdatedAtTimestamp, BaseModel):
+class BankCustomerModel(UpdatedAtTimestamp, Base):
     __tablename__ = "bank_customer"
 
     first_name = mapped_column(String(length=50), nullable=False)

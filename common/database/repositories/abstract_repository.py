@@ -11,14 +11,14 @@ class ConnHolder:
 
 class ProtocolRepository(Protocol):
 
-    async def add(self, model):
+    async def add(self, obj):
         ...
 
-    async def get_by_id(self, model_id):
+    async def get_by_id(self, obj_id):
         ...
 
-    async def update(self, model):
+    async def update(self, obj):
         ...
 
-    async def delete(self, model_id):
+    async def delete(self, obj_id):
         ...

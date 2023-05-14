@@ -1,28 +1,35 @@
 from datetime import date
 
-from pydantic import BaseModel, NonNegativeInt, PositiveInt
+from pydantic import BaseModel, Extra, NonNegativeInt, PositiveInt
 
 from cli.constants import BankOperationsFromInput
 
 
-class BankCustomerBaseDTO(BaseModel):
-    """Bank customer input model"""
+class BaseDTO(BaseModel):
+
+    class Config:
+        extra = Extra.ignore
+        orm_mode = True
+        use_enum_value = True
+
+
+class CustomerBaseDTO(BaseDTO):
+    """Base bank customer model"""
     first_name: str
     last_name: str
 
-    class Config:
-        orm_mode = True
 
-
-class BankAccountDefaultDTO(BaseModel):
+class AccountBaseDTO(BaseDTO):
+    """Base bank account model"""
     deposit: NonNegativeInt = 0
 
 
-class BankCustomerToDB(BankCustomerBaseDTO):
-    bank_account: BankAccountDefaultDTO
+class BankCustomerToDB(CustomerBaseDTO):
+    """Bank customer model to add to db"""
+    bank_account: AccountBaseDTO
 
 
-class BankCustomerFromDB(BankCustomerBaseDTO):
+class BankCustomerFromDB(CustomerBaseDTO):
     """Bank customer output model"""
     id: int
     bank_account_id: int
@@ -33,25 +40,23 @@ class BankCustomerFromDB(BankCustomerBaseDTO):
 #     deposit: NonNegativeInt
 
 
-class BankStatementDTO(BaseModel):
+class BankStatementDTO(BaseDTO):
     """Output 'Bank Statement' model"""
-    customer: BankCustomerBaseDTO
+    customer: CustomerBaseDTO
     operation: BankOperationsFromInput = BankOperationsFromInput.BANK_STATEMENT
     since: date
     till: date
 
 
-class DepositOrWithdrawBaseDTO(BaseModel):
-    """Base model for 'Deposit' or 'Withdraw' DTO"""
-    customer: BankCustomerBaseDTO
+class DepositDTO(BaseDTO):
+    """Output 'Deposit' model"""
+    customer: CustomerBaseDTO
+    operation: BankOperationsFromInput = BankOperationsFromInput.DEPOSIT
     amount: PositiveInt
 
 
-class DepositDTO(DepositOrWithdrawBaseDTO):
-    """Output 'Deposit' model"""
-    operation: BankOperationsFromInput = BankOperationsFromInput.DEPOSIT
-
-
-class WithdrawDTO(DepositOrWithdrawBaseDTO):
+class WithdrawDTO(BaseDTO):
     """Output 'Withdraw' model"""
+    customer: CustomerBaseDTO
     operation: BankOperationsFromInput = BankOperationsFromInput.WITHDRAW
+    amount: PositiveInt

@@ -3,7 +3,7 @@ from enum import StrEnum
 from sqlalchemy import Enum, ForeignKey, Integer
 from sqlalchemy.orm import mapped_column
 
-from .base import BaseModel
+from .base import Base
 
 
 class BankOperationsToDB(StrEnum):
@@ -12,7 +12,7 @@ class BankOperationsToDB(StrEnum):
     WITHDRAW = "withdraw"
 
 
-class BankOperationModel(BaseModel):
+class BankOperationModel(Base):
     __tablename__ = "bank_operation"
 
     bank_customer = mapped_column(Integer,

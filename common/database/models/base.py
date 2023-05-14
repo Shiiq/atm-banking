@@ -21,7 +21,7 @@ class UpdatedAtTimestamp:
                                onupdate=sql.func.now())
 
 
-class BaseModel(DeclarativeBase):
+class Base(DeclarativeBase):
     """Base DB model"""
 
     __abstract__ = True

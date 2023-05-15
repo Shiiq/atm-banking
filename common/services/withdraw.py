@@ -1,8 +1,9 @@
+from common.uow import UnitOfWork
 
 
 class WithdrawOperationService:
 
-    def __init__(self, unit_of_work):
-        self.uow = unit_of_work
+    def __init__(self, uow: UnitOfWork):
+        self._uow = uow
 
     pass

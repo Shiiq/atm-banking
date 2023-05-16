@@ -10,17 +10,20 @@ from common.database.models import (AccountBaseDTO,
 
 
 class CustomerService:
+    """The task of the 'Customer Service' is to get the data
+    of the current bank customer, or add it to database with zero bank account
+    and returning a new bank customer."""
 
     # TODO args? attributes?
     def __init__(self, customer_dto: CustomerBaseDTO, uow: UnitOfWork):
         self._input_customer_data = customer_dto
         self._uow = uow
 
-    # TODO annotations? args?
+    # TODO annotations?[input - Pydantic, output - ORM]
     def _from_dto_to_orm(self, input_data, output_model):
         return output_model(**input_data.dict())
 
-    # TODO annotations? args?
+    # TODO annotations?[input - ORM, output - Pydantic]
     def _from_orm_to_dto(self, input_data, output_model):
         return output_model.from_orm(input_data)
 
@@ -30,14 +33,13 @@ class CustomerService:
         return customer
 
     async def _register_new_customer(self, first_name: str, last_name: str) -> BankCustomerModel:
-        customer_dto = BankCustomerToDB(first_name=first_name,
-                                        last_name=last_name)
-        account_dto = AccountBaseDTO()
+        default_account_dto = AccountBaseDTO()
 
-        customer_orm = self._from_dto_to_orm(input_data=customer_dto,
+        customer_orm = self._from_dto_to_orm(input_data=self._input_customer_data,
                                              output_model=BankCustomerModel)
-        account_orm = self._from_dto_to_orm(input_data=account_dto,
+        account_orm = self._from_dto_to_orm(input_data=default_account_dto,
                                             output_model=BankAccountModel)
+
         customer_orm.bank_account = account_orm
         customer = await self._uow.customer_repo.add(customer_orm)
         await self._uow.commit()

@@ -41,7 +41,6 @@ class BankCustomerFromDB(CustomerBaseDTO):
 
 
 class BankStatementDTO(BaseDTO):
-    """Output 'Bank Statement' model"""
     customer: CustomerBaseDTO
     operation: BankOperationsFromInput = BankOperationsFromInput.BANK_STATEMENT
     since: date
@@ -49,14 +48,18 @@ class BankStatementDTO(BaseDTO):
 
 
 class DepositDTO(BaseDTO):
-    """Output 'Deposit' model"""
     customer: CustomerBaseDTO
     operation: BankOperationsFromInput = BankOperationsFromInput.DEPOSIT
     amount: PositiveInt
 
 
+class DepositOutputDTO(BaseDTO):
+    customer: BankCustomerFromDB
+    operation: BankOperationsFromInput = BankOperationsFromInput.DEPOSIT
+    amount: PositiveInt
+
+
 class WithdrawDTO(BaseDTO):
-    """Output 'Withdraw' model"""
     customer: CustomerBaseDTO
     operation: BankOperationsFromInput = BankOperationsFromInput.WITHDRAW
     amount: PositiveInt

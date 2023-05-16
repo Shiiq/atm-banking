@@ -8,9 +8,9 @@ from common.database.models import (CustomerBaseDTO,
 class InputParserService:
 
     # input data examples
-    # "withdraw jakes james 100500"
-    # "deposit akoz pors 7000"
-    # "bank_statement jakes james 2023-01-01 2023-05-01"
+    # "withdraw jake james 100500"
+    # "deposit jake james 7000"
+    # "bank_statement jake james 2023-01-01 2023-05-01"
 
     @staticmethod
     def parse_input(input_data: str) -> BankStatementDTO | DepositDTO | WithdrawDTO:

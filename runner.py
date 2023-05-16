@@ -32,8 +32,8 @@ async def main():
                          account_repo=AccountRepository,
                          customer_repo=CustomerRepository)
 
-        data = "withdraw john jakes 3000"
-        input_data = InputParserService.parse_input(data)
+        data = "deposit john jakes 3000"
+        input_data = InputParserService.parse_input(data) # returning DepositDTO
         customer_service = CustomerService(customer_dto=input_data.customer, uow=uow)
         bank_customer = customer_service.get_or_register_customer()
 

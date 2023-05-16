@@ -1,12 +1,7 @@
 from typing import Optional
 
 from common.uow import UnitOfWork
-from common.database.models import (AccountBaseDTO,
-                                    CustomerBaseDTO,
-                                    BankAccountModel,
-                                    BankCustomerModel,
-                                    BankCustomerToDB,
-                                    BankCustomerFromDB)
+from common.database.models import *
 
 
 class CustomerService:
@@ -32,7 +27,7 @@ class CustomerService:
                                                                  last_name=last_name)
         return customer
 
-    async def _register_new_customer(self, first_name: str, last_name: str) -> BankCustomerModel:
+    async def _register_new_customer(self) -> BankCustomerModel:
         default_account_dto = AccountBaseDTO()
 
         customer_orm = self._from_dto_to_orm(input_data=self._input_customer_data,
@@ -49,7 +44,6 @@ class CustomerService:
         customer_orm = await self._get_or_none_current_customer(self._input_customer_data.first_name,
                                                                 self._input_customer_data.last_name)
         if not customer_orm:
-            customer_orm = await self._register_new_customer(self._input_customer_data.first_name,
-                                                             self._input_customer_data.last_name)
+            customer_orm = await self._register_new_customer()
         return self._from_orm_to_dto(input_data=customer_orm,
                                      output_model=BankCustomerFromDB)

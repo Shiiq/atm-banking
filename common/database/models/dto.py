@@ -25,12 +25,12 @@ class AccountBaseDTO(BaseDTO):
 
 
 class BankCustomerToDB(CustomerBaseDTO):
-    """Bank customer model to add to db"""
+    """Bank customer model to add to DB"""
     bank_account: AccountBaseDTO
 
 
 class BankCustomerFromDB(CustomerBaseDTO):
-    """Bank customer output model"""
+    """Bank customer output model from DB"""
     id: int
     bank_account_id: int
 
@@ -41,25 +41,19 @@ class BankCustomerFromDB(CustomerBaseDTO):
 
 
 class BankStatementDTO(BaseDTO):
-    customer: CustomerBaseDTO
+    customer: CustomerBaseDTO | BankCustomerFromDB
     operation: BankOperationsFromInput = BankOperationsFromInput.BANK_STATEMENT
     since: date
     till: date
 
 
 class DepositDTO(BaseDTO):
-    customer: CustomerBaseDTO
-    operation: BankOperationsFromInput = BankOperationsFromInput.DEPOSIT
-    amount: PositiveInt
-
-
-class DepositOutputDTO(BaseDTO):
-    customer: BankCustomerFromDB
+    customer: CustomerBaseDTO | BankCustomerFromDB
     operation: BankOperationsFromInput = BankOperationsFromInput.DEPOSIT
     amount: PositiveInt
 
 
 class WithdrawDTO(BaseDTO):
-    customer: CustomerBaseDTO
+    customer: CustomerBaseDTO | BankCustomerFromDB
     operation: BankOperationsFromInput = BankOperationsFromInput.WITHDRAW
     amount: PositiveInt

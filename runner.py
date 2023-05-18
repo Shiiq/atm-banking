@@ -1,6 +1,6 @@
 import asyncio
 
-from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from common.database.models import *
 from common.services import CustomerService
@@ -32,15 +32,23 @@ async def main():
                          account_repo=AccountRepository,
                          customer_repo=CustomerRepository)
 
-        data = "deposit john jakes 3000"
-        input_data = InputParserService.parse_input(data) # returning DepositDTO
-        customer_service = CustomerService(customer_dto=input_data.customer, uow=uow)
-        bank_customer = customer_service.get_or_register_customer()
+        async def upload_test_data(s: AsyncSession):
+            cus_1 = BankCustomerModel(first_name="John", last_name="Doe", bank_account=BankAccountModel())
+            cus_2 = BankCustomerModel(first_name="Colin", last_name="Frolin", bank_account=BankAccountModel())
+            cus_3 = BankCustomerModel(first_name="Moki", last_name="Roki", bank_account=BankAccountModel())
+            s.add_all([cus_1, cus_2, cus_3])
+            await s.commit()
+
+        await upload_test_data(session)
+
+        # data = "deposit john jakes 3000"
+        # input_data = InputParserService.parse_input(data) # returning DepositDTO
+        # customer_service = CustomerService(customer_dto=input_data.customer, uow=uow)
+        # bank_customer = customer_service.get_or_register_customer()
 
         # customer_dto_1 = CustomerBaseDTO(first_name="john", last_name="jakes")
         # customer_dto_2 = CustomerBaseDTO(first_name="akoz", last_name="pors")
         # account_dto = AccountBaseDTO()
-        # customer = await cus_service.get_or_register_customer()
         # CUSTOMER AND ACCOUNT THROUGH ACCOUNT
         # account_orm = BankAccountModel(**account_dto.dict(),
         #                                customer=BankCustomerModel(**customer_dto_1.dict()))

@@ -21,12 +21,17 @@ class CustomerBaseDTO(BaseDTO):
 
 class AccountBaseDTO(BaseDTO):
     """Base bank account model"""
-    deposit: NonNegativeInt = 0
+    balance: NonNegativeInt = 0
 
 
 class BankCustomerToDB(CustomerBaseDTO):
     """Bank customer model to add to DB"""
     bank_account: AccountBaseDTO
+
+
+class BankAccountFromDB(BaseDTO):
+    id: int
+    balance: NonNegativeInt
 
 
 class BankCustomerFromDB(CustomerBaseDTO):

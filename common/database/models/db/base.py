@@ -2,19 +2,18 @@ from sqlalchemy import DateTime, Integer, MetaData, sql
 from sqlalchemy.orm import DeclarativeBase, mapped_column, registry
 
 convention = {
-    "ix": "ix_%(column_0_label)s",  # INDEX
-    "uq": "uq_%(table_name)s_%(column_0_N_name)s",  # UNIQUE
-    "ck": "ck_%(table_name)s_%(constraint_name)s",  # CHECK
+    "ix": "ix_%(column_0_label)s",                                          # INDEX
+    "uq": "uq_%(table_name)s_%(column_0_N_name)s",                          # UNIQUE
+    "ck": "ck_%(table_name)s_%(constraint_name)s",                          # CHECK
     "fk": "fk_%(table_name)s_%(column_0_N_name)s_%(referred_table_name)s",  # FOREIGN KEY
-    "pk": "pk_%(table_name)s",  # PRIMARY KEY
+    "pk": "pk_%(table_name)s",                                              # PRIMARY KEY
 }
 
 mapper_registry = registry(metadata=MetaData(naming_convention=convention))
 
 
-class UpdatedAtTimestamp:
+class UpdatedAtTimestampMixin:
     """Add 'updated_at' datetime column to DB model"""
-
     updated_at = mapped_column(DateTime,
                                nullable=False,
                                server_default=sql.func.now(),
@@ -23,7 +22,6 @@ class UpdatedAtTimestamp:
 
 class Base(DeclarativeBase):
     """Base DB model"""
-
     __abstract__ = True
 
     registry = mapper_registry

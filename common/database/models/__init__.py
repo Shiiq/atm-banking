@@ -1,25 +1,27 @@
-from .base import Base
-from .account import BankAccountModel
-from .customer import BankCustomerModel
-from .operation import BankOperationModel
+from .db.base import Base
+from .db.account import BankAccountModel
+from .db.customer import BankCustomerModel
+from .db.operation import BankOperationModel
 
-from .dto import (AccountBaseDTO,
-                  CustomerBaseDTO,
-                  BankCustomerToDB,
-                  BankCustomerFromDB,
-                  BankStatementDTO,
-                  DepositDTO,
-                  WithdrawDTO)
+from .dto.dto import (AccountDTO,
+                      CustomerDTO,
+                      BankAccountRead,
+                      BankCustomerCreate,
+                      BankCustomerRead,
+                      BankStatementDTO,
+                      DepositDTO,
+                      WithdrawDTO)
 
 __all__ = (
     "Base",
     "BankAccountModel",
     "BankCustomerModel",
     "BankOperationModel",
-    "AccountBaseDTO",
-    "CustomerBaseDTO",
-    "BankCustomerToDB",
-    "BankCustomerFromDB",
+    "AccountDTO",
+    "CustomerDTO",
+    "BankAccountRead",
+    "BankCustomerCreate",
+    "BankCustomerRead",
     "BankStatementDTO",
     "DepositDTO",
     "WithdrawDTO"

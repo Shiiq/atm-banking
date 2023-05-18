@@ -8,7 +8,7 @@ from common.database.repositories.abstract_repository import (ProtocolRepository
 
 class AccountRepository(ConnHolder, ProtocolRepository):
 
-    async def add(self, obj: BankAccountModel) -> BankAccountModel:
+    async def create(self, obj: BankAccountModel) -> BankAccountModel:
         self._session.add(obj)
         await self._session.flush()
         return obj

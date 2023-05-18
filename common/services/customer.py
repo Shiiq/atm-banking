@@ -10,7 +10,7 @@ class CustomerService:
     and returning a new bank customer."""
 
     # TODO args? attributes?
-    def __init__(self, customer_dto: CustomerBaseDTO, uow: UnitOfWork):
+    def __init__(self, customer_dto: CustomerDTO, uow: UnitOfWork):
         self._input_customer_data = customer_dto
         self._uow = uow
 
@@ -28,7 +28,7 @@ class CustomerService:
         return customer
 
     async def _register_new_customer(self) -> BankCustomerModel:
-        default_account_dto = AccountBaseDTO()
+        default_account_dto = AccountDTO()
 
         customer_orm = self._from_dto_to_orm(input_data=self._input_customer_data,
                                              output_model=BankCustomerModel)
@@ -40,10 +40,10 @@ class CustomerService:
         await self._uow.commit()
         return customer
 
-    async def get_or_register_customer(self) -> BankCustomerFromDB:
+    async def get_or_register_customer(self) -> BankCustomerRead:
         customer_orm = await self._get_or_none_current_customer(self._input_customer_data.first_name,
                                                                 self._input_customer_data.last_name)
         if not customer_orm:
             customer_orm = await self._register_new_customer()
         return self._from_orm_to_dto(input_data=customer_orm,
-                                     output_model=BankCustomerFromDB)
+                                     output_model=BankCustomerRead)

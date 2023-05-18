@@ -7,8 +7,8 @@ from common.database.models import *
 class AltCustomerService:
 
     # TODO args? attributes?
-    def __init__(self, customer_dto: CustomerBaseDTO, uow: UnitOfWork):
-        self._input_customer_data = customer_dto
+    def __init__(self, customer_dto: CustomerDTO, uow: UnitOfWork):
+        self._customer_data = customer_dto
         self._uow = uow
 
     # TODO annotations?[input - Pydantic, output - ORM]
@@ -19,29 +19,31 @@ class AltCustomerService:
     def _from_orm_to_dto(self, input_data, output_model):
         return output_model.from_orm(input_data)
 
-    async def get_by_id(self, id: int) -> Optional[BankCustomerModel]:
-        customer = await self._uow.customer_repo.get_by_id(obj_id=id)
+    async def customer_by_id(self, customer_id: int) -> Optional[BankCustomerRead]:
+        customer = await self._uow.customer_repo.get_by_id(obj_id=customer_id)
         if not customer:
             raise Exception("Customer does not exist")
-        return customer
+        return self._from_orm_to_dto(input_data=customer,
+                                     output_model=BankCustomerRead)
 
-    async def get_by_fullname(self, first_name: str, last_name: str) -> Optional[BankCustomerModel]:
-        customer = await self._uow.customer_repo.get_by_fullname(first_name=first_name,
-                                                                 last_name=last_name)
+    async def customer_by_fullname(self) -> Optional[BankCustomerRead]:
+        customer = await self._uow.customer_repo.get_by_fullname(first_name=self._customer_data.first_name,
+                                                                 last_name=self._customer_data.last_name)
         if not customer:
             raise Exception("Customer does not exist")
-        return customer
+        return self._from_orm_to_dto(input_data=customer,
+                                     output_model=BankCustomerRead)
 
-    # TODO create customer data arg?
-    async def register_new_customer(self) -> BankCustomerModel:
-        default_account_dto = AccountBaseDTO()
-
-        customer_orm = self._from_dto_to_orm(input_data=self._input_customer_data,
-                                             output_model=BankCustomerModel)
+    async def customer_create(self) -> BankCustomerRead:
+        default_account_dto = AccountDTO()
         account_orm = self._from_dto_to_orm(input_data=default_account_dto,
                                             output_model=BankAccountModel)
-
+        customer_orm = self._from_dto_to_orm(input_data=self._customer_data,
+                                             output_model=BankCustomerModel)
         customer_orm.bank_account = account_orm
-        customer = await self._uow.customer_repo.add(customer_orm)
+
+        customer = await self._uow.customer_repo.create(customer_orm)
         await self._uow.commit()
-        return customer
+
+        return self._from_orm_to_dto(input_data=customer,
+                                     output_model=BankCustomerRead)

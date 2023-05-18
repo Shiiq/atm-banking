@@ -3,7 +3,7 @@ import asyncio
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from common.database.models import *
-from common.services import CustomerService
+from common.services.alt_customer import AltCustomerService
 from common.database.repositories import AccountRepository, CustomerRepository
 from common.settings import settings
 from common.uow import UnitOfWork
@@ -38,25 +38,13 @@ async def main():
             cus_3 = BankCustomerModel(first_name="Moki", last_name="Roki", bank_account=BankAccountModel())
             s.add_all([cus_1, cus_2, cus_3])
             await s.commit()
+        # await upload_test_data(session)
 
-        await upload_test_data(session)
-
-        # data = "deposit john jakes 3000"
-        # input_data = InputParserService.parse_input(data) # returning DepositDTO
-        # customer_service = CustomerService(customer_dto=input_data.customer, uow=uow)
-        # bank_customer = customer_service.get_or_register_customer()
-
-        # customer_dto_1 = CustomerBaseDTO(first_name="john", last_name="jakes")
-        # customer_dto_2 = CustomerBaseDTO(first_name="akoz", last_name="pors")
-        # account_dto = AccountBaseDTO()
-        # CUSTOMER AND ACCOUNT THROUGH ACCOUNT
-        # account_orm = BankAccountModel(**account_dto.dict(),
-        #                                customer=BankCustomerModel(**customer_dto_1.dict()))
-        # account_from_db = await uow.account_repo.add(account_orm)
-        # CUSTOMER AND ACCOUNT THROUGH CUSTOMER
-        # customer_orm = BankCustomerModel(**customer_dto_2.dict(),
-        #                                  bank_account=BankAccountModel(**account_dto.dict()))
-        # customer_from_db = await uow.customer_repo.add(customer_orm)
+        c = CustomerDTO(first_name="Peter", last_name="Shmiter")
+        c_service = AltCustomerService(customer_dto=c, uow=uow)
+        # await c_service.customer_create()
+        # new_c = await c_service.customer_by_id(customer_id=3)
+        # print("\n", new_c, "\n")
 
 
 if __name__ == "__main__":

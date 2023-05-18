@@ -11,7 +11,7 @@ class ConnHolder:
 
 class ProtocolRepository(Protocol):
 
-    async def add(self, obj):
+    async def create(self, obj):
         ...
 
     async def get_by_id(self, obj_id):

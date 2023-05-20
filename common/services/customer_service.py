@@ -1,23 +1,17 @@
 from typing import Optional
 
-from common.uow import UnitOfWork
+from common.unit_of_work import UnitOfWork
 from common.database.models import *
 
+from ._base_service import BaseService
 
-class AltCustomerService:
+
+class CustomerService(BaseService):
 
     # TODO args? attributes?
     def __init__(self, customer_dto: CustomerDTO, uow: UnitOfWork):
         self._customer_data = customer_dto
         self._uow = uow
-
-    # TODO annotations?[input - Pydantic, output - ORM]
-    def _from_dto_to_orm(self, input_data, output_model):
-        return output_model(**input_data.dict())
-
-    # TODO annotations?[input - ORM, output - Pydantic]
-    def _from_orm_to_dto(self, input_data, output_model):
-        return output_model.from_orm(input_data)
 
     async def customer_by_id(self, customer_id: int) -> Optional[BankCustomerRead]:
         customer = await self._uow.customer_repo.get_by_id(obj_id=customer_id)

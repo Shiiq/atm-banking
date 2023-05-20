@@ -4,7 +4,7 @@ from pydantic import BaseModel, Extra
 
 
 class BankOperationsFromInput(StrEnum):
-    """Possible bank operations to choose from CLI or API"""
+    """Possible bank operations"""
     DEPOSIT = "deposit"
     WITHDRAW = "withdraw"
     BANK_STATEMENT = "bank_statement"

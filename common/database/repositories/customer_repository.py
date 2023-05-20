@@ -4,10 +4,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
 from common.database.models import BankCustomerModel
-from common.database.repositories.abstract_repository import ProtocolRepository, ConnHolder
+from ._base_repository import ProtocolRepo, BaseRepo
 
 
-class CustomerRepository(ConnHolder, ProtocolRepository):
+class CustomerRepository(BaseRepo, ProtocolRepo):
 
     async def create(self, obj: BankCustomerModel) -> BankCustomerModel:
         self._session.add(obj)
@@ -30,7 +30,9 @@ class CustomerRepository(ConnHolder, ProtocolRepository):
         return customer.scalars().first()
 
     async def update(self, obj: BankCustomerModel):
-        pass
+        self._session.add(obj)
+        await self._session.flush()
+        return obj
 
     async def delete(self, obj_id: int):
         pass

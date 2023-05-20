@@ -3,12 +3,9 @@ import asyncio
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from common.database.models import *
-from common.services.alt_customer import AltCustomerService
 from common.database.repositories import AccountRepository, CustomerRepository
 from common.settings import settings
-from common.uow import UnitOfWork
-
-from cli.input_parser import InputParserService
+from common.unit_of_work import UnitOfWork
 
 
 def init_db_engine(db_url: str) -> AsyncEngine:
@@ -40,8 +37,8 @@ async def main():
             await s.commit()
         # await upload_test_data(session)
 
-        c = CustomerDTO(first_name="Peter", last_name="Shmiter")
-        c_service = AltCustomerService(customer_dto=c, uow=uow)
+        # c = CustomerDTO(first_name="Peter", last_name="Shmiter")
+        # c_service = AltCustomerService(customer_dto=c, uow=uow)
         # await c_service.customer_create()
         # new_c = await c_service.customer_by_id(customer_id=3)
         # print("\n", new_c, "\n")

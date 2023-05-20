@@ -2,7 +2,7 @@ from datetime import date
 
 from pydantic import NonNegativeInt, PositiveInt
 
-from .base import DTO, BankOperationsFromInput
+from ._base import DTO, BankOperationsFromInput
 
 
 class AccountDTO(DTO):

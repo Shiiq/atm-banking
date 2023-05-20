@@ -3,10 +3,10 @@ from typing import Optional
 from sqlalchemy import select
 
 from common.database.models import BankAccountModel
-from common.database.repositories.abstract_repository import (ProtocolRepository, ConnHolder)
+from ._base_repository import (ProtocolRepo, BaseRepo)
 
 
-class AccountRepository(ConnHolder, ProtocolRepository):
+class AccountRepository(BaseRepo, ProtocolRepo):
 
     async def create(self, obj: BankAccountModel) -> BankAccountModel:
         self._session.add(obj)
@@ -20,7 +20,9 @@ class AccountRepository(ConnHolder, ProtocolRepository):
         return account.scalars().first()
 
     async def update(self, obj: BankAccountModel):
-        pass
+        self._session.add(obj)
+        await self._session.flush()
+        return obj
 
     async def delete(self, obj_id: int):
         pass

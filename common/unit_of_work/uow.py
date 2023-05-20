@@ -2,7 +2,7 @@ from typing import Type
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from common.database.repositories import ProtocolRepository
+from common.database.repositories import ProtocolRepo
 
 
 class UnitOfWork:
@@ -10,8 +10,8 @@ class UnitOfWork:
     def __init__(
             self,
             session: AsyncSession,
-            account_repo: Type[ProtocolRepository],
-            customer_repo: Type[ProtocolRepository]
+            account_repo: Type[ProtocolRepo],
+            customer_repo: Type[ProtocolRepo]
     ):
         self.session = session
         self.account_repo = account_repo(session)

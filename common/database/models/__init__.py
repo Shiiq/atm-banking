@@ -1,4 +1,4 @@
-from .db.base import Base
+from .db._base import Base
 from .db.account import BankAccountModel
 from .db.customer import BankCustomerModel
 from .db.operation import BankOperationModel

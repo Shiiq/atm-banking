@@ -1,5 +1,7 @@
 import asyncio
+from datetime import datetime
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from common.database.models import *
@@ -36,7 +38,11 @@ async def main():
             s.add_all([cus_1, cus_2, cus_3])
             await s.commit()
         # await upload_test_data(session)
-
+        dt = datetime(2023, 5, 12)
+        query = (select(BankCustomerModel).where(BankCustomerModel.created_at >= dt))
+        cuss = await session.execute(query)
+        cuss = cuss.scalars().all()
+        print(*cuss)
         # c = CustomerDTO(first_name="Peter", last_name="Shmiter")
         # c_service = AltCustomerService(customer_dto=c, uow=uow)
         # await c_service.customer_create()

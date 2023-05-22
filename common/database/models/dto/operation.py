@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from common.database.models.constants import BankOperationsToDB
-
 from ._base import DTO
 
 

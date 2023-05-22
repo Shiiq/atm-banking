@@ -1,5 +1,4 @@
 from .account import BankAccountCreate, BankAccountRead
-
 from ._base import DTO
 
 

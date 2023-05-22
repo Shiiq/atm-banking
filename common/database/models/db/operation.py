@@ -1,8 +1,8 @@
 from sqlalchemy import Enum, ForeignKey, Integer
 from sqlalchemy.orm import mapped_column
 
-from ._base import Base
 from common.database.models.constants import BankOperationsToDB
+from ._base import Base
 
 
 class BankOperationModel(Base):

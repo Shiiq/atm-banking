@@ -1,7 +1,9 @@
 from typing import Optional
 
 from common.unit_of_work import UnitOfWork
-from common.database.models import *
+from common.database.models.db import *
+from common.database.models.dto import *
+# from common.database.models import *
 
 from ._base_service import BaseService
 
@@ -12,13 +14,13 @@ class CustomerService(BaseService):
     def __init__(self, uow: UnitOfWork):
         self._uow = uow
 
-    async def customer_create(self, customer_data) -> BankCustomerRead:
-        default_account_dto = AccountDTO()
-        account_orm = self._from_dto_to_orm(input_data=default_account_dto,
-                                            output_model=BankAccountModel)
+    async def customer_create(self, customer_data: BankCustomerCreate) -> BankCustomerRead:
+        # default_account_dto = AccountDTO()
+        # account_orm = self._from_dto_to_orm(input_data=default_account_dto,
+        #                                     output_model=BankAccountModel)
         customer_orm = self._from_dto_to_orm(input_data=customer_data,
                                              output_model=BankCustomerModel)
-        customer_orm.bank_account = account_orm
+        # customer_orm.bank_account = account_orm
 
         customer = await self._uow.customer_repo.create(customer_orm)
         await self._uow.commit()

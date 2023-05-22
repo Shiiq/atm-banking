@@ -1,9 +1,9 @@
 from typing import Optional
 
 from common.unit_of_work import UnitOfWork
-# from common.database.models.db import *
-# from common.database.models.dto import *
-from common.database.models import *
+from common.database.models.db import *
+from common.database.models.dto import *
+# from common.database.models import *
 
 from ._base_service import BaseService
 

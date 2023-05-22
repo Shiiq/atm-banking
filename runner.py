@@ -10,6 +10,7 @@ from common.database.models.dto import *
 from common.database.repositories import AccountRepository, CustomerRepository, OperationRepository
 from common.settings import settings
 from common.unit_of_work import UnitOfWork
+from common.services.customer_service import CustomerService
 from cli.input_parser import InputParserService
 
 
@@ -49,10 +50,14 @@ async def main():
         # cuss.last_name = "Shmitersons"
         # session.add(cuss)
         # await session.commit()
-        input_data = "deposit jake james 7000"
-        parse = InputParserService.parse_input(input_data)
-        print(parse)
-
+        # input_data = "deposit jake james 7000"
+        # parse = InputParserService.parse_input(input_data)
+        # print(parse)
+        cs = CustomerService(uow=uow)
+        b = BankCustomerCreate(first_name="Foo", last_name="Baz")
+        print(b)
+        # await cs.customer_create(b)
+        # await session.commit()
 
 
 if __name__ == "__main__":

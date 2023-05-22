@@ -3,7 +3,7 @@ from typing import Optional
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
-from common.database.models import BankCustomerModel
+from common.database.models.db import BankCustomerModel
 from ._base_repository import ProtocolRepo, BaseRepo
 
 

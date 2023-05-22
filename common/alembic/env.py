@@ -7,10 +7,10 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from common.database.models import (Base,
-                                    BankAccountModel,
-                                    BankCustomerModel,
-                                    BankOperationModel)
+from common.database.models.db import (Base,
+                                       BankAccountModel,    # noqa
+                                       BankCustomerModel,   # noqa
+                                       BankOperationModel)  # noqa
 from common.settings import settings
 
 # this is the Alembic Config object, which provides

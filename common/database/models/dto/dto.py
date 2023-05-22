@@ -2,7 +2,8 @@ from datetime import date
 
 from pydantic import NonNegativeInt, PositiveInt
 
-from ._base import DTO, BankOperationsFromInput
+from common.database.models.constants import BankOperationsFromInput
+from ._base import DTO
 
 
 class AccountDTO(DTO):
@@ -22,6 +23,12 @@ class BankAccountRead(DTO):
     balance: NonNegativeInt
 
 
+class BankAccountUpdate(DTO):
+    """Bank account model to update"""
+    id: int
+    amount: NonNegativeInt
+
+
 class BankCustomerCreate(CustomerDTO):
     """Bank customer model to write to DB"""
     # first_name
@@ -36,11 +43,6 @@ class BankCustomerRead(CustomerDTO):
     id: int
     bank_account_id: int
     bank_account: BankAccountRead
-
-
-# class BankAccountRead(DTO):
-#     customer: CustomerDTO
-#     balance: NonNegativeInt
 
 
 class BankStatementDTO(DTO):

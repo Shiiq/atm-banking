@@ -2,7 +2,7 @@ from typing import Optional
 
 from sqlalchemy import select
 
-from common.database.models import BankAccountModel
+from common.database.models.db import BankAccountModel
 from ._base_repository import (ProtocolRepo, BaseRepo)
 
 

@@ -1,7 +1,7 @@
 from sqlalchemy import String
 from sqlalchemy.orm import mapped_column
 
-from common.database.models import Base
+from common.database.models.db import Base
 
 
 def get_only_def():

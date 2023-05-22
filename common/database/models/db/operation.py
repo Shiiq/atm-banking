@@ -1,26 +1,19 @@
-from enum import StrEnum
-
 from sqlalchemy import Enum, ForeignKey, Integer
 from sqlalchemy.orm import mapped_column
 
 from ._base import Base
-
-
-class BankOperationsToDB(StrEnum):
-    """Bank operations to write to database"""
-    DEPOSIT = "deposit"
-    WITHDRAW = "withdraw"
+from common.database.models.constants import BankOperationsToDB
 
 
 class BankOperationModel(Base):
     __tablename__ = "bank_operation"
 
-    bank_customer = mapped_column(Integer,
-                                  ForeignKey("bank_customer.id"),
-                                  nullable=False)
-    bank_account = mapped_column(Integer,
-                                 ForeignKey("bank_account.id"),
-                                 nullable=False)
+    amount = mapped_column(Integer, nullable=False)
+    bank_account_id = mapped_column(Integer,
+                                    ForeignKey("bank_account.id"),
+                                    nullable=False)
+    bank_customer_id = mapped_column(Integer,
+                                     ForeignKey("bank_customer.id"),
+                                     nullable=False)
     bank_operation = mapped_column(Enum(BankOperationsToDB),
                                    nullable=False)
-    amount = mapped_column(Integer, nullable=False)

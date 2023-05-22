@@ -1,13 +1,16 @@
 import asyncio
 from datetime import datetime
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
-from common.database.models import *
-from common.database.repositories import AccountRepository, CustomerRepository
+# from common.database.models import *
+from common.database.models.db import *
+from common.database.models.dto import *
+from common.database.repositories import AccountRepository, CustomerRepository, OperationRepository
 from common.settings import settings
 from common.unit_of_work import UnitOfWork
+from cli.input_parser import InputParserService
 
 
 def init_db_engine(db_url: str) -> AsyncEngine:
@@ -29,7 +32,8 @@ async def main():
     async with session_factory() as session:
         uow = UnitOfWork(session=session,
                          account_repo=AccountRepository,
-                         customer_repo=CustomerRepository)
+                         customer_repo=CustomerRepository,
+                         operation_repo=OperationRepository)
 
         async def upload_test_data(s: AsyncSession):
             cus_1 = BankCustomerModel(first_name="John", last_name="Doe", bank_account=BankAccountModel())
@@ -38,16 +42,17 @@ async def main():
             s.add_all([cus_1, cus_2, cus_3])
             await s.commit()
         # await upload_test_data(session)
-        dt = datetime(2023, 5, 12)
-        query = (select(BankCustomerModel).where(BankCustomerModel.created_at >= dt))
-        cuss = await session.execute(query)
-        cuss = cuss.scalars().all()
-        print(*cuss)
-        # c = CustomerDTO(first_name="Peter", last_name="Shmiter")
-        # c_service = AltCustomerService(customer_dto=c, uow=uow)
-        # await c_service.customer_create()
-        # new_c = await c_service.customer_by_id(customer_id=3)
-        # print("\n", new_c, "\n")
+        # dt = datetime(2023, 5, 12)
+        # query = (select(BankCustomerModel).where(BankCustomerModel.id == 4))
+        # cuss = await session.execute(query)
+        # cuss = cuss.scalars().first()
+        # cuss.last_name = "Shmitersons"
+        # session.add(cuss)
+        # await session.commit()
+        input_data = "deposit jake james 7000"
+        parse = InputParserService.parse_input(input_data)
+        print(parse)
+
 
 
 if __name__ == "__main__":

@@ -11,11 +11,13 @@ class UnitOfWork:
             self,
             session: AsyncSession,
             account_repo: Type[ProtocolRepo],
-            customer_repo: Type[ProtocolRepo]
+            customer_repo: Type[ProtocolRepo],
+            operation_repo: Type[ProtocolRepo]
     ):
         self.session = session
         self.account_repo = account_repo(session)
         self.customer_repo = customer_repo(session)
+        self.operation_repo = operation_repo(session)
 
     # async def __aenter__(self):
     #     return self

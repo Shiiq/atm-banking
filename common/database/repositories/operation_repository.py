@@ -32,6 +32,12 @@ class OperationRepository(BaseRepo, ProtocolRepo):
         operations = await self._session.execute(query)
         return operations.scalars().all()
 
+    async def get_by_bank_account_id(self, bank_account_id: int) -> list[Optional[BankOperationModel]]:
+        query = (select(BankOperationModel)
+                 .where(BankOperationModel.bank_account.id == bank_account_id))
+        operations = await self._session.execute(query)
+        return operations.scalars().all()
+
     async def update(self, obj: BankOperationModel):
         pass
 

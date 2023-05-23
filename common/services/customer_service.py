@@ -1,10 +1,8 @@
 from typing import Optional
 
-from common.unit_of_work import UnitOfWork
 from common.database.models.db import *
 from common.database.models.dto import *
-# from common.database.models import *
-
+from common.unit_of_work import UnitOfWork
 from ._base_service import BaseService
 
 
@@ -15,16 +13,13 @@ class CustomerService(BaseService):
         self._uow = uow
 
     async def customer_create(self, customer_data: BankCustomerCreate) -> BankCustomerRead:
-        # default_account_dto = AccountDTO()
-        # account_orm = self._from_dto_to_orm(input_data=default_account_dto,
-        #                                     output_model=BankAccountModel)
-        customer_orm = self._from_dto_to_orm(input_data=customer_data,
+        account_orm = self._from_dto_to_orm(input_data=customer_data.bank_account,
+                                            output_model=BankAccountModel)
+        customer_orm = self._from_dto_to_orm(input_data=customer_data.customer,
                                              output_model=BankCustomerModel)
-        # customer_orm.bank_account = account_orm
-
+        customer_orm.bank_account = account_orm
         customer = await self._uow.customer_repo.create(customer_orm)
         await self._uow.commit()
-
         return self._from_orm_to_dto(input_data=customer,
                                      output_model=BankCustomerRead)
 
@@ -35,7 +30,7 @@ class CustomerService(BaseService):
         return self._from_orm_to_dto(input_data=customer,
                                      output_model=BankCustomerRead)
 
-    async def customer_by_fullname(self, customer_data) -> Optional[BankCustomerRead]:
+    async def customer_by_fullname(self, customer_data: CustomerInputDTO) -> Optional[BankCustomerRead]:
         customer = await self._uow.customer_repo.get_by_fullname(first_name=customer_data.first_name,
                                                                  last_name=customer_data.last_name)
         if not customer:

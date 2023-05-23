@@ -31,7 +31,7 @@ class InputParserService:
         elif operation.lower() == BankOperationsFromInput.WITHDRAW:
             amount = args[0]
             return WithdrawInputDTO(customer=customer_dto,
-                                    amount=amount)
+                                    amount=-amount)
 
         else:
             # TODO to fix

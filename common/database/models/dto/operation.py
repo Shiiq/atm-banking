@@ -5,7 +5,7 @@ from ._base import DTO
 
 
 class BankOperationCreate(DTO):
-    """Bank operation output model from DB"""
+    """Bank operation model to write to DB"""
     amount: int
     bank_account_id: int
     bank_customer_id: int
@@ -13,7 +13,7 @@ class BankOperationCreate(DTO):
 
 
 class BankOperationRead(DTO):
-    """Bank operation model to write to DB"""
+    """Bank operation output model from DB"""
     amount: int
     bank_account_id: int
     bank_customer_id: int

@@ -1,6 +1,6 @@
 from datetime import date
 
-from pydantic import PositiveInt, NegativeInt
+from pydantic import PositiveInt
 
 from common.database.models.constants import BankOperationsFromInput
 from .customer import CustomerInputDTO
@@ -23,5 +23,5 @@ class DepositInputDTO(DTO):
 class WithdrawInputDTO(DTO):
     customer: CustomerInputDTO
     operation: BankOperationsFromInput = BankOperationsFromInput.WITHDRAW
-    amount: NegativeInt
+    amount: PositiveInt
 

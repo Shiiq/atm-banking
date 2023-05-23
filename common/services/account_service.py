@@ -24,9 +24,13 @@ class AccountService(BaseService):
         return self._from_orm_to_dto(input_data=account,
                                      output_model=BankAccountRead)
 
-    async def account_update(self, account_update_data: BankAccountUpdate) -> BankAccountRead:
-        account = await self.account_by_id(account_update_data.id)
-        account.balance += account_update_data.amount
-        account = await self._uow.account_repo.update(account)
+    #TODO redesign
+    async def account_update(self, update_account_data: BankAccountUpdate) -> BankAccountRead:
+        account_dto = await self.account_by_id(update_account_data.id)
+        account_dto.balance = update_account_data.balance
+        account_orm = self._from_dto_to_orm(input_data=account_dto,
+                                            output_model=BankAccountModel)
+        account = await self._uow.account_repo.update(account_orm)
+        await self._uow.commit()
         return self._from_orm_to_dto(input_data=account,
                                      output_model=BankAccountRead)

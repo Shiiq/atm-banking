@@ -10,8 +10,7 @@ class CustomerInputDTO(DTO):
 
 class BankCustomerCreate(DTO):
     """Bank customer model to write to DB"""
-    first_name: str
-    last_name: str
+    customer: CustomerInputDTO
     bank_account: BankAccountCreate = BankAccountCreate(balance=0)
 
 

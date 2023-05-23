@@ -1,61 +1,47 @@
 from common.database.models.constants import BankOperationsToDB
-from common.database.models import *
 from common.database.models.db import *
-from common.database.models.dto import BankOperationCreate, BankOperationRead
+from common.database.models.dto import *
 
 from common.services import AccountService, CustomerService, OperationService
 
 
 class Deposit:
 
-    # processing deposit operation
-    # input_data
-    #     customer: CustomerDTO | BankCustomerRead
-    #         before identification  after identification
-    #     operation: BankOperationsFromInput = BankOperationsFromInput.DEPOSIT
-    #     amount: PositiveInt = 1000
-
-    def __init__(self, deposit_operation_dto: DepositDTO, uow):
-        self._deposit_data = deposit_operation_dto
-        # self._account_service = AccountService(uow=uow)
-        self._account_service: AccountService = ...
-        # self._customer_service = CustomerService(uow=uow)
-        self._customer_service: CustomerService = ...
-        # self._operation_service = OperationService(uow=uow)
-        self._operation_service: OperationService = ...
-        # self._output_dto = ...
+    def __init__(self, deposit_operation_dto: DepositInputDTO, uow):
+        self._input_data = deposit_operation_dto
+        self._summary_data = SummaryOperationInfo(customer=None,
+                                                  operation=None)
+        self._account_service = AccountService(uow=uow)
+        self._customer_service = CustomerService(uow=uow)
+        self._operation_service = OperationService(uow=uow)
 
     async def __call__(self):
-        # update self customer information by getting it from db or register new
-        await self._get_or_register_customer()
-        # update bank account balance data
-        ...
-        # register bank operation to db
-        pass
+        await self._get_customer()
+        await self._update_account()
+        await self._register_operation()
+        print(self._summary_data)
 
-    async def _get_or_register_customer(self):
+    async def _get_customer(self):
         try:
-            customer = await self._customer_service.customer_by_fullname(customer_data=self._deposit_data.customer)
+            customer = await self._customer_service.customer_by_fullname(customer_data=self._input_data.customer)
         except Exception:
-            # logging("Customer does not exist")
-            pass
-        finally:
-            customer = await self._customer_service.customer_create(customer_data=self._deposit_data.customer)
-            # logging("Customer {customer.id} is registered")
-            self._deposit_data.customer = customer
+            register_data = BankCustomerCreate(customer=self._input_data.customer)
+            customer = await self._customer_service.customer_create(customer_data=register_data)
+        self._summary_data.customer = customer
 
-    async def _update_bank_account_balance(self):
-        account_update_data = BankAccountUpdate(id=self._deposit_data.customer.bank_account_id,
-                                                amount=self._deposit_data.amount)
-        updated_account = await self._account_service.account_update(account_update_data=account_update_data)
-        # logging("Account {updated_account.id} balance is updated")
-        self._deposit_dto.customer.bank_account = updated_account
+    async def _update_account(self):
+        current_account_data = await self._account_service.account_by_id(account_id=self._summary_data.customer.bank_account_id)
+        balance = current_account_data.balance
+        balance += self._input_data.amount
+        update_data = BankAccountUpdate(id=self._summary_data.customer.bank_account_id,
+                                        balance=balance)
+        updated_account = await self._account_service.account_update(update_account_data=update_data)
+        self._summary_data.customer.bank_account = updated_account
 
-    async def _register_deposit_operation_to_db(self):
-        deposit_operation_data = BankOperationCreate(amount=self._deposit_dto.amount,
-                                                     bank_account_id=self._deposit_dto.customer.bank_account_id,
-                                                     bank_customer_id=self._deposit_dto.customer.id,
-                                                     bank_operation=BankOperationsToDB.DEPOSIT)
-        operation = await self._operation_service.operation_create(operation_data=deposit_operation_data)
-
-        ...
+    async def _register_operation(self):
+        register_data = BankOperationCreate(amount=self._input_data.amount,
+                                            bank_account_id=self._summary_data.customer.bank_account_id,
+                                            bank_customer_id=self._summary_data.customer.id,
+                                            bank_operation=BankOperationsToDB.DEPOSIT)
+        operation = await self._operation_service.operation_create(operation_data=register_data)
+        self._summary_data.operation = operation

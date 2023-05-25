@@ -3,10 +3,11 @@ from typing import Optional
 from sqlalchemy import select, and_
 
 from common.database.models.db import BankOperationModel
-from ._base_repository import ProtocolRepo, BaseRepo
+from ._base_repository import ProtocolRepo
+from .sa_repository import SARepo
 
 
-class OperationRepository(BaseRepo, ProtocolRepo):
+class OperationRepository(SARepo, ProtocolRepo):
 
     async def create(self, obj: BankOperationModel) -> BankOperationModel:
         self._session.add(obj)

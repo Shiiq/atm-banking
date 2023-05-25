@@ -1,5 +1,3 @@
-from typing import Optional
-
 from .customer import BankCustomerRead
 from .operation import BankOperationRead
 from ._base import DTO
@@ -7,5 +5,9 @@ from ._base import DTO
 
 class SummaryOperationInfo(DTO):
 
-    customer: Optional[BankCustomerRead]
-    operation: Optional[BankOperationRead]
+    account: BankOperationRead
+    customer: BankCustomerRead
+    operation: BankOperationRead
+
+    class Config:
+        allow_mutation = False

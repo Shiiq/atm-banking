@@ -3,10 +3,11 @@ from typing import Optional
 from sqlalchemy import select
 
 from common.database.models.db import BankAccountModel
-from ._base_repository import ProtocolRepo, BaseRepo
+from ._base_repository import ProtocolRepo
+from .sa_repository import SARepo
 
 
-class AccountRepository(BaseRepo, ProtocolRepo):
+class AccountRepository(SARepo, ProtocolRepo):
 
     async def create(self, obj: BankAccountModel) -> BankAccountModel:
         self._session.add(obj)

@@ -5,6 +5,7 @@ from ._base import Base, UpdatedAtTimestampMixin
 
 
 class BankCustomerModel(UpdatedAtTimestampMixin, Base):
+
     __tablename__ = "bank_customer"
 
     first_name = mapped_column(String(length=50), nullable=False)
@@ -12,7 +13,6 @@ class BankCustomerModel(UpdatedAtTimestampMixin, Base):
     bank_account_id = mapped_column(Integer,
                                     ForeignKey("bank_account.id"),
                                     nullable=True)
-
     bank_account = relationship("BankAccountModel",
                                 uselist=False,
                                 back_populates="customer")

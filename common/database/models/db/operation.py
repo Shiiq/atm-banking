@@ -6,6 +6,7 @@ from ._base import Base
 
 
 class BankOperationModel(Base):
+
     __tablename__ = "bank_operation"
 
     amount = mapped_column(Integer, nullable=False)

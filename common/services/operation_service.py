@@ -1,21 +1,15 @@
-from common.unit_of_work import UnitOfWork
 from common.database.models.db import *
 from common.database.models.dto import *
-# from common.database.models import *
-
 from ._base_service import BaseService
 
 
 class OperationService(BaseService):
 
-    def __init__(self, uow: UnitOfWork):
-        self._uow = uow
-
     async def operation_create(self, operation_data: BankOperationCreate) -> BankOperationRead:
         operation_orm = self._from_dto_to_orm(input_data=operation_data,
                                               output_model=BankOperationModel)
         operation = await self._uow.operation_repo.create(operation_orm)
-        await self._uow.commit()
+        # await self._uow.commit()
         return self._from_orm_to_dto(input_data=operation,
                                      output_model=BankOperationRead)
 

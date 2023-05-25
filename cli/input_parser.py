@@ -1,5 +1,4 @@
 from common.database.models.constants import BankOperationsFromInput
-from common.database.models.db import *
 from common.database.models.dto import *
 
 

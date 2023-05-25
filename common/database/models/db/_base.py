@@ -14,6 +14,7 @@ mapper_registry = registry(metadata=MetaData(naming_convention=convention))
 
 class UpdatedAtTimestampMixin:
     """Add 'updated_at' datetime column to DB model"""
+
     updated_at = mapped_column(DateTime,
                                nullable=False,
                                server_default=sql.func.now(),
@@ -22,6 +23,7 @@ class UpdatedAtTimestampMixin:
 
 class Base(DeclarativeBase):
     """Base DB model"""
+
     __abstract__ = True
 
     registry = mapper_registry

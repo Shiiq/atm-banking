@@ -21,6 +21,13 @@ class CustomerRepository(BaseRepo, ProtocolRepo):
         customer = await self._session.execute(query)
         return customer.scalars().first()
 
+    async def get_by_account_id(self, obj_id: int) -> BankCustomerModel:
+        query = (select(BankCustomerModel)
+                 .where(BankCustomerModel.bank_account_id == obj_id)
+                 .options(joinedload(BankCustomerModel.bank_account)))
+        customer = await self._session.execute(query)
+        return customer.scalars().first()
+
     async def get_by_fullname(self, first_name: str, last_name: str) -> Optional[BankCustomerModel]:
         query = (select(BankCustomerModel)
                  .where(BankCustomerModel.first_name == first_name,

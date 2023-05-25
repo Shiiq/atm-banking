@@ -1,7 +1,8 @@
 import asyncio
 
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
-
+from sqlalchemy import select
+from sqlalchemy.orm import joinedload
 from common.database.models.db import *
 from common.database.models.dto import *
 
@@ -42,12 +43,19 @@ async def main():
                          account_repo=AccountRepository,
                          customer_repo=CustomerRepository,
                          operation_repo=OperationRepository)
-        input_data = DepositInputDTO(customer=CustomerInputDTO(first_name="First",
-                                                               last_name="Second"),
-                                     amount=1200000)
-        deposit_usecase = Deposit(deposit_operation_dto=input_data,
-                                  uow=uow)
-        await deposit_usecase()
+        # acc_cus = await session.execute(
+        #     select(BankAccountModel)
+        #     .where(BankAccountModel.id == 2)
+        #     .options(joinedload(BankAccountModel.customer))
+        # )
+        acc_cus = await session.execute(
+            select(BankCustomerModel)
+            .where(BankCustomerModel.bank_account_id == 2)
+            .options(joinedload(BankCustomerModel.bank_account))
+        )
+        acc_cus = acc_cus.scalars().first()
+        check = BankCustomerRead.from_orm(acc_cus)
+        print(check)
 
 
 if __name__ == "__main__":

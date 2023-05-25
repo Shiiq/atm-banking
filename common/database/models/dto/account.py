@@ -7,7 +7,10 @@ from ._base import DTO
 
 class BankAccountCreate(DTO):
     """Bank account model to write to DB"""
-    balance: NonNegativeInt
+    balance: NonNegativeInt = 0
+
+    class Config:
+        allow_mutatuion = False
 
 
 class BankAccountRead(DTO):
@@ -16,6 +19,9 @@ class BankAccountRead(DTO):
     balance: NonNegativeInt
     created_at: datetime
     updated_at: datetime
+
+    class Config:
+        allow_mutation = False
 
 
 class BankAccountUpdate(DTO):

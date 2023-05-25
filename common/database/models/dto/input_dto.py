@@ -1,27 +1,25 @@
-from datetime import date
-
-from pydantic import PositiveInt
-
 from common.database.models.constants import BankOperationsFromInput
-from .customer import CustomerInputDTO
+from .customer import CustomerInput
+from .operation import OperationInput
 from ._base import DTO
 
 
-class BankStatementInputDTO(DTO):
-    customer: CustomerInputDTO
-    operation: BankOperationsFromInput = BankOperationsFromInput.BANK_STATEMENT
-    since: date
-    till: date
+class DepositInput(DTO):
+    customer: CustomerInput
+    operation: OperationInput = OperationInput(
+        type_=BankOperationsFromInput.DEPOSIT
+    )
 
 
-class DepositInputDTO(DTO):
-    customer: CustomerInputDTO
-    operation: BankOperationsFromInput = BankOperationsFromInput.DEPOSIT
-    amount: PositiveInt
+class BankStatementInput(DTO):
+    customer: CustomerInput
+    operation: OperationInput = OperationInput(
+        type_=BankOperationsFromInput.BANK_STATEMENT
+    )
 
 
-class WithdrawInputDTO(DTO):
-    customer: CustomerInputDTO
-    operation: BankOperationsFromInput = BankOperationsFromInput.WITHDRAW
-    amount: PositiveInt
-
+class WithdrawInput(DTO):
+    customer: CustomerInput
+    operation: OperationInput = OperationInput(
+        type_=BankOperationsFromInput.WITHDRAW
+    )

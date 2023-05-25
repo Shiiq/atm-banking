@@ -1,7 +1,17 @@
-from datetime import datetime
+from datetime import date, datetime
+from typing import Optional
 
-from common.database.models.constants import BankOperationsToDB
+from pydantic import PositiveInt
+
+from common.database.models.constants import BankOperationsToDB, BankOperationsFromInput
 from ._base import DTO
+
+
+class OperationInput(DTO):
+    type_: BankOperationsFromInput
+    amount: Optional[int] = PositiveInt
+    since: Optional[date] = None
+    till: Optional[date] = None
 
 
 class BankOperationCreate(DTO):

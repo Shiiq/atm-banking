@@ -16,21 +16,35 @@ class Deposit:
         customer = await self._get_customer(
             customer_data=input_data.customer
         )
-        bank_account = await self._update_bank_account(
-            bank_account_id=customer.bank_account_id,
-            operation_data=input_data.operation
-        )
-        operation = await self._register_operation(
-            operation_data=BankOperationCreate(amount=input_data.operation.amount,
-                                               bank_account_id=bank_account.id,
-                                               bank_customer_id=customer.id,
-                                               bank_operation=input_data.operation.type_)
-        )
+        acc = await self.uow.account_repo.get_by_id(obj_id=1)
+        acc.balance = acc.balance + 666
+        acc = await self.uow.account_repo.update(obj=acc)
+        print("*" * 50)
+        # print(acc.customer.id, acc.customer.created_at, acc.customer.updated_at, acc.customer.first_name, acc.customer.last_name)
+        print(BankAccountRead(id=acc.id,
+                              balance=acc.balance,
+                              created_at=acc.created_at,
+                              updated_at=acc.updated_at))
+        # a = BankAccountRead.from_orm(acc)
+        # print(a)
+        # bu = BankAccountUpdate(id=1, amount=40000)
+        # acc = await self._account_service.account_update(account_update_data=bu)
+        # print(acc.balance)
+        # bank_account = await self._update_bank_account(
+        #     bank_account_id=customer.bank_account_id,
+        #     operation_data=input_data.operation
+        # )
+        # operation = await self._register_operation(
+        #     operation_data=BankOperationCreate(amount=input_data.operation.amount,
+        #                                        bank_account_id=bank_account.id,
+        #                                        bank_customer_id=customer.id,
+        #                                        bank_operation=input_data.operation.type_)
+        # )
         # commit
         await self.uow.commit()
-        return SummaryOperationInfo(account=bank_account,
-                                    customer=customer,
-                                    operation=operation)
+        # return SummaryOperationInfo(account=bank_account,
+        #                             customer=customer,
+        #                             operation=operation)
 
     async def _register_customer(self, customer_data: CustomerInput):
         customer = await self._customer_service.customer_create(
@@ -58,7 +72,7 @@ class Deposit:
         # updated_balance = current_bank_account.balance + operation_data.amount
         updated_bank_account = await self._account_service.account_update(
             account_update_data=BankAccountUpdate(id=bank_account_id,
-                                                  balance=operation_data.amount)
+                                                  amount=operation_data.amount)
         )
         return updated_bank_account
 

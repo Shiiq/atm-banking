@@ -31,7 +31,7 @@ class BankAccountUpdate(DTO):
     """Bank account update data model"""
 
     id: int
-    balance: NonNegativeInt
+    amount: NonNegativeInt
 
 
 class BankAccountSearch(DTO):

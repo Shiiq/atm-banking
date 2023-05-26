@@ -17,8 +17,8 @@ class CustomerRepository(SARepo, ProtocolRepo):
 
     async def get_by_id(self, obj_id: int) -> Optional[BankCustomerModel]:
         query = (select(BankCustomerModel)
-                 .where(BankCustomerModel.id == obj_id))
-                 # .options(joinedload(BankCustomerModel.bank_account)))
+                 .where(BankCustomerModel.id == obj_id)
+                 .options(joinedload(BankCustomerModel.bank_account)))
         customer = await self._session.execute(query)
         return customer.scalars().first()
 
@@ -32,8 +32,8 @@ class CustomerRepository(SARepo, ProtocolRepo):
     async def get_by_fullname(self, first_name: str, last_name: str) -> Optional[BankCustomerModel]:
         query = (select(BankCustomerModel)
                  .where(BankCustomerModel.first_name == first_name,
-                        BankCustomerModel.last_name == last_name))
-                 # .options(joinedload(BankCustomerModel.bank_account)))
+                        BankCustomerModel.last_name == last_name)
+                 .options(joinedload(BankCustomerModel.bank_account)))
         customer = await self._session.execute(query)
         return customer.scalars().first()
 

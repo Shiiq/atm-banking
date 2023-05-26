@@ -39,7 +39,7 @@ async def upload_test_data(s: AsyncSession):
 
 async def main():
     engine = init_db_engine(db_url=settings.SQLITE_DATABASE_URL)
-    session_factory = async_sessionmaker(bind=engine, expire_on_commit=False)
+    session_factory = async_sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)
 
     async with session_factory() as session:
         # await upload_test_data(session)

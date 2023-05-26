@@ -14,7 +14,7 @@ class CustomerService(BaseService):
                                              output_model=BankCustomerModel)
         customer_orm.bank_account = account_orm
         customer = await self._uow.customer_repo.create(customer_orm)
-        await self._uow.commit()
+        # await self._uow.commit()
         return self._from_orm_to_dto(input_data=customer,
                                      output_model=BankCustomerRead)
 

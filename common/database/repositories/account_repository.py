@@ -1,6 +1,7 @@
 from typing import Optional
 
 from sqlalchemy import select
+from sqlalchemy.orm import joinedload
 
 from common.database.models.db import BankAccountModel
 from ._base_repository import ProtocolRepo
@@ -16,7 +17,8 @@ class AccountRepository(SARepo, ProtocolRepo):
 
     async def get_by_id(self, obj_id: int) -> Optional[BankAccountModel]:
         query = (select(BankAccountModel)
-                 .where(BankAccountModel.id == obj_id))
+                 .where(BankAccountModel.id == obj_id)
+                 .options(joinedload(BankAccountModel.customer)))
         account = await self._session.execute(query)
         return account.scalars().first()
 

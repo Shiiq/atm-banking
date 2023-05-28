@@ -132,5 +132,5 @@ dmypy.json
 /for_debuging.py
 
 .idea
-/common/alembic/versions/
+/infrastructure/alembic/versions/
 /debugging.py

@@ -24,7 +24,7 @@ class BankOperationCreate(FrozenDTO):
     amount: int
     bank_account_id: int
     bank_customer_id: int
-    bank_operation: BankOperationsToDB
+    bank_operation_type: BankOperationsToDB
 
 
 class BankOperationRead(FrozenDTO):
@@ -33,7 +33,7 @@ class BankOperationRead(FrozenDTO):
     amount: int
     bank_account_id: int
     bank_customer_id: int
-    bank_operation: BankOperationsToDB
+    bank_operation_type: BankOperationsToDB
     created_at: datetime
 
 

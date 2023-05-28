@@ -1,5 +1,5 @@
 import asyncio
-from datetime import datetime
+from datetime import datetime, date
 
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
@@ -75,7 +75,13 @@ async def main():
         # )
         # result = await withdraw_usecase(w_data)
         # print(result)
-
+        start = date(year=2023, month=4, day=1)
+        end = date(year=2023, month=5, day=29)
+        ops = await uow.operation_repo.get_by_date_interval(
+            start_date=start, end_date=end
+        )
+        ops = [BankOperationRead.from_orm(op) for op in ops]
+        print(len(ops))
 
 
 if __name__ == "__main__":

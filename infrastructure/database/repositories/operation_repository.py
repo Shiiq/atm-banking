@@ -1,3 +1,4 @@
+from datetime import date
 from typing import Optional
 
 from sqlalchemy import select, and_
@@ -20,19 +21,19 @@ class OperationRepository(SARepo, ProtocolRepo):
         operation = await self._session.execute(query)
         return operation.scalars().first()
 
-    async def get_by_customer_id(self, customer_id: int) -> list[Optional[BankOperationModel]]:
+    async def get_by_customer_id(self, customer_id: int):
         query = (select(BankOperationModel)
                  .where(BankOperationModel.bank_customer_id == customer_id))
         operations = await self._session.execute(query)
         return operations.scalars().all()
 
-    async def get_by_bank_account_id(self, bank_account_id: int) -> list[Optional[BankOperationModel]]:
+    async def get_by_bank_account_id(self, bank_account_id: int):
         query = (select(BankOperationModel)
                  .where(BankOperationModel.bank_account_id == bank_account_id))
         operations = await self._session.execute(query)
         return operations.scalars().all()
 
-    async def get_by_date_interval(self, start_date, end_date) -> list[Optional[BankOperationModel]]:
+    async def get_by_date_interval(self, start_date: date, end_date: date):
         query = (select(BankOperationModel)
                  .where(and_(BankOperationModel.created_at >= start_date,
                              BankOperationModel.created_at <= end_date)))

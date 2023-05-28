@@ -16,5 +16,5 @@ class BankOperationModel(Base):
     bank_customer_id = mapped_column(Integer,
                                      ForeignKey("bank_customer.id"),
                                      nullable=False)
-    bank_operation = mapped_column(Enum(BankOperationsToDB),
-                                   nullable=False)
+    bank_operation_type = mapped_column(Enum(BankOperationsToDB),
+                                        nullable=False)

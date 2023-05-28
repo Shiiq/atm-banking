@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 
 from .account import BankAccountCreate
-from ._base import DTO
+from ._base import DTO, FrozenDTO
 
 
 class CustomerInput(DTO):
@@ -15,17 +15,14 @@ class CustomerInput(DTO):
         anystr_lower = True
 
 
-class BankCustomerCreate(DTO):
+class BankCustomerCreate(FrozenDTO):
     """Bank customer model to write to DB"""
 
     customer: CustomerInput
     bank_account: BankAccountCreate = BankAccountCreate(balance=0)
 
-    class Config:
-        allow_mutation = False
 
-
-class BankCustomerRead(DTO):
+class BankCustomerRead(FrozenDTO):
     """Bank customer output model from DB"""
 
     id: int
@@ -34,9 +31,6 @@ class BankCustomerRead(DTO):
     bank_account_id: int
     created_at: datetime
     updated_at: datetime
-
-    class Config:
-        allow_mutation = False
 
 
 class BankCustomerSearch(DTO):

@@ -133,4 +133,4 @@ dmypy.json
 
 .idea
 /infrastructure/alembic/versions/
-/debugging.py
+/debugging_data.py

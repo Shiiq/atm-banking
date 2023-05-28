@@ -13,7 +13,7 @@ class Deposit:
         self._customer_service = CustomerService(uow=uow)
         self._operation_service = OperationService(uow=uow)
 
-    async def __call__(self, input_data: dto.DepositInput):
+    async def __call__(self, input_data: dto.DepositInput) -> dto.SummaryOperationInfo:
         customer = await self._get_customer(
             customer_data=input_data.customer
         )

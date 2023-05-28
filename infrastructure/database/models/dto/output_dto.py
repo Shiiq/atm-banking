@@ -1,14 +1,26 @@
+from datetime import date
+
 from .account import BankAccountRead
 from .customer import BankCustomerRead
 from .operation import BankOperationRead
-from ._base import DTO
+from ._base import FrozenDTO
 
 
-class SummaryOperationInfo(DTO):
+class Period(FrozenDTO):
+
+    since: date
+    till: date
+
+
+class SummaryOperationInfo(FrozenDTO):
 
     account: BankAccountRead
     customer: BankCustomerRead
     operation: BankOperationRead
 
-    class Config:
-        allow_mutation = False
+
+class BankOperationsInfo(FrozenDTO):
+
+    customer: BankAccountRead
+    period: Period
+    operations: list[BankOperationRead]

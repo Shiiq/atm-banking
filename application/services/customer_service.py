@@ -3,7 +3,8 @@ from typing import Optional
 from infrastructure.database.models.db import (BankAccountModel,
                                                BankCustomerModel)
 from infrastructure.database.models.dto import (BankCustomerCreate,
-                                                BankCustomerRead)
+                                                BankCustomerRead,
+                                                BankCustomerSearch)
 from ._base_service import BaseService
 
 
@@ -19,7 +20,7 @@ class CustomerService(BaseService):
         return self._from_orm_to_dto(input_data=customer,
                                      output_model=BankCustomerRead)
 
-    async def customer_by_id(self, customer_search_data) -> Optional[BankCustomerRead]:
+    async def customer_by_id(self, customer_search_data: BankCustomerSearch) -> Optional[BankCustomerRead]:
         customer = await self._uow.customer_repo.get_by_id(
             obj_id=customer_search_data.id
         )
@@ -36,7 +37,7 @@ class CustomerService(BaseService):
     #     return self._from_orm_to_dto(input_data=customer,
     #                                  output_model=BankCustomerRead)
 
-    async def customer_by_fullname(self, customer_search_data) -> Optional[BankCustomerRead]:
+    async def customer_by_fullname(self, customer_search_data: BankCustomerSearch) -> Optional[BankCustomerRead]:
         customer = await self._uow.customer_repo.get_by_fullname(
             first_name=customer_search_data.first_name,
             last_name=customer_search_data.last_name

@@ -5,7 +5,8 @@ from pydantic import PositiveInt
 
 from infrastructure.database.models.constants import (BankOperationsToDB,
                                                       BankOperationsFromInput)
-from ._base import DTO
+from .customer import CustomerInput
+from ._base import DTO, FrozenDTO
 
 
 class OperationInput(DTO):
@@ -17,7 +18,7 @@ class OperationInput(DTO):
     till: Optional[date] = None
 
 
-class BankOperationCreate(DTO):
+class BankOperationCreate(FrozenDTO):
     """Bank operation model to write to DB"""
 
     amount: int
@@ -25,11 +26,8 @@ class BankOperationCreate(DTO):
     bank_customer_id: int
     bank_operation: BankOperationsToDB
 
-    class Config:
-        allow_mutation = False
 
-
-class BankOperationRead(DTO):
+class BankOperationRead(FrozenDTO):
     """Bank operation output model from DB"""
 
     amount: int
@@ -38,5 +36,13 @@ class BankOperationRead(DTO):
     bank_operation: BankOperationsToDB
     created_at: datetime
 
-    class Config:
-        allow_mutation = False
+
+class BankOperationSearch(DTO):
+    """Bank operation search data model"""
+
+    id: Optional[int] = None
+    bank_account_id: Optional[int] = None
+    bank_customer_id: Optional[int] = None
+    bank_operation_type: Optional[BankOperationsToDB] = None
+    since: Optional[date] = None
+    till: Optional[date] = None

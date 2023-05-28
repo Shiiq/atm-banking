@@ -7,3 +7,9 @@ class DTO(BaseModel):
         extra = Extra.ignore
         orm_mode = True
         use_enum_value = True
+
+
+class FrozenDTO(DTO):
+
+    class Config:
+        allow_mutation = False

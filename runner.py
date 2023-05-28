@@ -1,10 +1,11 @@
 import asyncio
+from datetime import datetime
 
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
-from infrastructure.database.models.constants import BankOperationsFromInput
+from infrastructure.database.models.constants import BankOperationsFromInput, BankOperationsToDB
 from infrastructure.database.repositories import AccountRepository, CustomerRepository, OperationRepository
-from infrastructure.database.models.db import BankAccountModel, BankCustomerModel
+from infrastructure.database.models.db import BankAccountModel, BankCustomerModel, BankOperationModel
 from infrastructure.database.models.dto import CustomerInput, DepositInput, OperationInput, WithdrawInput
 from application.settings import settings
 from infrastructure.unit_of_work import UnitOfWork
@@ -24,7 +25,7 @@ async def create_db(db_engine: AsyncEngine, base_model) -> None:
         await connection.run_sync(base_model.metadata.create_all)
 
 
-async def upload_test_data(s: AsyncSession):
+async def upload_data(s: AsyncSession):
     cus_1 = BankCustomerModel(first_name="John",
                               last_name="Doe",
                               bank_account=BankAccountModel())
@@ -35,6 +36,16 @@ async def upload_test_data(s: AsyncSession):
                               last_name="Roki",
                               bank_account=BankAccountModel())
     s.add_all([cus_1, cus_2, cus_3])
+    await s.flush()
+    entries = []
+    for i in range(1, 30):
+        entries.append(
+            BankOperationModel(amount=10000,
+                               bank_account_id=1,
+                               bank_customer_id=1,
+                               bank_operation_type=BankOperationsToDB.DEPOSIT,
+                               created_at=datetime(year=2023, month=5, day=i)))
+    s.add_all(entries)
     await s.commit()
 
 
@@ -43,27 +54,27 @@ async def main():
     session_factory = async_sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)
 
     async with session_factory() as session:
-        # await upload_test_data(session)
+        # await upload_data(session)
         uow = UnitOfWork(session=session,
                          account_repo=AccountRepository,
                          customer_repo=CustomerRepository,
                          operation_repo=OperationRepository)
-        deposit_usecase = Deposit(uow)
-        withdraw_usecase = Withdraw(uow)
+        # deposit_usecase = Deposit(uow)
+        # withdraw_usecase = Withdraw(uow)
         # d_data = DepositInput(
         #     customer=CustomerInput(first_name="Chuck",
         #                            last_name="Buzz"),
         #     operation=OperationInput(type_=BankOperationsFromInput.DEPOSIT,
         #                              amount=100500)
         # )
-        w_data = WithdrawInput(
-            customer=CustomerInput(first_name="Chuck",
-                                   last_name="Buzz"),
-            operation=OperationInput(type_=BankOperationsFromInput.WITHDRAW,
-                                     amount=100500)
-        )
-        result = await withdraw_usecase(w_data)
-        print(result)
+        # w_data = WithdrawInput(
+        #     customer=CustomerInput(first_name="Chuck",
+        #                            last_name="Buzz"),
+        #     operation=OperationInput(type_=BankOperationsFromInput.WITHDRAW,
+        #                              amount=100500)
+        # )
+        # result = await withdraw_usecase(w_data)
+        # print(result)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 from infrastructure.database.models.constants import BankOperationsFromInput, BankOperationsToDB
 from infrastructure.database.repositories import AccountRepository, CustomerRepository, OperationRepository
 from infrastructure.database.models.db import BankAccountModel, BankCustomerModel, BankOperationModel
-from infrastructure.database.models.dto import CustomerInput, DepositInput, OperationInput, WithdrawInput
+from infrastructure.database.models.dto import *
 from application.settings import settings
 from infrastructure.unit_of_work import UnitOfWork
 from application.usecases.deposit import Deposit
@@ -75,6 +75,7 @@ async def main():
         # )
         # result = await withdraw_usecase(w_data)
         # print(result)
+
 
 
 if __name__ == "__main__":

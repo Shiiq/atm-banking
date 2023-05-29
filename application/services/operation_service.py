@@ -40,6 +40,8 @@ class OperationService(BaseService):
 
     async def operations_by_date_interval(self, operation_search_data: BankOperationSearch):
         operations = await self._uow.operation_repo.get_by_date_interval(
+            customer_id=operation_search_data.bank_customer_id,
+            bank_account_id=operation_search_data.bank_account_id,
             start_date=operation_search_data.since,
             end_date=operation_search_data.till
         )

@@ -44,7 +44,7 @@ async def upload_data(s: AsyncSession):
                                bank_account_id=1,
                                bank_customer_id=1,
                                bank_operation_type=BankOperationsToDB.DEPOSIT,
-                               created_at=datetime(year=2023, month=5, day=i)))
+                               created_at=datetime(year=2023, month=5, day=i, hour=12)))
     s.add_all(entries)
     await s.commit()
 
@@ -75,13 +75,15 @@ async def main():
         # )
         # result = await withdraw_usecase(w_data)
         # print(result)
-        start = date(year=2023, month=4, day=1)
-        end = date(year=2023, month=5, day=29)
+        start = datetime(year=2023, month=5, day=28, hour=00)
+        end = datetime(year=2023, month=6, day=14, hour=23)
         ops = await uow.operation_repo.get_by_date_interval(
             start_date=start, end_date=end
         )
+        # ops = await uow.operation_repo.get_all()
         ops = [BankOperationRead.from_orm(op) for op in ops]
-        print(len(ops))
+        # print(start, end)
+        # print([op.id for op in ops])
 
 
 if __name__ == "__main__":

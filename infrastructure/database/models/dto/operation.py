@@ -1,7 +1,7 @@
-from datetime import date, datetime
+from datetime import datetime
 from typing import Optional
 
-from pydantic import PositiveInt
+from pydantic import PositiveInt, validator
 
 from infrastructure.database.models.constants import (BankOperationsToDB,
                                                       BankOperationsFromInput)
@@ -14,8 +14,8 @@ class OperationInput(DTO):
 
     type_: BankOperationsFromInput
     amount: Optional[PositiveInt] = None
-    since: Optional[date] = None
-    till: Optional[date] = None
+    since: Optional[datetime] = None
+    till: Optional[datetime] = None
 
 
 class BankOperationCreate(FrozenDTO):
@@ -30,6 +30,7 @@ class BankOperationCreate(FrozenDTO):
 class BankOperationRead(FrozenDTO):
     """Bank operation output model from DB"""
 
+    id: int
     amount: int
     bank_account_id: int
     bank_customer_id: int
@@ -44,5 +45,10 @@ class BankOperationSearch(DTO):
     bank_account_id: Optional[int] = None
     bank_customer_id: Optional[int] = None
     bank_operation_type: Optional[BankOperationsToDB] = None
-    since: Optional[date] = None
-    till: Optional[date] = None
+    since: Optional[datetime] = None
+    till: Optional[datetime] = None
+
+    @validator("till")
+    def adding_hours_to_till(cls, value):
+        value = value.replace(hour=23, minute=59)
+        return value

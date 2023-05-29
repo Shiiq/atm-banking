@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 from application.services import (AccountService,
                                   CustomerService,
@@ -17,7 +17,15 @@ class BankStatement:
         self._operation_service = OperationService(uow=uow)
 
     async def __call__(self, input_data: dto.BankStatementInput) -> dto.BankOperationsInfo:
-        pass
+        customer = await self._get_customer(
+            customer_data=input_data.customer
+        )
+        operations = await self._get_operations(
+            operations_data=dto.BankOperationSearch(bank_customer_id=customer.id,
+                                                    bank_account_id=customer.bank_account_id,
+                                                    since=input_data.operation.since,
+                                                    till=input_data.operation.till)
+        )
 
     async def _get_customer(self, customer_data: dto.CustomerInput) -> dto.BankCustomerRead:
         try:
@@ -30,9 +38,13 @@ class BankStatement:
         except ValueError:
             pass
 
-    def _check_dates(self, start_date: date, end_date: date):
-        return start_date <= end_date
+    def _check_dates(self, start_date: datetime, end_date: datetime):
+        return start_date >= end_date
 
     async def _get_operations(self, operations_data: dto.BankOperationSearch):
-        # operations = await self._operation_service.operations_by_date_interval()
+        if not self._check_dates(start_date=operations_data.since,
+                                 end_date=operations_data.till):
+            # TODO custom exceptions
+            raise ValueError
+        operations = await self._operation_service.operations_by_date_interval(operation_search_data=operations_data)
         pass

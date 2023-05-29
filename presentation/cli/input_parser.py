@@ -1,12 +1,16 @@
+from datetime import datetime
+
 from infrastructure.database.models.constants import BankOperationsFromInput
+from infrastructure.database.models.dto import (CustomerInput,
+                                                OperationInput,
+                                                BankStatementInput,
+                                                DepositInput,
+                                                WithdrawInput)
+
+FORMAT = "%d/%m/%Y"
 
 
 class InputParserService:
-
-    # input data examples
-    # "withdraw jake james 100500"
-    # "deposit jake james 7000"
-    # "bank_statement jake james 2023-01-01 2023-05-01"
 
     @staticmethod
     def parse_input(input_data: str) -> BankStatementInput | DepositInput | WithdrawInput:
@@ -14,7 +18,8 @@ class InputParserService:
         customer = CustomerInput(first_name=first_name, last_name=last_name)
 
         if operation.lower() == BankOperationsFromInput.BANK_STATEMENT:
-            since, till = args[0], args[1]
+            since = datetime.strptime(args[0], FORMAT)
+            till = datetime.strptime(args[1], FORMAT)
             operation = OperationInput(since=since, till=till)
             return BankStatementInput(customer=customer, operation=operation)
 

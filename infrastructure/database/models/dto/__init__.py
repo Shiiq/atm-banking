@@ -2,7 +2,7 @@ from .account import BankAccountCreate, BankAccountRead, BankAccountUpdate, Bank
 from .customer import BankCustomerCreate, BankCustomerRead, BankCustomerSearch, CustomerInput
 from .operation import BankOperationCreate, BankOperationRead, BankOperationSearch, OperationInput
 from .input_dto import BankStatementInput, DepositInput, WithdrawInput
-from .output_dto import BankOperationsInfo, SummaryOperationInfo
+from .output_dto import BankOperationsInfo, SummaryOperationInfo, Period
 
 __all__ = (
     "BankAccountCreate",
@@ -24,4 +24,5 @@ __all__ = (
 
     "BankOperationsInfo",
     "SummaryOperationInfo",
+    "Period"
 )

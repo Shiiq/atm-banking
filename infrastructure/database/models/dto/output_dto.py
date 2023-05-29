@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 from .account import BankAccountRead
 from .customer import BankCustomerRead
@@ -8,8 +8,8 @@ from ._base import FrozenDTO
 
 class Period(FrozenDTO):
 
-    since: date
-    till: date
+    since: datetime
+    till: datetime
 
 
 class SummaryOperationInfo(FrozenDTO):

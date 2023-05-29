@@ -1,7 +1,7 @@
-from datetime import date
+from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import select, and_
+from sqlalchemy import select
 
 from infrastructure.database.models.db import BankOperationModel
 from ._base_repository import ProtocolRepo
@@ -14,6 +14,11 @@ class OperationRepository(SARepo, ProtocolRepo):
         self._session.add(obj)
         await self._session.flush()
         return obj
+
+    async def get_all(self):
+        query = (select(BankOperationModel))
+        operations = await self._session.execute(query)
+        return operations.scalars().all()
 
     async def get_by_id(self, obj_id: int) -> Optional[BankOperationModel]:
         query = (select(BankOperationModel)
@@ -33,10 +38,18 @@ class OperationRepository(SARepo, ProtocolRepo):
         operations = await self._session.execute(query)
         return operations.scalars().all()
 
-    async def get_by_date_interval(self, start_date: date, end_date: date):
+    async def get_by_date_interval(
+            self,
+            customer_id: int,
+            bank_account_id: int,
+            start_date: datetime,
+            end_date: datetime
+    ):
         query = (select(BankOperationModel)
-                 .where(and_(BankOperationModel.created_at >= start_date,
-                             BankOperationModel.created_at <= end_date)))
+                 .where(BankOperationModel.bank_customer_id == customer_id,
+                        BankOperationModel.bank_account_id == bank_account_id)
+                 .where(BankOperationModel.created_at.between(start_date,
+                                                              end_date)))
         operations = await self._session.execute(query)
         return operations.scalars().all()
 

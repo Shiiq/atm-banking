@@ -21,6 +21,8 @@ class SummaryOperationInfo(FrozenDTO):
 
 class BankOperationsInfo(FrozenDTO):
 
-    customer: BankAccountRead
-    period: Period
+    customer: BankCustomerRead
+    # since: datetime
+    # till: datetime
+    # period: Period
     operations: list[BankOperationRead]

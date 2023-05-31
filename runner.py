@@ -1,16 +1,17 @@
 import asyncio
-from datetime import datetime, date
+from datetime import datetime
 
+from sqlalchemy import inspect
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from infrastructure.database.models.constants import BankOperationsFromInput, BankOperationsToDB
 from infrastructure.database.repositories import AccountRepository, CustomerRepository, OperationRepository
 from infrastructure.database.models.db import BankAccountModel, BankCustomerModel, BankOperationModel
-from infrastructure.database.models.dto import *
+from infrastructure.database.models import dto
 from application.settings import settings
 from infrastructure.unit_of_work import UnitOfWork
-from application.usecases.deposit import Deposit
-from application.usecases.withdraw import Withdraw
+from application.usecases import BankStatement, Deposit, Withdraw
+
 
 
 def init_db_engine(db_url: str) -> AsyncEngine:
@@ -49,6 +50,14 @@ async def upload_data(s: AsyncSession):
     await s.commit()
 
 
+def get_state_of_obj(obj):
+    print(f"transient - {inspect(obj).transient} | "
+          f"pending - {inspect(obj).pending} | "
+          f"persistent - {inspect(obj).persistent} | "
+          f"deleted - {inspect(obj).deleted} | "
+          f"detached - {inspect(obj).detached}")
+
+
 async def main():
     engine = init_db_engine(db_url=settings.SQLITE_DATABASE_URL)
     session_factory = async_sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)
@@ -59,8 +68,17 @@ async def main():
                          account_repo=AccountRepository,
                          customer_repo=CustomerRepository,
                          operation_repo=OperationRepository)
+        statement_usecase = BankStatement(uow=uow)
         # deposit_usecase = Deposit(uow)
         # withdraw_usecase = Withdraw(uow)
+        s_data = dto.BankStatementInput(
+            customer=dto.CustomerInput(first_name="John",
+                                       last_name="Doe"),
+            operation=dto.OperationInput(type_=BankOperationsFromInput.BANK_STATEMENT,
+                                         since=datetime(year=2023, month=5, day=1),
+                                         till=datetime(year=2023, month=5, day=15))
+        )
+        result = await statement_usecase(s_data)
         # d_data = DepositInput(
         #     customer=CustomerInput(first_name="Chuck",
         #                            last_name="Buzz"),
@@ -74,16 +92,8 @@ async def main():
         #                              amount=100500)
         # )
         # result = await withdraw_usecase(w_data)
-        # print(result)
-        start = datetime(year=2023, month=5, day=28, hour=00)
-        end = datetime(year=2023, month=6, day=14, hour=23)
-        ops = await uow.operation_repo.get_by_date_interval(
-            start_date=start, end_date=end
-        )
-        # ops = await uow.operation_repo.get_all()
-        ops = [BankOperationRead.from_orm(op) for op in ops]
-        # print(start, end)
-        # print([op.id for op in ops])
+        print(result)
+
 
 
 if __name__ == "__main__":

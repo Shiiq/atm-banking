@@ -5,7 +5,6 @@ from pydantic import PositiveInt, validator
 
 from infrastructure.database.models.constants import (BankOperationsToDB,
                                                       BankOperationsFromInput)
-from .customer import CustomerInput
 from ._base import DTO, FrozenDTO
 
 

@@ -4,8 +4,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
 from infrastructure.database.models.db import BankAccountModel
-from ._base_repository import ProtocolRepo
 from .sa_repository import SARepo
+from ._base_repository import ProtocolRepo
 
 
 class AccountRepository(SARepo, ProtocolRepo):
@@ -18,6 +18,7 @@ class AccountRepository(SARepo, ProtocolRepo):
     async def get_by_id(self, obj_id: int) -> Optional[BankAccountModel]:
         query = (select(BankAccountModel)
                  .where(BankAccountModel.id == obj_id)
+                 .with_for_update()
                  .options(joinedload(BankAccountModel.customer)))
         account = await self._session.execute(query)
         return account.scalars().first()

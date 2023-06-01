@@ -4,8 +4,8 @@ from typing import Optional
 from sqlalchemy import select
 
 from infrastructure.database.models.db import BankOperationModel
-from ._base_repository import ProtocolRepo
 from .sa_repository import SARepo
+from ._base_repository import ProtocolRepo
 
 
 class OperationRepository(SARepo, ProtocolRepo):

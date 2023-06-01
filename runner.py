@@ -72,8 +72,8 @@ async def main():
         # deposit_usecase = Deposit(uow)
         # withdraw_usecase = Withdraw(uow)
         s_data = dto.BankStatementInput(
-            customer=dto.CustomerInput(first_name="John",
-                                       last_name="Doe"),
+            customer=dto.CustomerInput(first_name="JoHN",
+                                       last_name="dOe"),
             operation=dto.OperationInput(type_=BankOperationsFromInput.BANK_STATEMENT,
                                          since=datetime(year=2023, month=5, day=1),
                                          till=datetime(year=2023, month=5, day=15))
@@ -92,7 +92,7 @@ async def main():
         #                              amount=100500)
         # )
         # result = await withdraw_usecase(w_data)
-        print(result)
+        print(result or None)
 
 
 

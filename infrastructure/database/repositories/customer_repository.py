@@ -4,8 +4,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
 from infrastructure.database.models.db import BankCustomerModel
-from ._base_repository import ProtocolRepo
 from .sa_repository import SARepo
+from ._base_repository import ProtocolRepo
 
 
 class CustomerRepository(SARepo, ProtocolRepo):

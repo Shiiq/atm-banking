@@ -12,8 +12,8 @@ FORMAT = "%d/%m/%Y"
 
 class InputParserService:
 
-    @staticmethod
-    def parse_input(input_data: str) -> BankStatementInput | DepositInput | WithdrawInput:
+    # @staticmethod
+    def parse(self, input_data: str) -> BankStatementInput | DepositInput | WithdrawInput:
         operation, first_name, last_name, *args = input_data.strip().split()
         customer = CustomerInput(first_name=first_name, last_name=last_name)
 
@@ -35,4 +35,4 @@ class InputParserService:
 
         else:
             # TODO to fix
-            raise Exception("Wrong operation")
+            raise ValueError("Wrong operation")

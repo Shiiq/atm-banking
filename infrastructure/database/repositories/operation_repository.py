@@ -55,6 +55,3 @@ class OperationRepository(SARepo, ProtocolRepo):
 
     async def update(self, obj: BankOperationModel):
         pass
-
-    async def delete(self, obj_id: int):
-        pass

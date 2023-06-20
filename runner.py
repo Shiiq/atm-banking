@@ -1,7 +1,8 @@
 import asyncio
 from datetime import datetime
 
-from sqlalchemy import inspect
+from sqlalchemy import inspect, select
+from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from infrastructure.database.models.constants import BankOperationsFromInput, BankOperationsToDB
@@ -68,17 +69,18 @@ async def main():
                          account_repo=AccountRepository,
                          customer_repo=CustomerRepository,
                          operation_repo=OperationRepository)
-        statement_usecase = BankStatement(uow=uow)
-        # deposit_usecase = Deposit(uow)
-        # withdraw_usecase = Withdraw(uow)
-        s_data = dto.BankStatementInput(
-            customer=dto.CustomerInput(first_name="JoHN",
-                                       last_name="dOe"),
-            operation=dto.OperationInput(type_=BankOperationsFromInput.BANK_STATEMENT,
-                                         since=datetime(year=2023, month=5, day=1),
-                                         till=datetime(year=2023, month=5, day=15))
-        )
-        result = await statement_usecase(s_data)
+
+        # statement_usecase = BankStatement(uow=uow)
+        # # deposit_usecase = Deposit(uow)
+        # # withdraw_usecase = Withdraw(uow)
+        # s_data = dto.BankStatementInput(
+        #     customer=dto.CustomerInput(first_name="JoHN",
+        #                                last_name="dOe"),
+        #     operation=dto.OperationInput(type_=BankOperationsFromInput.BANK_STATEMENT,
+        #                                  since=datetime(year=2023, month=5, day=1),
+        #                                  till=datetime(year=2023, month=5, day=15))
+        # )
+        # result = await statement_usecase(s_data)
         # d_data = DepositInput(
         #     customer=CustomerInput(first_name="Chuck",
         #                            last_name="Buzz"),
@@ -92,7 +94,7 @@ async def main():
         #                              amount=100500)
         # )
         # result = await withdraw_usecase(w_data)
-        print(result or None)
+        # print(result or None)
 
 
 

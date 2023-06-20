@@ -26,6 +26,3 @@ class AccountRepository(SARepo, ProtocolRepo):
     async def update(self, obj: BankAccountModel):
         await self._session.merge(obj)
         return obj
-
-    async def delete(self, obj_id: int):
-        pass

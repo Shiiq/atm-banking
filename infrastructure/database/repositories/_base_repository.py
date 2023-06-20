@@ -12,5 +12,7 @@ class ProtocolRepo(Protocol):
     async def update(self, obj):
         ...
 
-    async def delete(self, obj_id):
-        ...
+
+class ProtocolReader(Protocol):
+
+    pass

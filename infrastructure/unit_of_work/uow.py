@@ -14,7 +14,7 @@ class UnitOfWork:
             customer_repo: Type[ProtocolRepo],
             operation_repo: Type[ProtocolRepo]
     ):
-        self.session = session
+        self._session = session
         self.account_repo = account_repo(session)
         self.customer_repo = customer_repo(session)
         self.operation_repo = operation_repo(session)
@@ -30,7 +30,7 @@ class UnitOfWork:
             await self.commit()
 
     async def commit(self):
-        await self.session.commit()
+        await self._session.commit()
 
     async def rollback(self):
-        await self.session.rollback()
+        await self._session.rollback()

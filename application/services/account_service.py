@@ -14,7 +14,6 @@ class AccountService(BaseService):
 
     async def account_by_id(self, account_search_data: BankAccountSearch) -> Optional[BankAccountRead]:
         account = await self._uow.account_repo.get_by_id(obj_id=account_search_data.id)
-        print("account_update", dir(account))
         if not account:
             # TODO custom exceptions
             raise ValueError("Account does not already exist")

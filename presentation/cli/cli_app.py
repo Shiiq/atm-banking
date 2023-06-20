@@ -12,9 +12,9 @@ class CLIApp:
     db_session: async_sessionmaker
     input_parser: InputParserService
 
-    def __init__(self, input_parser_class, db_session):
-        self.input_parser = input_parser_class()
-        self.db_session_factory = db_session
+    def __init__(self, input_parser, db_session):
+        self.input_parser = input_parser
+        self.db_session = db_session
 
     async def run(self):
         print(WELCOME_MESSAGE)
@@ -30,7 +30,7 @@ class CLIApp:
                     # WRONG OPERATION
                     print("wrong")
                 else:
-                    async with self.db_session_factory() as session:
+                    async with self.db_session() as session:
                         uow = UnitOfWork(session=session,
                                          account_repo=AccountRepository,
                                          customer_repo=CustomerRepository,

@@ -18,6 +18,8 @@ class CustomerInput(DTO):
 class BankCustomerCreate(FrozenDTO):
     """Bank customer model to write to DB"""
 
+    first_name: str
+    last_name: str
     customer: CustomerInput
     bank_account: BankAccountCreate = BankAccountCreate(balance=0)
 

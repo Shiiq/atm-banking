@@ -16,12 +16,12 @@ class CustomerService(BaseService):
         customer_orm = self._from_dto_to_orm(input_data=customer_create_data.customer,
                                              output_model=BankCustomerModel)
         customer_orm.bank_account = account_orm
-        customer = await self.__uow.customer_repo.create(customer_orm)
+        customer = await self._uow.customer_repo.create(customer_orm)
         return self._from_orm_to_dto(input_data=customer,
                                      output_model=BankCustomerRead)
 
     async def customer_by_id(self, customer_search_data: BankCustomerSearch) -> Optional[BankCustomerRead]:
-        customer = await self.__uow.customer_repo.get_by_id(
+        customer = await self._uow.customer_repo.get_by_id(
             obj_id=customer_search_data.id
         )
         if not customer:
@@ -38,7 +38,7 @@ class CustomerService(BaseService):
     #                                  output_model=BankCustomerRead)
 
     async def customer_by_fullname(self, customer_search_data: BankCustomerSearch) -> Optional[BankCustomerRead]:
-        customer = await self.__uow.customer_repo.get_by_fullname(
+        customer = await self._uow.customer_repo.get_by_fullname(
             first_name=customer_search_data.first_name,
             last_name=customer_search_data.last_name
         )

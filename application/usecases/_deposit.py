@@ -1,3 +1,4 @@
+from application.exceptions import CustomerNotExist
 from application.services import (AccountService,
                                   CustomerService,
                                   OperationService)
@@ -14,12 +15,34 @@ class _Deposit:
         self._operation_service = OperationService(uow=uow)
 
     async def __call__(self, input_data: dto.DepositInput):
+        # input_data = dto.DepositInput(
+        #     customer=dto.CustomerInput(first_name="jaks",
+        #                                last_name="korspe"),
+        #     operation=dto.OperationInput(type_="deposit",
+        #                                  amount=1000)
+        # )
         async with self.uow:
-            customer = await ...
+            try:
+                customer_search_data = dto.BankCustomerSearch(
+                    first_name=input_data.customer.first_name,
+                    last_name=input_data.customer.last_name
+                )
+                customer = await self._customer_service.customer_by_fullname(
+                    customer_search_data=customer_search_data
+                )
+            except CustomerNotExist(
+                    first_name=input_data.customer.first_name,
+                    last_name=input_data.customer.last_name
+            ) as err:
+                # logging err
+                customer_create_data = dto.BankCustomerCreate()
+                new_customer = await self._customer_service.customer_create(
+                    customer_create_data=)
+
             pass
         pass
 
-    async def __register_customer(self):
+    async def _register_customer(self):
         pass
 
     async def _get_current_customer(self, customer_search_data: dto.BankCustomerSearch):

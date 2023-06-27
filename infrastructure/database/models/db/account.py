@@ -5,6 +5,7 @@ from ._base import Base, UpdatedAtTimestampMixin
 
 BANK_ACCOUNT = "bank_account"
 
+
 class BankAccountModel(UpdatedAtTimestampMixin, Base):
 
     __tablename__ = BANK_ACCOUNT

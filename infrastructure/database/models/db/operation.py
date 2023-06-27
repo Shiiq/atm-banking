@@ -6,6 +6,7 @@ from ._base import Base
 
 BANK_OPERATION = "bank_operation"
 
+
 class BankOperationModel(Base):
 
     __tablename__ = BANK_OPERATION

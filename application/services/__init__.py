@@ -5,5 +5,5 @@ from .operation_service import OperationService
 __all__ = (
     "AccountService",
     "CustomerService",
-    "OperationService"
+    "OperationService",
 )

@@ -24,5 +24,5 @@ __all__ = (
 
     "BankOperationsInfo",
     "SummaryOperationInfo",
-    "Period"
+    "Period",
 )

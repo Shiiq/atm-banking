@@ -23,7 +23,7 @@ class UnitOfWork:
 
     async def __aenter__(self):
         if self._in_transaction:
-            raise ValueError("transaction")
+            raise RuntimeError("Unit Of Work is already in transaction")
 
         await self._session.begin()
         self._in_transaction = True

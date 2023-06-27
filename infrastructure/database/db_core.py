@@ -1,4 +1,4 @@
-from contextlib import asynccontextmanager, contextmanager
+from contextlib import asynccontextmanager
 from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import (AsyncEngine,
@@ -7,13 +7,6 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
                                     create_async_engine)
 
 from .db_config import DBConfig
-
-
-# db_engine = create_async_engine(url=db_config.SQLITE_DATABASE_URL,
-#                                 echo=False)
-#
-# session_factory = async_sessionmaker(bind=db_engine,
-#                                      expire_on_commit=False)
 
 
 @asynccontextmanager

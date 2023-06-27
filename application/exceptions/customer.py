@@ -21,9 +21,8 @@ class CustomerNotExist(Exception):
 
     @property
     def message(self):
-        return f"A customer '{self._fullname}' does not exist"
+        return f"A customer '{self._fullname()}' does not exist"
 
-    @property
     def _fullname(self):
         return f"{self.first_name} {self.last_name}"
 

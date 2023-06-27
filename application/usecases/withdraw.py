@@ -1,3 +1,4 @@
+from application.exceptions import AccountHasInsufficientFunds, CustomerNotExist
 from application.services import (AccountService,
                                   CustomerService,
                                   OperationService)
@@ -13,55 +14,54 @@ class Withdraw:
         self._customer_service = CustomerService(uow=uow)
         self._operation_service = OperationService(uow=uow)
 
-    async def __call__(self, input_data: dto.WithdrawInput) -> dto.SummaryOperationInfo:
-        customer = await self._get_customer(
-            customer_data=input_data.customer
-        )
-        bank_account = await self._update_bank_account(
-            bank_account_id=customer.bank_account_id,
-            operation_data=input_data.operation
-        )
-        operation = await self._register_operation(
-            operation_data=dto.BankOperationCreate(amount=input_data.operation.amount,
-                                                   bank_account_id=bank_account.id,
-                                                   bank_customer_id=customer.id,
-                                                   bank_operation=input_data.operation.type_)
-        )
-        await self.uow.commit()
-        return dto.SummaryOperationInfo(account=bank_account,
-                                        customer=customer,
-                                        operation=operation)
+    async def __call__(
+            self,
+            input_data: dto.WithdrawInput
+    ):
+        async with self.uow:
+            customer_search_data = dto.BankCustomerSearch(first_name=input_data.customer.first_name,
+                                                          last_name=input_data.customer.last_name)
+            customer = await self._customer_service.by_fullname(search_data=customer_search_data)
 
-    async def _get_customer(self, customer_data: dto.CustomerInput) -> dto.BankCustomerRead:
-        try:
-            customer = await self._customer_service.customer_by_fullname(
-                customer_search_data=dto.BankCustomerSearch(first_name=customer_data.first_name,
-                                                            last_name=customer_data.last_name)
-            )
-            return customer
-        # TODO custom exceptions
-        except ValueError:
-            pass
+            account_search_data = dto.BankAccountSearch(id=customer.bank_account_id)
+            account = await self._update_bank_account(account_search_data=account_search_data,
+                                                      operation_data=input_data.operation)
+            # logging updated account
 
-    def _check_withdraw_possibility(self, current_balance: int, withdraw_amount: int) -> bool:
-        return (current_balance - withdraw_amount) >= 0
+            operation_register_data = dto.BankOperationCreate(amount=input_data.operation.amount,
+                                                              bank_account_id=account.id,
+                                                              bank_customer_id=customer.id,
+                                                              bank_operation_type=input_data.operation.type_)
+            operation = await self._register_bank_operation(operation_register_data=operation_register_data)
+            # logging registered operation
 
-    async def _update_bank_account(self, bank_account_id: int, operation_data: dto.OperationInput):
-        current_bank_account = await self._account_service.account_by_id(
-            account_search_data=dto.BankAccountSearch(id=bank_account_id)
-        )
-        if not self._check_withdraw_possibility(current_bank_account.balance, operation_data.amount):
-            # TODO custom exceptions
-            raise ValueError
-        updated_balance = current_bank_account.balance - operation_data.amount
-        updated_bank_account = await self._account_service.account_update(
-            account_update_data=dto.BankAccountUpdate(id=bank_account_id,
-                                                      balance=updated_balance)
-        )
-        return updated_bank_account
+            return dto.SummaryOperationInfo(account=account,
+                                            customer=customer,
+                                            operation=operation)
 
-    async def _register_operation(self, operation_data: dto.BankOperationCreate):
-        operation = await self._operation_service.operation_create(
-            operation_data=operation_data
-        )
+    async def _update_bank_account(
+            self,
+            account_search_data: dto.BankAccountSearch,
+            operation_data: dto.OperationInput
+    ) -> dto.BankAccountRead:
+        current_account = await self._account_service.by_id(search_data=account_search_data)
+
+        if not self._check_possibility_to_withdraw(current_balance=current_account.balance,
+                                                   requested_amount=operation_data.amount):
+            raise AccountHasInsufficientFunds(account_id=current_account.id)
+
+        else:
+            account_update_data = dto.BankAccountUpdate(id=current_account.id,
+                                                        balance=(current_account.balance - operation_data.amount))
+            updated_account = await self._account_service.update(update_data=account_update_data)
+            return updated_account
+
+    def _check_possibility_to_withdraw(self, current_balance: int, requested_amount: int) -> bool:
+        return (current_balance - requested_amount) >= 0
+
+    async def _register_bank_operation(
+            self,
+            operation_register_data: dto.BankOperationCreate
+    ) -> dto.BankOperationRead:
+        operation = await self._operation_service.create(create_data=operation_register_data)
         return operation

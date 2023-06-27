@@ -5,5 +5,5 @@ from .withdraw import Withdraw
 __all__ = (
     "BankStatement",
     "Deposit",
-    "Withdraw"
+    "Withdraw",
 )

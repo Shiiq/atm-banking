@@ -9,6 +9,9 @@ class CustomerIDNotExist(Exception):
     def message(self):
         return f"A customer with ID '{self.customer_id}' does not exist"
 
+    def __str__(self):
+        return self.message
+
 
 class CustomerNotExist(Exception):
 
@@ -23,3 +26,6 @@ class CustomerNotExist(Exception):
     @property
     def _fullname(self):
         return f"{self.first_name} {self.last_name}"
+
+    def __str__(self):
+        return self.message

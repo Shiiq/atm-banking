@@ -58,7 +58,7 @@ def get_state_of_obj(obj):
           f"deleted - {inspect(obj).deleted} | "
           f"detached - {inspect(obj).detached}")
 
-
+from application.usecases._deposit import _Deposit
 async def main():
     engine = init_db_engine(db_url=settings.SQLITE_DATABASE_URL)
     session_factory = async_sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)
@@ -74,7 +74,7 @@ async def main():
         # res = await session.execute(select(query))
         # print(res.scalar())
         # statement_usecase = BankStatement(uow=uow)
-        # # deposit_usecase = Deposit(uow)
+        deposit_usecase = _Deposit(uow)
         # # withdraw_usecase = Withdraw(uow)
         # s_data = dto.BankStatementInput(
         #     customer=dto.CustomerInput(first_name="JoHN",
@@ -84,12 +84,13 @@ async def main():
         #                                  till=datetime(year=2023, month=5, day=15))
         # )
         # result = await statement_usecase(s_data)
-        # d_data = DepositInput(
-        #     customer=CustomerInput(first_name="Chuck",
-        #                            last_name="Buzz"),
-        #     operation=OperationInput(type_=BankOperationsFromInput.DEPOSIT,
-        #                              amount=100500)
-        # )
+        d_data = dto.DepositInput(
+            customer=dto.CustomerInput(first_name="Chuck",
+                                       last_name="Buzz"),
+            operation=dto.OperationInput(type_=BankOperationsFromInput.DEPOSIT,
+                                         amount=100500))
+        res = await deposit_usecase(d_data)
+        print(res)
         # w_data = WithdrawInput(
         #     customer=CustomerInput(first_name="Chuck",
         #                            last_name="Buzz"),

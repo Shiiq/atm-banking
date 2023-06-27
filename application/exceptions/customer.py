@@ -2,12 +2,12 @@
 
 class CustomerIDNotExist(Exception):
 
-    def __init__(self, obj_id: int):
-        self.obj_id = obj_id
+    def __init__(self, customer_id: int):
+        self.customer_id = customer_id
 
     @property
     def message(self):
-        return f"A customer with ID '{self.obj_id}' does not exist"
+        return f"A customer with ID '{self.customer_id}' does not exist"
 
 
 class CustomerNotExist(Exception):

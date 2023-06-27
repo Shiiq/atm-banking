@@ -3,10 +3,11 @@ from sqlalchemy.orm import mapped_column, relationship
 
 from ._base import Base, UpdatedAtTimestampMixin
 
+BANK_ACCOUNT = "bank_account"
 
 class BankAccountModel(UpdatedAtTimestampMixin, Base):
 
-    __tablename__ = "bank_account"
+    __tablename__ = BANK_ACCOUNT
 
     balance = mapped_column(Integer, default=0)
     customer = relationship("BankCustomerModel",

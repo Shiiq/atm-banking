@@ -3,10 +3,12 @@ from sqlalchemy.orm import mapped_column, relationship
 
 from ._base import Base, UpdatedAtTimestampMixin
 
+BANK_CUSTOMER = "bank_customer"
+
 
 class BankCustomerModel(UpdatedAtTimestampMixin, Base):
 
-    __tablename__ = "bank_customer"
+    __tablename__ = BANK_CUSTOMER
 
     first_name = mapped_column(String(length=50), nullable=False)
     last_name = mapped_column(String(length=50), nullable=False)

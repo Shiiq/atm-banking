@@ -9,10 +9,10 @@ from ._base_service import BaseService
 
 class AccountService(BaseService):
 
-    async def account_create(self, account_create_data: BankAccountCreate):
+    async def create(self, account_create_data: BankAccountCreate):
         pass
 
-    async def account_by_id(self, account_search_data: BankAccountSearch) -> Optional[BankAccountRead]:
+    async def by_id(self, account_search_data: BankAccountSearch) -> Optional[BankAccountRead]:
         account = await self._uow.account_repo.get_by_id(obj_id=account_search_data.id)
         if not account:
             # TODO custom exceptions
@@ -20,12 +20,12 @@ class AccountService(BaseService):
         return self._from_orm_to_dto(input_data=account,
                                      output_model=BankAccountRead)
 
-    async def account_update(self, account_update_data: BankAccountUpdate) -> BankAccountRead:
+    async def update(self, account_update_data: BankAccountUpdate) -> BankAccountRead:
         account = await self._uow.account_repo.get_by_id(obj_id=account_update_data.id)
         account.balance = account_update_data.balance
         account = await self._uow.account_repo.update(obj=account)
         return self._from_orm_to_dto(input_data=account,
                                      output_model=BankAccountRead)
 
-    async def account_delete(self):
+    async def delete(self):
         pass

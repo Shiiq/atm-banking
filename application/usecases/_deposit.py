@@ -22,37 +22,39 @@ class _Deposit:
         #                                  amount=1000)
         # )
         async with self.uow:
+
+            # get or register customer
             try:
                 customer_search_data = dto.BankCustomerSearch(
                     first_name=input_data.customer.first_name,
                     last_name=input_data.customer.last_name
                 )
-                customer = await self._customer_service.customer_by_fullname(
+
+                customer = await self._customer_service.by_fullname(
                     customer_search_data=customer_search_data
                 )
+
             except CustomerNotExist(
                     first_name=input_data.customer.first_name,
                     last_name=input_data.customer.last_name
             ) as err:
                 # logging err
-                customer_create_data = dto.BankCustomerCreate()
-                new_customer = await self._customer_service.customer_create(
-                    customer_create_data=)
 
+                customer_create_data = dto.BankCustomerCreate(
+                    first_name=input_data.customer.first_name,
+                    last_name=input_data.customer.last_name
+                )
+
+                customer = await self._customer_service.create(
+                    customer_create_data=customer_create_data
+                )
+
+            account_search_data = dto.BankAccountSearch(
+                id=customer.bank_account_id
+            )
+            account = self._account_service.by_id(
+                account_search_data=account_search_data
+            )
             pass
         pass
 
-    async def _register_customer(self):
-        pass
-
-    async def _get_current_customer(self, customer_search_data: dto.BankCustomerSearch):
-        customer = await self._customer_service.customer_by_fullname(
-            customer_search_data=customer_search_data
-        )
-        pass
-
-    async def _update_bank_account(self):
-        pass
-
-    async def _register_bank_operation(self):
-        pass

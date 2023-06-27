@@ -69,6 +69,7 @@ async def main():
                          account_repo=AccountRepository,
                          customer_repo=CustomerRepository,
                          operation_repo=OperationRepository)
+
         # query = select(BankCustomerModel).where(BankCustomerModel.id == 1).exists()
         # res = await session.execute(select(query))
         # print(res.scalar())

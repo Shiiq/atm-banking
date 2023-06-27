@@ -38,14 +38,14 @@ class Deposit:
                                         operation=operation)
 
     async def _register_customer(self, customer_data: dto.CustomerInput):
-        customer = await self._customer_service.customer_create(
+        customer = await self._customer_service.create(
             customer_create_data=dto.BankCustomerCreate(customer=customer_data)
         )
         return customer
 
     async def _get_customer(self, customer_data: dto.CustomerInput) -> dto.BankCustomerRead:
         try:
-            customer = await self._customer_service.customer_by_fullname(
+            customer = await self._customer_service.by_fullname(
                 customer_search_data=dto.BankCustomerSearch(first_name=customer_data.first_name,
                                                             last_name=customer_data.last_name)
             )
@@ -55,11 +55,11 @@ class Deposit:
         return customer
 
     async def _update_bank_account(self, bank_account_id: int, operation_data: dto.OperationInput):
-        current_bank_account = await self._account_service.account_by_id(
+        current_bank_account = await self._account_service.by_id(
             account_search_data=dto.BankAccountSearch(id=bank_account_id)
         )
         updated_balance = current_bank_account.balance + operation_data.amount
-        updated_bank_account = await self._account_service.account_update(
+        updated_bank_account = await self._account_service.update(
             account_update_data=dto.BankAccountUpdate(id=bank_account_id,
                                                       balance=updated_balance)
         )

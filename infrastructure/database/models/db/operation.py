@@ -4,10 +4,11 @@ from sqlalchemy.orm import mapped_column
 from infrastructure.database.models.constants import BankOperationsToDB
 from ._base import Base
 
+BANK_OPERATION = "bank_operation"
 
 class BankOperationModel(Base):
 
-    __tablename__ = "bank_operation"
+    __tablename__ = BANK_OPERATION
 
     amount = mapped_column(Integer, nullable=False)
     bank_account_id = mapped_column(Integer,

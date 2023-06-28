@@ -1,34 +1,28 @@
-from pydantic import validator, root_validator
+from datetime import datetime
+
+from pydantic import PositiveInt, validator, ValidationError
 
 from infrastructure.database.models.constants import BankOperationsFromInput
-from .customer import CustomerInput
-from .operation import OperationInput
-from ._base import DTO
+from ._base import FrozenDTO
 
 
-class BankStatementInput(DTO):
-    customer: CustomerInput
-    operation: OperationInput = OperationInput(
-        type_=BankOperationsFromInput.BANK_STATEMENT
-    )
-    @root_validator
-    def validate_fields_interval(cls, values):
-        print(50*"#", "INVOKED BANK STATEMENT")
-        print(values)
-        # if values.get("operation").type_ == BankOperationsFromInput.BANK_STATEMENT:
-        #     if values.get("since") > values.get("till"):
-        #         raise ValueError("123")
-        return values
-
-class DepositInput(DTO):
-    customer: CustomerInput
-    operation: OperationInput = OperationInput(
-        type_=BankOperationsFromInput.DEPOSIT
-    )
+class BankStatementInput(FrozenDTO):
+    first_name: str
+    last_name: str
+    operation_type: BankOperationsFromInput = BankOperationsFromInput.BANK_STATEMENT
+    since: datetime
+    till: datetime
 
 
-class WithdrawInput(DTO):
-    customer: CustomerInput
-    operation: OperationInput = OperationInput(
-        type_=BankOperationsFromInput.WITHDRAW
-    )
+class DepositInput(FrozenDTO):
+    first_name: str
+    last_name: str
+    operation_type: BankOperationsFromInput = BankOperationsFromInput.DEPOSIT
+    amount: PositiveInt
+
+
+class WithdrawInput(FrozenDTO):
+    first_name: str
+    last_name: str
+    operation_type: BankOperationsFromInput = BankOperationsFromInput.WITHDRAW
+    amount: PositiveInt

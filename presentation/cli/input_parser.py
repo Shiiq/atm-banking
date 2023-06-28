@@ -15,24 +15,26 @@ class InputParserService:
     # @staticmethod
     def parse(self, input_data: str) -> BankStatementInput | DepositInput | WithdrawInput:
         operation, first_name, last_name, *args = input_data.strip().split()
-        customer = CustomerInput(first_name=first_name, last_name=last_name)
 
         if operation.lower() == BankOperationsFromInput.BANK_STATEMENT:
             since = datetime.strptime(args[0], FORMAT)
             till = datetime.strptime(args[1], FORMAT)
-            operation = OperationInput(since=since, till=till)
-            return BankStatementInput(customer=customer, operation=operation)
+            return BankStatementInput(first_name=first_name,
+                                      last_name=last_name,
+                                      since=since,
+                                      till=till)
 
         elif operation.lower() == BankOperationsFromInput.DEPOSIT:
             amount = args[0]
-            operation = OperationInput(amount=amount)
-            return DepositInput(customer=customer, operation=operation)
+            return DepositInput(first_name=first_name,
+                                last_name=last_name,
+                                amount=amount)
 
         elif operation.lower() == BankOperationsFromInput.WITHDRAW:
             amount = args[0]
-            operation = OperationInput(amount=amount)
-            return WithdrawInput(customer=customer, operation=operation)
-
+            return WithdrawInput(first_name=first_name,
+                                 last_name=last_name,
+                                 amount=amount)
         else:
             # TODO to fix
             raise ValueError("Wrong operation")

@@ -5,20 +5,11 @@ from .account import BankAccountCreate
 from ._base import DTO, FrozenDTO
 
 
-class CustomerInput(DTO):
-    """Bank customer input model"""
-
-    first_name: str
-    last_name: str
-
-    class Config:
-        anystr_lower = True
-
-
 class BankCustomerCreate(FrozenDTO):
     """Bank customer model to write to DB"""
 
-    customer: CustomerInput
+    first_name: str
+    last_name: str
     bank_account: BankAccountCreate = BankAccountCreate(balance=0)
 
 

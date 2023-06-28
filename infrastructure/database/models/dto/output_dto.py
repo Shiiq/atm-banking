@@ -6,12 +6,6 @@ from .operation import BankOperationRead
 from ._base import FrozenDTO
 
 
-class Period(FrozenDTO):
-
-    since: datetime
-    till: datetime
-
-
 class SummaryOperationInfo(FrozenDTO):
 
     account: BankAccountRead
@@ -22,7 +16,6 @@ class SummaryOperationInfo(FrozenDTO):
 class BankOperationsInfo(FrozenDTO):
 
     customer: BankCustomerRead
-    # since: datetime
-    # till: datetime
-    # period: Period
+    since: datetime
+    till: datetime
     operations: list[BankOperationRead]

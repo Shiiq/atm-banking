@@ -1,6 +1,6 @@
 import asyncio
 from datetime import datetime
-from time import sleep
+from pprint import pprint
 
 from sqlalchemy import inspect, select
 from sqlalchemy.orm import joinedload
@@ -41,14 +41,13 @@ async def upload_data(s: AsyncSession):
     s.add_all([cus_1, cus_2, cus_3])
     await s.flush()
     entries = []
-    for i in range(1, 30):
+    for i in range(1, 10):
         entries.append(
             BankOperationModel(amount=10000,
                                bank_account_id=1,
                                bank_customer_id=1,
                                bank_operation_type=BankOperationsToDB.DEPOSIT,
-                               created_at=datetime.now().isoformat(sep=" ", timespec="seconds")))
-        sleep(0.5)
+                               created_at=datetime.now()))
     s.add_all(entries)
     await s.commit()
 
@@ -66,7 +65,7 @@ async def main():
     session_factory = async_sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)
 
     async with session_factory() as session:
-        await upload_data(session)
+        # await upload_data(session)
         uow = UnitOfWork(session=session,
                          account_repo=AccountRepository,
                          customer_repo=CustomerRepository,
@@ -79,18 +78,18 @@ async def main():
         withdraw_usecase = Withdraw(uow=uow)
         # s_data = dto.BankStatementInput(first_name="JoHN",
         #                                 last_name="dOe",
-        #                                 since=datetime(year=2023, month=4, day=1),
-        #                                 till=datetime(year=2023, month=5, day=3))
-        # s_result = await statement_usecase(s_data)
+        #                                 since=datetime(year=2023, month=5, day=1),
+        #                                 till=datetime(year=2023, month=7, day=3))
+        # result = await statement_usecase(s_data)
         # d_data = dto.DepositInput(first_name="Chuck",
         #                           last_name="Buzz",
         #                           amount=100500)
-        # d_result = await deposit_usecase(d_data)
+        # result = await deposit_usecase(d_data)
         # w_data = dto.WithdrawInput(first_name="Chuck",
         #                            last_name="Buzz",
         #                            amount=100500)
-        # w_result = await withdraw_usecase(w_data)
-        # print(s_result)#, d_result, w_result)
+        # result = await withdraw_usecase(w_data)
+        # pprint(result.dict())
 
 
 if __name__ == "__main__":

@@ -24,5 +24,6 @@ class AccountRepository(SARepo, ProtocolRepo):
         return account.scalars().first()
 
     async def update(self, obj: BankAccountModel):
-        await self._session.merge(obj)
+        await self._session.flush()
+        await self._session.refresh(obj)
         return obj

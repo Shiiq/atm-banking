@@ -17,7 +17,7 @@ class Deposit:
     async def __call__(
             self,
             input_data: dto.DepositInput
-    ):
+    ) -> dto.SummaryOperationInfo:
         async with self.uow:
             try:
                 customer_search_data = dto.BankCustomerSearch(first_name=input_data.customer.first_name,
@@ -63,6 +63,3 @@ class Deposit:
     ) -> dto.BankOperationRead:
         operation = await self._operation_service.create(create_data=operation_register_data)
         return operation
-
-    def get_result_response(self):
-        pass

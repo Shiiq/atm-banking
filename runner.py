@@ -16,7 +16,7 @@ from application.usecases import BankStatement, Deposit, Withdraw
 
 
 def init_db_engine(db_url: str) -> AsyncEngine:
-    db_engine = create_async_engine(url=db_url, echo=True, echo_pool=True)
+    db_engine = create_async_engine(url=db_url, echo=False, echo_pool=True)
     return db_engine
 
 
@@ -28,14 +28,14 @@ async def create_db(db_engine: AsyncEngine, base_model) -> None:
 
 
 async def upload_data(s: AsyncSession):
-    cus_1 = BankCustomerModel(first_name="John",
-                              last_name="Doe",
+    cus_1 = BankCustomerModel(first_name="john",
+                              last_name="doe",
                               bank_account=BankAccountModel())
-    cus_2 = BankCustomerModel(first_name="Colin",
-                              last_name="Frolin",
+    cus_2 = BankCustomerModel(first_name="colin",
+                              last_name="frolin",
                               bank_account=BankAccountModel())
-    cus_3 = BankCustomerModel(first_name="Moki",
-                              last_name="Roki",
+    cus_3 = BankCustomerModel(first_name="moki",
+                              last_name="roki",
                               bank_account=BankAccountModel())
     s.add_all([cus_1, cus_2, cus_3])
     await s.flush()
@@ -69,36 +69,34 @@ async def main():
                          account_repo=AccountRepository,
                          customer_repo=CustomerRepository,
                          operation_repo=OperationRepository)
-
         # query = select(BankCustomerModel).where(BankCustomerModel.id == 1).exists()
         # res = await session.execute(select(query))
         # print(res.scalar())
-        # statement_usecase = BankStatement(uow=uow)
-        deposit_usecase = Deposit(uow)
-        withdraw_usecase = Withdraw(uow)
-        # s_data = dto.BankStatementInput(
-        #     customer=dto.CustomerInput(first_name="JoHN",
-        #                                last_name="dOe"),
-        #     operation=dto.OperationInput(type_=BankOperationsFromInput.BANK_STATEMENT,
-        #                                  since=datetime(year=2023, month=5, day=1),
-        #                                  till=datetime(year=2023, month=5, day=15))
-        # )
-        # result = await statement_usecase(s_data)
+        deposit_usecase = Deposit(uow=uow)
+        statement_usecase = BankStatement(uow=uow)
+        withdraw_usecase = Withdraw(uow=uow)
+        s_data = dto.BankStatementInput(
+            customer=dto.CustomerInput(first_name="JoHN",
+                                       last_name="dOe"),
+            operation=dto.OperationInput(type_=BankOperationsFromInput.BANK_STATEMENT,
+                                         since=datetime(year=2023, month=6, day=1),
+                                         till=datetime(year=2023, month=5, day=3))
+        )
+        result = await statement_usecase(s_data)
         # d_data = dto.DepositInput(
         #     customer=dto.CustomerInput(first_name="Chuck",
         #                                last_name="Buzz"),
         #     operation=dto.OperationInput(type_=BankOperationsFromInput.DEPOSIT,
         #                                  amount=100500))
         # result = await deposit_usecase(d_data)
-        w_data = dto.WithdrawInput(
-            customer=dto.CustomerInput(first_name="Chuck",
-                                       last_name="Buzz"),
-            operation=dto.OperationInput(type_=BankOperationsFromInput.WITHDRAW,
-                                         amount=100500)
-        )
-        result = await withdraw_usecase(w_data)
-        print(result or None)
-
+        # w_data = dto.WithdrawInput(
+        #     customer=dto.CustomerInput(first_name="Chuck",
+        #                                last_name="Buzz"),
+        #     operation=dto.OperationInput(type_=BankOperationsFromInput.WITHDRAW,
+        #                                  amount=100500)
+        # )
+        # result = await withdraw_usecase(w_data)
+        # print(result or None)
 
 
 if __name__ == "__main__":

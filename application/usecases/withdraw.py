@@ -1,4 +1,4 @@
-from application.exceptions import AccountHasInsufficientFunds, CustomerNotExist
+from application.exceptions import AccountHasInsufficientFunds
 from application.services import (AccountService,
                                   CustomerService,
                                   OperationService)
@@ -17,7 +17,7 @@ class Withdraw:
     async def __call__(
             self,
             input_data: dto.WithdrawInput
-    ):
+    ) -> dto.SummaryOperationInfo:
         async with self.uow:
             customer_search_data = dto.BankCustomerSearch(first_name=input_data.customer.first_name,
                                                           last_name=input_data.customer.last_name)
@@ -56,7 +56,11 @@ class Withdraw:
             updated_account = await self._account_service.update(update_data=account_update_data)
             return updated_account
 
-    def _check_possibility_to_withdraw(self, current_balance: int, requested_amount: int) -> bool:
+    def _check_possibility_to_withdraw(
+            self,
+            current_balance: int,
+            requested_amount: int
+    ) -> bool:
         return (current_balance - requested_amount) >= 0
 
     async def _register_bank_operation(

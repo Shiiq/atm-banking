@@ -15,7 +15,6 @@ from infrastructure.unit_of_work import UnitOfWork
 from application.usecases import BankStatement, Deposit, Withdraw
 
 
-
 def init_db_engine(db_url: str) -> AsyncEngine:
     db_engine = create_async_engine(url=db_url, echo=False, echo_pool=True)
     return db_engine

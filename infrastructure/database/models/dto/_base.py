@@ -7,7 +7,7 @@ class DTO(BaseModel):
         anystr_lower = True
         extra = Extra.ignore
         orm_mode = True
-        use_enum_value = True
+        use_enum_values = True
 
 
 class FrozenDTO(DTO):

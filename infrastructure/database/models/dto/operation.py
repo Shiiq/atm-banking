@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime, time
 from typing import Optional
 
 from pydantic import PositiveInt, validator, ValidationError
@@ -37,7 +37,12 @@ class BankOperationSearch(DTO):
     since: Optional[datetime] = None
     till: Optional[datetime] = None
 
-    @validator("till")
-    def adding_hours_to_till(cls, value):
-        value = value.replace(hour=23, minute=59)
-        return value
+    @validator("since", pre=True)
+    def convert_since_to_datetime(cls, d: date) -> datetime:
+        t = time(hour=0, minute=0, second=0, microsecond=0)
+        return datetime.combine(d, t)
+
+    @validator("till", pre=True)
+    def convert_till_to_datetime(cls, d: date) -> datetime:
+        t = time(hour=23, minute=59, second=59, microsecond=999999)
+        return datetime.combine(d, t)

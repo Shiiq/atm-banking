@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from pydantic import PositiveInt, validator, ValidationError
 
@@ -10,8 +10,8 @@ class BankStatementInput(FrozenDTO):
     first_name: str
     last_name: str
     operation_type: BankOperationsFromInput = BankOperationsFromInput.BANK_STATEMENT
-    since: datetime
-    till: datetime
+    since: date
+    till: date
 
 
 class DepositInput(FrozenDTO):

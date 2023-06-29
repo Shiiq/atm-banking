@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from .account import BankAccountRead
 from .customer import BankCustomerRead
@@ -16,6 +16,6 @@ class SummaryOperationInfo(FrozenDTO):
 class BankOperationsInfo(FrozenDTO):
 
     customer: BankCustomerRead
-    since: datetime
-    till: datetime
+    since: date
+    till: date
     operations: list[BankOperationRead]

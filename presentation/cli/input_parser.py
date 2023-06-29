@@ -1,9 +1,7 @@
 from datetime import datetime
 
 from infrastructure.database.models.constants import BankOperationsFromInput
-from infrastructure.database.models.dto import (CustomerInput,
-                                                OperationInput,
-                                                BankStatementInput,
+from infrastructure.database.models.dto import (BankStatementInput,
                                                 DepositInput,
                                                 WithdrawInput)
 

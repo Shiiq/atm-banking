@@ -2,7 +2,7 @@ import asyncio
 from datetime import datetime, date, time
 from pprint import pprint
 
-from sqlalchemy import inspect, select
+from sqlalchemy import inspect, select, update
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
@@ -69,12 +69,15 @@ async def main():
                          account_repo=AccountRepository,
                          customer_repo=CustomerRepository,
                          operation_repo=OperationRepository)
+
         # query = select(BankCustomerModel).where(BankCustomerModel.id == 1).exists()
-        # res = await session.execute(select(query))
-        # print(res.scalar())
-        deposit_usecase = Deposit(uow=uow)
+        # query = (update(BankCustomerModel)
+        #          .where(BankCustomerModel.id == 1)
+        #          .values(first_name="john"))
+
+        # deposit_usecase = Deposit(uow=uow)
         statement_usecase = BankStatement(uow=uow)
-        withdraw_usecase = Withdraw(uow=uow)
+        # withdraw_usecase = Withdraw(uow=uow)
         s_data = dto.BankStatementInput(first_name="JoHN",
                                         last_name="dOe",
                                         since=date(year=2023, month=6, day=28),

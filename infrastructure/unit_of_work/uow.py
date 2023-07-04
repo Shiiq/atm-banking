@@ -2,7 +2,7 @@ from typing import Type
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from infrastructure.database.repositories import ProtocolRepo
+from infrastructure.database.repositories import IAccountRepo, ICustomerRepo, IOperationRepo
 
 
 class UnitOfWork:
@@ -11,15 +11,19 @@ class UnitOfWork:
     def __init__(
             self,
             session: AsyncSession,
-            account_repo: Type[ProtocolRepo],
-            customer_repo: Type[ProtocolRepo],
-            operation_repo: Type[ProtocolRepo]
+            account_repo: IAccountRepo,
+            customer_repo: ICustomerRepo,
+            operation_repo: IOperationRepo
     ):
         self._session = session
+        print("hello from INIT uow")
         self._in_transaction = False
-        self.account_repo = account_repo(session)
-        self.customer_repo = customer_repo(session)
-        self.operation_repo = operation_repo(session)
+        # self.account_repo = account_repo(session)
+        # self.customer_repo = customer_repo(session)
+        # self.operation_repo = operation_repo(session)
+        self.account_repo = account_repo
+        self.customer_repo = customer_repo
+        self.operation_repo = operation_repo
 
     async def __aenter__(self):
         if self._in_transaction:

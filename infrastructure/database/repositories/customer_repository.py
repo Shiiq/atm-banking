@@ -1,14 +1,19 @@
 from typing import Optional
 
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from infrastructure.database.models.db import BankCustomerModel
 from .sa_repository import SARepo
-from ._base_repository import ProtocolRepo
+from .interfaces import ICustomerRepo
 
 
-class CustomerRepository(SARepo, ProtocolRepo):
+class CustomerRepository(SARepo, ICustomerRepo):
+
+    def __init__(self, session: AsyncSession):
+        print("hello from INIT CusRepo")
+        super().__init__(session)
 
     async def create(self, obj: BankCustomerModel) -> BankCustomerModel:
         self._session.add(obj)

@@ -2,13 +2,18 @@ from datetime import datetime
 from typing import Optional
 
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from infrastructure.database.models.db import BankOperationModel
 from .sa_repository import SARepo
-from ._base_repository import ProtocolRepo
+from .interfaces import IOperationRepo
 
 
-class OperationRepository(SARepo, ProtocolRepo):
+class OperationRepository(SARepo, IOperationRepo):
+
+    def __init__(self, session: AsyncSession):
+        print("hello from INIT OpRepo")
+        super().__init__(session)
 
     async def create(self, obj: BankOperationModel) -> BankOperationModel:
         self._session.add(obj)

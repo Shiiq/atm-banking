@@ -1,8 +1,15 @@
+from dataclasses import dataclass
+
 from pydantic import BaseSettings
 from pydantic.tools import lru_cache
 
 
-class DBConfig(BaseSettings):
+@dataclass
+class DBConfig:
+    SQLITE_DATABASE_URL: str = f"sqlite+aiosqlite:///./atm_dev.db"
+
+
+class _DBConfig(BaseSettings):
     """DATABASE config"""
 
     # POSTGRES DB
@@ -28,9 +35,9 @@ class DBConfig(BaseSettings):
         return f"sqlite+aiosqlite:///./{self.SQLITE_DATABASE_URL}"
 
 
-@lru_cache()
-def get_db_config():
-    return DBConfig()
-
-
-db_config = get_db_config()
+# @lru_cache()
+# def get_db_config():
+#     return _DBConfig()
+#
+#
+# db_config = get_db_config()

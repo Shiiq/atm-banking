@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
 from .db_config import DBConfig
 
 
-@asynccontextmanager
+#@asynccontextmanager
 async def create_engine(
         db_config: DBConfig
 ) -> AsyncGenerator[AsyncEngine, None]:
@@ -27,7 +27,7 @@ def create_session_factory(
     return async_session_factory
 
 
-async def db_session(
+async def create_db_session(
         async_session_factory: async_sessionmaker[AsyncSession]
 ) -> AsyncGenerator[AsyncSession, None]:
     async with async_session_factory() as session:

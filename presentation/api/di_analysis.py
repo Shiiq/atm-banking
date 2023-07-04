@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
                                     AsyncSession,
                                     async_sessionmaker)
 
-from infrastructure.unit_of_work import UnitOfWork
+from infrastructure.unit_of_work import UnitOfWork, CustomValue
 from infrastructure.database.db_core import create_engine, create_session_factory, create_db_session
 from infrastructure.database.db_config import DBConfig
 from infrastructure.database.repositories import (AccountRepository,
@@ -48,11 +48,11 @@ async def main():
     container.bind(bind_by_type(
         Dependent(create_db_session, scope=DIScope.REQUEST), AsyncSession))
     container.bind(bind_by_type(
-        Dependent(AccountRepository, scope=DIScope.REQUEST), IAccountRepo, covariant=True))
+        Dependent(AccountRepository, scope=DIScope.REQUEST), IAccountRepo))
     container.bind(bind_by_type(
-        Dependent(CustomerRepository, scope=DIScope.REQUEST), ICustomerRepo, covariant=True))
+        Dependent(CustomerRepository, scope=DIScope.REQUEST), ICustomerRepo))
     container.bind(bind_by_type(
-        Dependent(OperationRepository, scope=DIScope.REQUEST), IOperationRepo, covariant=True))
+        Dependent(OperationRepository, scope=DIScope.REQUEST), IOperationRepo))
 
     solved_uow = container.solve(Dependent(UnitOfWork, scope=DIScope.REQUEST), scopes=["app", "request"])
 
@@ -61,19 +61,24 @@ async def main():
         print("SOME MAIN APP'S LOGIC")
 
         async with container.enter_scope("request", state=app_state) as request_state:
-            uow = await solved_uow.execute_async(executor=executor, state=request_state)
+
+            uow = await solved_uow.execute_async(executor=executor, state=request_state, values={CustomValue: CustomValue(value="VALUE")})
+            uow.hello()
             assert isinstance(uow, UnitOfWork)
             assert isinstance(uow.account_repo, AccountRepository)
             assert isinstance(uow.customer_repo, CustomerRepository)
             assert isinstance(uow.operation_repo, OperationRepository)
             print(uow._session)
             assert (uow._session is uow.account_repo._session)
+            assert isinstance(uow._session, AsyncSession)
             print("done")
 
         print("ONE MORE MAIN APP'S LOGIC")
 
         async with container.enter_scope("request", state=app_state) as request_state:
-            uow = await solved_uow.execute_async(executor=executor, state=request_state)
+
+            uow = await solved_uow.execute_async(executor=executor, state=request_state, values={CustomValue: CustomValue(value="VALUE123")})
+            uow.hello()
             assert isinstance(uow, UnitOfWork)
             assert isinstance(uow.account_repo, AccountRepository)
             assert isinstance(uow.customer_repo, CustomerRepository)

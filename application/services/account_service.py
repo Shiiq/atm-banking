@@ -13,7 +13,7 @@ class AccountService(BaseService):
         pass
 
     async def by_id(self, search_data: BankAccountSearch) -> Optional[BankAccountRead]:
-        account = await self._uow.account_repo.get_by_id(obj_id=search_data.id)
+        account = await self._uow.account_repo.get_by_id(account_id=search_data.id)
         if not account:
             # TODO custom exceptions
             raise ValueError("Account does not already exist")
@@ -21,11 +21,8 @@ class AccountService(BaseService):
                                      output_model=BankAccountRead)
 
     async def update(self, update_data: BankAccountUpdate) -> BankAccountRead:
-        account = await self._uow.account_repo.get_by_id(obj_id=update_data.id)
+        account = await self._uow.account_repo.get_by_id(account_id=update_data.id)
         account.balance = update_data.balance
-        account = await self._uow.account_repo.update(obj=account)
+        account = await self._uow.account_repo.update(account=account)
         return self._from_orm_to_dto(input_data=account,
                                      output_model=BankAccountRead)
-
-    async def delete(self):
-        pass

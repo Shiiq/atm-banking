@@ -22,7 +22,7 @@ class CustomerService(BaseService):
                                      output_model=BankCustomerRead)
 
     async def by_id(self, search_data: BankCustomerSearch) -> Optional[BankCustomerRead]:
-        customer = await self._uow.customer_repo.get_by_id(obj_id=search_data.id)
+        customer = await self._uow.customer_repo.get_by_id(customer_id=search_data.id)
         if not customer:
             raise CustomerIDNotExist(customer_id=search_data.id)
         return self._from_orm_to_dto(input_data=customer,
@@ -30,17 +30,11 @@ class CustomerService(BaseService):
 
     async def by_fullname(self, search_data: BankCustomerSearch) -> Optional[BankCustomerRead]:
         customer = await self._uow.customer_repo.get_by_fullname(
-            first_name=search_data.first_name,
-            last_name=search_data.last_name
+            customer_first_name=search_data.first_name,
+            customer_last_name=search_data.last_name
         )
         if not customer:
             raise CustomerNotExist(first_name=search_data.first_name,
                                    last_name=search_data.last_name)
         return self._from_orm_to_dto(input_data=customer,
                                      output_model=BankCustomerRead)
-
-    async def update(self):
-        pass
-
-    async def delete(self):
-        pass

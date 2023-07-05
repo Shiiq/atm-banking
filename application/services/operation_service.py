@@ -14,12 +14,24 @@ class OperationService(BaseService):
         return self._from_orm_to_dto(input_data=operation,
                                      output_model=BankOperationRead)
 
+    async def get_all(self):
+        pass
+
     async def by_id(self, search_data: BankOperationSearch) -> BankOperationRead:
         operation = await self._uow.operation_repo.get_by_id(
-            obj_id=search_data.id
+            operation_id=search_data.id
         )
         return self._from_orm_to_dto(input_data=operation,
                                      output_model=BankOperationRead)
+
+    async def by_account(self, search_data: BankOperationSearch):
+        operations = await self._uow.operation_repo.get_by_account_id(
+            account_id=search_data.bank_account_id
+        )
+        return [
+            self._from_orm_to_dto(input_data=operation, output_model=BankOperationRead)
+            for operation in operations
+        ]
 
     async def by_customer(self, search_data: BankOperationSearch):
         operations = await self._uow.operation_repo.get_by_customer_id(
@@ -30,17 +42,9 @@ class OperationService(BaseService):
             for operation in operations
         ]
 
-    async def by_bank_account(self, search_data: BankOperationSearch):
-        operations = await self._uow.operation_repo.get_by_bank_account_id(
-            bank_account_id=search_data.bank_account_id)
-        return [
-            self._from_orm_to_dto(input_data=operation, output_model=BankOperationRead)
-            for operation in operations
-        ]
-
     async def by_date_interval(self, search_data: BankOperationSearch):
         operations = await self._uow.operation_repo.get_by_date_interval(
-            bank_account_id=search_data.bank_account_id,
+            account_id=search_data.bank_account_id,
             customer_id=search_data.bank_customer_id,
             start_date=search_data.since,
             end_date=search_data.till
@@ -49,9 +53,3 @@ class OperationService(BaseService):
             self._from_orm_to_dto(input_data=operation, output_model=BankOperationRead)
             for operation in operations
         ]
-
-    async def update(self):
-        pass
-
-    async def delete(self):
-        pass

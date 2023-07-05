@@ -23,7 +23,7 @@ class UnitOfWork:
     ):
         self._session = session
         print("hello from INIT uow")
-        print("recived CustomValue =>", custom_value, custom_value.value)
+        print("recieved CustomValue =>", custom_value, custom_value.value)
         self.cv = custom_value
         self._in_transaction = False
         # self.account_repo = account_repo(session)

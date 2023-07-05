@@ -1,0 +1,22 @@
+from di import Container, bind_by_type
+from di.dependent import Dependent
+from di.executors import AsyncExecutor
+
+from application.usecases import BankStatement, Deposit, Withdraw
+from infrastructure.database.models.constants import BankOperationsFromInput
+
+
+class OperationMediator:
+
+    def __init__(self):
+        self._container = Container()
+        self._executor = AsyncExecutor()
+
+        self._operations_mapping = {
+            BankOperationsFromInput.BANK_STATEMENT: BankStatement,
+            BankOperationsFromInput.DEPOSIT: Deposit,
+            BankOperationsFromInput.WITHDRAW: Withdraw
+        }
+
+    def get_operation_handler(self, operation: BankOperationsFromInput):
+        return self._operations_mapping.get(operation)

@@ -2,10 +2,8 @@ import asyncio
 import enum
 
 from di.executors import AsyncExecutor
-from di.api.scopes import Scope
-from di import Container, ScopeState, bind_by_type
+from di import Container, bind_by_type
 from di.dependent import Dependent
-from di.api.providers import DependencyProvider, DependencyProviderType
 from sqlalchemy.ext.asyncio import (AsyncEngine,
                                     AsyncSession,
                                     async_sessionmaker)
@@ -19,6 +17,8 @@ from infrastructure.database.repositories import (AccountRepository,
                                                   IAccountRepo,
                                                   ICustomerRepo,
                                                   IOperationRepo)
+from application.services import AccountService, CustomerService, OperationService
+from application.usecases import BankStatement, Deposit, Withdraw
 
 
 class DIScope(enum.StrEnum):
@@ -54,38 +54,68 @@ async def main():
     container.bind(bind_by_type(
         Dependent(OperationRepository, scope=DIScope.REQUEST), IOperationRepo))
 
-    solved_uow = container.solve(Dependent(UnitOfWork, scope=DIScope.REQUEST), scopes=["app", "request"])
+    # solved_uow = container.solve(
+    #     Dependent(UnitOfWork, scope=DIScope.REQUEST),
+    #     scopes=["app", "request"])
+    # solved_account_service = container.solve(
+    #     Dependent(AccountService, scope=DIScope.REQUEST),
+    #     scopes=["app", "request"])
+    # solved_customer_service = container.solve(
+    #     Dependent(CustomerService, scope=DIScope.REQUEST),
+    #     scopes=["app", "request"]
+    # )
+    # solved_operation_service = container.solve(
+    #     Dependent(OperationService, scope=DIScope.REQUEST),
+    #     scopes=["app", "request"]
+    # )
+
+    solved_bank_statement_usecase = container.solve(
+        Dependent(BankStatement, scope=DIScope.REQUEST),
+        scopes=["app", "request"]
+    )
 
     async with container.enter_scope("app") as app_state:
 
-        print("SOME MAIN APP'S LOGIC")
-
         async with container.enter_scope("request", state=app_state) as request_state:
 
-            uow = await solved_uow.execute_async(executor=executor, state=request_state, values={CustomValue: CustomValue(value="VALUE")})
-            uow.hello()
-            assert isinstance(uow, UnitOfWork)
-            assert isinstance(uow.account_repo, AccountRepository)
-            assert isinstance(uow.customer_repo, CustomerRepository)
-            assert isinstance(uow.operation_repo, OperationRepository)
-            print(uow._session)
-            assert (uow._session is uow.account_repo._session)
-            assert isinstance(uow._session, AsyncSession)
-            print("done")
+            bank_statement_usecase = await solved_bank_statement_usecase.execute_async(
+                executor=executor, state=request_state
+            )
+            assert isinstance(bank_statement_usecase, BankStatement)
+            assert isinstance(bank_statement_usecase._operation_service, OperationService)
+            assert isinstance(bank_statement_usecase.uow, UnitOfWork)
+            assert isinstance(bank_statement_usecase._customer_service._uow, UnitOfWork)
+            assert (bank_statement_usecase.uow
+                    is bank_statement_usecase._customer_service._uow)
+
+        print("SOME MAIN APP'S LOGIC")
+
+        # async with container.enter_scope("request", state=app_state) as request_state:
+        #
+        #     uow = await solved_uow.execute_async(executor=executor, state=request_state, values={CustomValue: CustomValue(value="VALUE")})
+        #     uow.hello()
+        #     assert isinstance(uow, UnitOfWork)
+        #     assert isinstance(uow.account_repo, AccountRepository)
+        #     assert isinstance(uow.customer_repo, CustomerRepository)
+        #     assert isinstance(uow.operation_repo, OperationRepository)
+        #     print(uow._session)
+        #     assert (uow._session is uow.account_repo._session)
+        #     assert isinstance(uow._session, AsyncSession)
+        #     print("done")
 
         print("ONE MORE MAIN APP'S LOGIC")
 
-        async with container.enter_scope("request", state=app_state) as request_state:
-
-            uow = await solved_uow.execute_async(executor=executor, state=request_state, values={CustomValue: CustomValue(value="VALUE123")})
-            uow.hello()
-            assert isinstance(uow, UnitOfWork)
-            assert isinstance(uow.account_repo, AccountRepository)
-            assert isinstance(uow.customer_repo, CustomerRepository)
-            assert isinstance(uow.operation_repo, OperationRepository)
-            print(uow._session)
-            assert (uow._session is uow.account_repo._session)
-            print("done")
+        # async with container.enter_scope("request", state=app_state) as request_state:
+        #
+        #     uow = await solved_uow.execute_async(executor=executor, state=request_state, values={CustomValue: CustomValue(value="VALUE123")})
+        #     uow.hello()
+        #     assert isinstance(uow, UnitOfWork)
+        #     assert isinstance(uow.account_repo, AccountRepository)
+        #     assert isinstance(uow.customer_repo, CustomerRepository)
+        #     assert isinstance(uow.operation_repo, OperationRepository)
+        #     print(uow._session)
+        #     assert (uow._session is uow.account_repo._session)
+        #     print("done")
 
 
 asyncio.run(main())

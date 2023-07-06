@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import Optional
 
-from pydantic import NonNegativeInt
+from pydantic import Field, NonNegativeInt
 
 from ._base import DTO, FrozenDTO
 
@@ -9,7 +9,7 @@ from ._base import DTO, FrozenDTO
 class BankAccountCreate(FrozenDTO):
     """Bank account model to write to DB"""
 
-    balance: NonNegativeInt = 0
+    balance: NonNegativeInt = Field(default=0)
 
 
 class BankAccountRead(FrozenDTO):
@@ -31,7 +31,7 @@ class BankAccountUpdate(DTO):
 class BankAccountSearch(DTO):
     """Bank account search data model"""
 
-    id: Optional[int] = None
-    customer_id: Optional[int] = None
-    created_at: Optional[date] = None
-    updated_at: Optional[date] = None
+    id: Optional[int] = Field(default=None)
+    customer_id: Optional[int] = Field(default=None)
+    created_at: Optional[date] = Field(default=None)
+    updated_at: Optional[date] = Field(default=None)

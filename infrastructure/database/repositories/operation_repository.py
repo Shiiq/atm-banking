@@ -57,6 +57,3 @@ class OperationRepo(SARepo, IOperationRepo):
                                                               end_date)))
         operations = await self._session.execute(query)
         return operations.scalars().all()
-
-    async def update(self, obj: BankOperationModel):
-        pass

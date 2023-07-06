@@ -14,9 +14,6 @@ class OperationService(BaseService):
         return self._from_orm_to_dto(input_data=operation,
                                      output_model=BankOperationRead)
 
-    async def get_all(self):
-        pass
-
     async def by_id(self, search_data: BankOperationSearch) -> BankOperationRead:
         operation = await self._uow.operation_repo.get_by_id(
             operation_id=search_data.id

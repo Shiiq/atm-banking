@@ -1,4 +1,3 @@
-from contextlib import asynccontextmanager
 from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import (AsyncEngine,
@@ -6,10 +5,9 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
                                     async_sessionmaker,
                                     create_async_engine)
 
-from .db_config import DBConfig
+from infrastructure.config.db_config import DBConfig
 
 
-#@asynccontextmanager
 async def create_engine(
         db_config: DBConfig
 ) -> AsyncGenerator[AsyncEngine, None]:

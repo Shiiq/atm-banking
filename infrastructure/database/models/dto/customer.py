@@ -1,6 +1,8 @@
 from datetime import datetime
 from typing import Optional
 
+from pydantic import Field
+
 from .account import BankAccountCreate
 from ._base import DTO, FrozenDTO
 
@@ -10,7 +12,7 @@ class BankCustomerCreate(FrozenDTO):
 
     first_name: str
     last_name: str
-    bank_account: BankAccountCreate = BankAccountCreate(balance=0)
+    bank_account: BankAccountCreate = Field(default=BankAccountCreate())
 
 
 class BankCustomerRead(FrozenDTO):
@@ -27,7 +29,7 @@ class BankCustomerRead(FrozenDTO):
 class BankCustomerSearch(DTO):
     """Bank customer search data model"""
 
-    id: Optional[int] = None
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    bank_account_id: Optional[int] = None
+    id: Optional[int] = Field(default=None)
+    first_name: Optional[str] = Field(default=None)
+    last_name: Optional[str] = Field(default=None)
+    bank_account_id: Optional[int] = Field(default=None)

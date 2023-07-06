@@ -1,16 +1,12 @@
 from typing import Optional
 
-from infrastructure.database.models.dto import (BankAccountCreate,
-                                                BankAccountRead,
+from infrastructure.database.models.dto import (BankAccountRead,
                                                 BankAccountUpdate,
                                                 BankAccountSearch)
 from ._base_service import BaseService
 
 
 class AccountService(BaseService):
-
-    async def create(self, create_data: BankAccountCreate):
-        pass
 
     async def by_id(self, search_data: BankAccountSearch) -> Optional[BankAccountRead]:
         account = await self._uow.account_repo.get_by_id(account_id=search_data.id)

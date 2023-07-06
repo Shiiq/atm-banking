@@ -8,12 +8,12 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
                                     AsyncSession,
                                     async_sessionmaker)
 
-from infrastructure.unit_of_work import UnitOfWork, CustomValue
+from infrastructure.unit_of_work import UnitOfWork
 from infrastructure.database.db_core import create_engine, create_session_factory, create_db_session
 from infrastructure.database.db_config import DBConfig
-from infrastructure.database.repositories import (AccountRepository,
-                                                  CustomerRepository,
-                                                  OperationRepository,
+from infrastructure.database.repositories import (AccountRepo,
+                                                  CustomerRepo,
+                                                  OperationRepo,
                                                   IAccountRepo,
                                                   ICustomerRepo,
                                                   IOperationRepo)
@@ -48,11 +48,11 @@ async def main():
     container.bind(bind_by_type(
         Dependent(create_db_session, scope=DIScope.REQUEST), AsyncSession))
     container.bind(bind_by_type(
-        Dependent(AccountRepository, scope=DIScope.REQUEST), IAccountRepo))
+        Dependent(AccountRepo, scope=DIScope.REQUEST), IAccountRepo))
     container.bind(bind_by_type(
-        Dependent(CustomerRepository, scope=DIScope.REQUEST), ICustomerRepo))
+        Dependent(CustomerRepo, scope=DIScope.REQUEST), ICustomerRepo))
     container.bind(bind_by_type(
-        Dependent(OperationRepository, scope=DIScope.REQUEST), IOperationRepo))
+        Dependent(OperationRepo, scope=DIScope.REQUEST), IOperationRepo))
 
     # solved_uow = container.solve(
     #     Dependent(UnitOfWork, scope=DIScope.REQUEST),

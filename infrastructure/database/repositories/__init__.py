@@ -1,11 +1,11 @@
-from .account_repository import AccountRepository
-from .customer_repository import CustomerRepository
-from .operation_repository import OperationRepository
+from .account_repository import AccountRepo
+from .customer_repository import CustomerRepo
+from .operation_repository import OperationRepo
 from .interfaces import IAccountRepo, ICustomerRepo, IOperationRepo
 
 __all__ = (
-    "AccountRepository",
-    "CustomerRepository",
-    "OperationRepository",
+    "AccountRepo",
+    "CustomerRepo",
+    "OperationRepo",
     "IAccountRepo", "ICustomerRepo", "IOperationRepo"
 )

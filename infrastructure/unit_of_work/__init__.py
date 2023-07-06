@@ -1,5 +1,5 @@
-from .uow import UnitOfWork, CustomValue
+from .uow import UnitOfWork
 
 __all__ = (
-    "UnitOfWork", "CustomValue"
+    "UnitOfWork",
 )

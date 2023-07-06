@@ -9,7 +9,7 @@ from .sa_repository import SARepo
 from .interfaces import IOperationRepo
 
 
-class OperationRepository(SARepo, IOperationRepo):
+class OperationRepo(SARepo, IOperationRepo):
 
     def __init__(self, session: AsyncSession):
         print("hello from INIT OpRepo")

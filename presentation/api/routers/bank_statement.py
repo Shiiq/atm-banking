@@ -9,7 +9,6 @@ bank_statement_router = APIRouter(prefix="/bank_statement")
 async def bank_statement(bank_statement_input: BankStatementInput, request: Request):
     bos = BankOperationSearch(since=bank_statement_input.since,
                               till=bank_statement_input.till)
-    print(dir(request))
-    print(request.body)
-    print(bos.since.date())
+    print(type(bank_statement_input))
+    print(request.state.temp)
     return bank_statement_input

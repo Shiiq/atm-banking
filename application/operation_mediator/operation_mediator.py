@@ -9,8 +9,6 @@ from infrastructure.database.models.constants import BankOperationsFromInput
 class OperationMediator:
 
     def __init__(self):
-        self._container = Container()
-        self._executor = AsyncExecutor()
 
         self._operations_mapping = {
             BankOperationsFromInput.BANK_STATEMENT: BankStatement,

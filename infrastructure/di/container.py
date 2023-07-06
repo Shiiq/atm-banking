@@ -14,7 +14,7 @@ class DIScope(StrEnum):
 
 class DIContainer:
 
-    def __init__(self, container: Container, executor: AsyncExecutor, scopes: Sequence[Scope]):
+    def __init__(self, container: Container, executor: AsyncExecutor, scopes: Sequence[DIScope]):
         self.container = container
         self.executor = executor
         self.scopes = scopes

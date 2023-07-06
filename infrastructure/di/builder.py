@@ -67,5 +67,7 @@ def build_container(get_db_settings: Callable[..., DBConfig]):
 
     executor = AsyncExecutor()
     scopes = (DIScope.APP, DIScope.REQUEST)
-
-    pass
+    di_container = DIContainer(container=container,
+                               executor=executor,
+                               scopes=scopes)
+    return di_container

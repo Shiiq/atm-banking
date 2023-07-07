@@ -1,5 +1,5 @@
 from infrastructure.database.db_config import DBConfig
-from infrastructure.database.db_core import create_engine, create_session_factory
+from infrastructure.database.core import create_engine, create_session_factory
 
 from application.usecases import BankStatement, Deposit, Withdraw
 from infrastructure.database.models.constants import BankOperationsFromInput

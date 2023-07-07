@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
                                     async_sessionmaker)
 
 from infrastructure.unit_of_work import UnitOfWork
-from infrastructure.database.db_core import create_engine, create_session_factory, create_db_session
+from infrastructure.database.core import create_engine, create_session_factory, create_db_session
 from infrastructure.database.db_config import DBConfig
 from infrastructure.database.repositories import (AccountRepo,
                                                   CustomerRepo,

@@ -1,5 +1,3 @@
-from typing import Type
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from infrastructure.database.repositories import IAccountRepo, ICustomerRepo, IOperationRepo
@@ -18,9 +16,6 @@ class UnitOfWork:
         self._session = session
         print("hello from INIT uow")
         self._in_transaction = False
-        # self.account_repo = account_repo(session)
-        # self.customer_repo = customer_repo(session)
-        # self.operation_repo = operation_repo(session)
         self.account_repo = account_repo
         self.customer_repo = customer_repo
         self.operation_repo = operation_repo
@@ -29,8 +24,8 @@ class UnitOfWork:
         if self._in_transaction:
             raise RuntimeError("Unit Of Work is already in transaction")
 
-        await self._session.begin()
         self._in_transaction = True
+        await self._session.begin()
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):

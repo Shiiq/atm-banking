@@ -2,7 +2,7 @@ from pydantic import BaseSettings
 
 
 class DBConfig(BaseSettings):
-    """DATABASE config"""
+    """Database config"""
 
     # POSTGRES DB
     POSTGRES_DB: str = "atm_dev"
@@ -13,6 +13,8 @@ class DBConfig(BaseSettings):
 
     # SQLITE DB
     SQLITE_DATABASE_URL: str = "atm_dev.db"
+
+    ECHO: bool = True
 
     @property
     def postgres_url(self):

@@ -14,13 +14,29 @@ class DIScope(StrEnum):
 
 class DIContainer:
 
-    def __init__(self, container: Container, executor: AsyncExecutor, scopes: Sequence[DIScope]):
-        self.container = container
-        self.executor = executor
-        self.scopes = scopes
+    def __init__(
+            self,
+            container: Container,
+            executor: AsyncExecutor,
+            scopes: Sequence[DIScope]):
+        self._container = container
+        self._executor = executor
+        self._scopes = scopes
 
-    async def enter_scope(self, scope: Scope, state: Optional[ScopeState] = None):
-        return self.container.enter_scope(scope=scope, state=state)
+        self._solved_dependencies = {}
 
-    async def execute(self):
-        pass
+    def enter_scope(self, scope: Scope, state: Optional[ScopeState] = None):
+        return self._container.enter_scope(scope=scope, state=state)
+
+    async def execute(self, required_dependency, scope: Scope, state: ScopeState):
+        solved_dependency = self._solved_dependencies.get(required_dependency)
+        if not solved_dependency:
+            solved_dependency = self._container.solve(
+                Dependent(lambda *args: required_dependency, scope=scope),
+                scopes=self._scopes
+            )
+            self._solved_dependencies[required_dependency] = solved_dependency
+        return await solved_dependency.execute_async(
+            executor=self._executor,
+            state=state
+        )

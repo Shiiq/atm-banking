@@ -24,11 +24,11 @@ from .container import DIContainer, DIScope
 
 def setup_db_dependencies(
         container: Container,
-        get_db_settings: Callable[..., DBConfig]
+        db_config: Callable[..., DBConfig]
 ):
 
     container.bind(bind_by_type(
-        Dependent(get_db_settings,scope=DIScope.APP),
+        Dependent(db_config, scope=DIScope.APP),
         DBConfig))
 
     container.bind(bind_by_type(
@@ -64,8 +64,8 @@ def setup_app_dependencies(
 
 
 def build_container(
-        get_app_settings: Callable[..., AppConfig],
-        get_db_settings: Callable[..., DBConfig]
+        #app_config: Callable[..., AppConfig],
+        db_config: Callable[..., DBConfig]
 ) -> DIContainer:
 
     container = Container()
@@ -73,7 +73,7 @@ def build_container(
     scopes = (DIScope.APP, DIScope.REQUEST)
 
     setup_db_dependencies(container=container,
-                          get_db_settings=get_db_settings)
+                          db_config=db_config)
 
     di_container = DIContainer(container=container,
                                executor=executor,

@@ -1,16 +1,18 @@
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, ConfigDict, Extra
 
 
 class DTO(BaseModel):
 
-    class Config:
-        anystr_lower = True
-        extra = Extra.ignore
-        orm_mode = True
-        use_enum_values = True
+    model_config = ConfigDict(
+        str_to_lower=True,
+        extra=Extra.ignore,
+        from_attributes=True,
+        use_enum_values=True
+    )
 
 
 class FrozenDTO(DTO):
 
-    class Config:
-        allow_mutation = False
+    model_config = ConfigDict(
+        frozen=True
+    )

@@ -46,7 +46,3 @@ class CustomerRepo(SARepo, ICustomerRepo):
                  .options(joinedload(BankCustomerModel.bank_account)))
         obj = await self._session.scalar(query)
         return obj
-
-    async def update(self, obj: BankCustomerModel):
-        await self._session.merge(obj)
-        return obj

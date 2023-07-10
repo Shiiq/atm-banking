@@ -86,11 +86,10 @@ async def main():
                 executor=executor, state=request_state
             )
             assert isinstance(base_usecase, BaseUsecase)
-            assert isinstance(base_usecase._operation_service, OperationService)
             assert isinstance(base_usecase.uow, UnitOfWork)
-            assert isinstance(base_usecase._customer_service._uow, UnitOfWork)
-            assert (base_usecase.uow
-                    is base_usecase._customer_service._uow)
+            assert isinstance(base_usecase._account_service, AccountService)
+            assert isinstance(base_usecase._account_service.account_repo, AccountRepo)
+
 
         print("SOME MAIN APP'S LOGIC")
 

@@ -5,12 +5,12 @@ from ._base_usecase import BaseUsecase
 
 class BankStatement(BaseUsecase):
 
-    def __init__(self, uow: UnitOfWork):
-        super().__init__(uow=uow)
-        # self.uow = uow
-        # self._account_service = AccountService(uow=uow)
-        # self._customer_service = CustomerService(uow=uow)
-        # self._operation_service = OperationService(uow=uow)
+    # def __init__(self, uow: UnitOfWork):
+    #     super().__init__(uow=uow)
+    #     self.uow = uow
+    #     self._account_service = AccountService(uow=uow)
+    #     self._customer_service = CustomerService(uow=uow)
+    #     self._operation_service = OperationService(uow=uow)
 
     async def __call__(
             self,

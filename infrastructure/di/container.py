@@ -18,7 +18,8 @@ class DIContainer:
             self,
             container: Container,
             executor: AsyncExecutor,
-            scopes: Sequence[DIScope]):
+            scopes: Sequence[DIScope]
+    ):
         self._container = container
         self._executor = executor
         self._scopes = scopes
@@ -32,7 +33,7 @@ class DIContainer:
         solved_dependency = self._solved_dependencies.get(required_dependency)
         if not solved_dependency:
             solved_dependency = self._container.solve(
-                Dependent(lambda *args: required_dependency, scope=scope),
+                Dependent(required_dependency, scope=scope),
                 scopes=self._scopes
             )
             self._solved_dependencies[required_dependency] = solved_dependency

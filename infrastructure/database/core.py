@@ -11,7 +11,7 @@ from infrastructure.config.db_config import DBConfig
 async def create_engine(
         db_config: DBConfig
 ) -> AsyncGenerator[AsyncEngine, None]:
-    engine = create_async_engine(url=db_config.SQLITE_DATABASE_URL, echo=True)
+    engine = create_async_engine(url=db_config.sqlite_url, echo=True)
     yield engine
     await engine.dispose()
 

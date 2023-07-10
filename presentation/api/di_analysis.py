@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
 
 from infrastructure.unit_of_work import UnitOfWork
 from infrastructure.database.core import create_engine, create_session_factory, create_db_session
-from infrastructure.database.db_config import DBConfig
+from infrastructure.config.db_config import DBConfig
 from infrastructure.database.repositories import (AccountRepo,
                                                   CustomerRepo,
                                                   OperationRepo,
@@ -18,7 +18,7 @@ from infrastructure.database.repositories import (AccountRepo,
                                                   ICustomerRepo,
                                                   IOperationRepo)
 from application.services import AccountService, CustomerService, OperationService
-from application.usecases import BankStatement, Deposit, Withdraw
+from application.usecases import BankStatement, Deposit, Withdraw, BaseUsecase
 
 
 class DIScope(enum.StrEnum):
@@ -69,24 +69,28 @@ async def main():
     #     scopes=["app", "request"]
     # )
 
-    solved_bank_statement_usecase = container.solve(
-        Dependent(BankStatement, scope=DIScope.REQUEST),
-        scopes=["app", "request"]
-    )
+    # solved_bank_statement_usecase = container.solve(
+    #     Dependent(BankStatement, scope=DIScope.REQUEST),
+    #     scopes=["app", "request"]
+    # )
 
     async with container.enter_scope("app") as app_state:
 
         async with container.enter_scope("request", state=app_state) as request_state:
 
-            bank_statement_usecase = await solved_bank_statement_usecase.execute_async(
+            bu_solved = container.solve(
+                Dependent(BaseUsecase, scope=DIScope.REQUEST),
+                scopes=["app", "request"]
+            )
+            base_usecase = await bu_solved.execute_async(
                 executor=executor, state=request_state
             )
-            assert isinstance(bank_statement_usecase, BankStatement)
-            assert isinstance(bank_statement_usecase._operation_service, OperationService)
-            assert isinstance(bank_statement_usecase.uow, UnitOfWork)
-            assert isinstance(bank_statement_usecase._customer_service._uow, UnitOfWork)
-            assert (bank_statement_usecase.uow
-                    is bank_statement_usecase._customer_service._uow)
+            assert isinstance(base_usecase, BaseUsecase)
+            assert isinstance(base_usecase._operation_service, OperationService)
+            assert isinstance(base_usecase.uow, UnitOfWork)
+            assert isinstance(base_usecase._customer_service._uow, UnitOfWork)
+            assert (base_usecase.uow
+                    is base_usecase._customer_service._uow)
 
         print("SOME MAIN APP'S LOGIC")
 

@@ -1,4 +1,4 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 
 class AppConfig(BaseSettings):
@@ -9,8 +9,6 @@ class AppConfig(BaseSettings):
 
     debug: bool = False
     title: str = "atm"
-
-    default_response_class = ...
 
 
 def get_db_config():

@@ -1,24 +1,28 @@
 from typing import Optional
 
+from application.exceptions import AccountIDNotExist
 from infrastructure.database.models.dto import (BankAccountRead,
                                                 BankAccountUpdate,
                                                 BankAccountSearch)
-from ._base_service import BaseService
+from infrastructure.database.repositories import IAccountRepo
+from .utils import DataConverter
 
 
-class AccountService(BaseService):
+class AccountService(DataConverter):
+
+    def __init__(self, account_repo: IAccountRepo):
+        self.account_repo = account_repo
 
     async def by_id(self, search_data: BankAccountSearch) -> Optional[BankAccountRead]:
-        account = await self._uow.account_repo.get_by_id(account_id=search_data.id)
+        account = await self.account_repo.get_by_id(account_id=search_data.id)
         if not account:
-            # TODO custom exceptions
-            raise ValueError("Account does not already exist")
+            raise AccountIDNotExist(account_id=search_data.id)
         return self._from_orm_to_dto(input_data=account,
                                      output_model=BankAccountRead)
 
     async def update(self, update_data: BankAccountUpdate) -> BankAccountRead:
-        account = await self._uow.account_repo.get_by_id(account_id=update_data.id)
+        account = await self.account_repo.get_by_id(account_id=update_data.id)
         account.balance = update_data.balance
-        account = await self._uow.account_repo.update(account=account)
+        account = await self.account_repo.update(account=account)
         return self._from_orm_to_dto(input_data=account,
                                      output_model=BankAccountRead)

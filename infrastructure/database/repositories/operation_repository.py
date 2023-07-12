@@ -15,21 +15,27 @@ class OperationRepo(SARepo, IOperationRepo):
         print("hello from INIT OpRepo")
         super().__init__(session)
 
-    async def create(self, obj: BankOperationModel) -> BankOperationModel:
-        self._session.add(obj)
+    async def create(self, operation: BankOperationModel) -> BankOperationModel:
+        self._session.add(operation)
         await self._session.flush()
-        return obj
+        return operation
 
     async def get_all(self):
         query = (select(BankOperationModel))
         operations = await self._session.execute(query)
         return operations.scalars().all()
 
-    async def get_by_id(self, obj_id: int) -> Optional[BankOperationModel]:
+    async def get_by_id(self, operation_id: int) -> Optional[BankOperationModel]:
         query = (select(BankOperationModel)
-                 .where(BankOperationModel.id == obj_id))
+                 .where(BankOperationModel.id == operation_id))
         operation = await self._session.execute(query)
         return operation.scalars().first()
+
+    async def get_by_account_id(self, account_id: int):
+        query = (select(BankOperationModel)
+                 .where(BankOperationModel.bank_account_id == account_id))
+        operations = await self._session.execute(query)
+        return operations.scalars().all()
 
     async def get_by_customer_id(self, customer_id: int):
         query = (select(BankOperationModel)
@@ -37,22 +43,16 @@ class OperationRepo(SARepo, IOperationRepo):
         operations = await self._session.execute(query)
         return operations.scalars().all()
 
-    async def get_by_bank_account_id(self, bank_account_id: int):
-        query = (select(BankOperationModel)
-                 .where(BankOperationModel.bank_account_id == bank_account_id))
-        operations = await self._session.execute(query)
-        return operations.scalars().all()
-
     async def get_by_date_interval(
             self,
+            account_id: int,
             customer_id: int,
-            bank_account_id: int,
             start_date: datetime,
             end_date: datetime
     ):
         query = (select(BankOperationModel)
-                 .where(BankOperationModel.bank_customer_id == customer_id,
-                        BankOperationModel.bank_account_id == bank_account_id)
+                 .where(BankOperationModel.bank_account_id == account_id,
+                        BankOperationModel.bank_customer_id == customer_id,)
                  .where(BankOperationModel.created_at.between(start_date,
                                                               end_date)))
         operations = await self._session.execute(query)

@@ -15,17 +15,17 @@ class CustomerRepo(SARepo, ICustomerRepo):
         print("hello from INIT CusRepo")
         super().__init__(session)
 
-    async def create(self, obj: BankCustomerModel) -> BankCustomerModel:
-        self._session.add(obj)
+    async def create(self, customer: BankCustomerModel) -> BankCustomerModel:
+        self._session.add(customer)
         await self._session.flush()
-        return obj
+        return customer
 
-    async def get_by_id(self, obj_id: int) -> Optional[BankCustomerModel]:
-        obj = await self._session.get(
+    async def get_by_id(self, customer_id: int) -> Optional[BankCustomerModel]:
+        customer = await self._session.get(
             BankCustomerModel,
-            obj_id,
+            customer_id,
             options=[joinedload(BankCustomerModel.bank_account), ])
-        return obj
+        return customer
     #     query = (select(BankCustomerModel)
     #              .where(BankCustomerModel.id == obj_id)
     #              .options(joinedload(BankCustomerModel.bank_account)))
@@ -39,10 +39,10 @@ class CustomerRepo(SARepo, ICustomerRepo):
     #     customer = await self._session.execute(query)
     #     return customer.scalars().first()
 
-    async def get_by_fullname(self, first_name: str, last_name: str) -> Optional[BankCustomerModel]:
+    async def get_by_fullname(self, customer_first_name: str, customer_last_name: str) -> Optional[BankCustomerModel]:
         query = (select(BankCustomerModel)
-                 .where(BankCustomerModel.first_name == first_name,
-                        BankCustomerModel.last_name == last_name)
+                 .where(BankCustomerModel.first_name == customer_first_name,
+                        BankCustomerModel.last_name == customer_last_name)
                  .options(joinedload(BankCustomerModel.bank_account)))
-        obj = await self._session.scalar(query)
-        return obj
+        customer = await self._session.scalar(query)
+        return customer

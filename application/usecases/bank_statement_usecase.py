@@ -1,6 +1,6 @@
 from infrastructure.database.models import dto
 from infrastructure.unit_of_work import UnitOfWork
-from ._base_usecase import BaseUsecase
+from .base import BaseUsecase
 
 
 class BankStatement(BaseUsecase):
@@ -16,7 +16,7 @@ class BankStatement(BaseUsecase):
             self,
             input_data: dto.BankStatementInput
     ):
-        async with self.uow:
+        async with self._uow:
             customer_search_data = dto.BankCustomerSearch(first_name=input_data.first_name,
                                                           last_name=input_data.last_name)
             customer = await self._customer_service.by_fullname(search_data=customer_search_data)

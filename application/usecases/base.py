@@ -22,7 +22,7 @@ class BaseUsecase:
             customer_service: CustomerService,
             operation_service: OperationService
     ):
-        self.uow = uow
+        self._uow = uow
         self._account_service = account_service
         self._customer_service = customer_service
         self._operation_service = operation_service

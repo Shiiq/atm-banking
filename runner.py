@@ -1,16 +1,17 @@
 import asyncio
-from datetime import datetime, date, time
+from datetime import datetime, date
 from pprint import pprint
 
 from sqlalchemy import inspect, select, update
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
+from infrastructure.config.db_config import get_db_config
 from infrastructure.database.models.constants import BankOperationsFromInput, BankOperationsToDB
-from infrastructure.database.repositories import AccountRepository, CustomerRepository, OperationRepository
+from infrastructure.database.repositories import AccountRepo, CustomerRepo, OperationRepo
 from infrastructure.database.models.db import BankAccountModel, BankCustomerModel, BankOperationModel
 from infrastructure.database.models import dto
-from application.settings import settings
+
 from infrastructure.unit_of_work import UnitOfWork
 from application.usecases import BankStatement, Deposit, Withdraw
 
@@ -60,29 +61,25 @@ def get_state_of_obj(obj):
 
 
 async def main():
-    engine = init_db_engine(db_url=settings.SQLITE_DATABASE_URL)
+    config = get_db_config()
+    engine = init_db_engine(db_url=config.sqlite_url)
     session_factory = async_sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)
 
     async with session_factory() as session:
         # await upload_data(session)
-        uow = UnitOfWork(session=session,
-                         account_repo=AccountRepository,
-                         customer_repo=CustomerRepository,
-                         operation_repo=OperationRepository)
-
+        query = select(BankCustomerModel).where(BankCustomerModel.id == 1)
+        res = await session.execute(query)
+        result = res.scalars().first()
         # query = select(BankCustomerModel).where(BankCustomerModel.id == 1).exists()
         # query = (update(BankCustomerModel)
         #          .where(BankCustomerModel.id == 1)
         #          .values(first_name="john"))
 
-        # deposit_usecase = Deposit(uow=uow)
-        statement_usecase = BankStatement(uow=uow)
-        # withdraw_usecase = Withdraw(uow=uow)
-        s_data = dto.BankStatementInput(first_name="JoHN",
-                                        last_name="dOe",
-                                        since=date(year=2023, month=6, day=28),
-                                        till=date(year=2023, month=6, day=29))
-        result = await statement_usecase(s_data)
+        # s_data = dto.BankStatementInput(first_name="JoHN",
+        #                                 last_name="dOe",
+        #                                 since=date(year=2023, month=6, day=28),
+        #                                 till=date(year=2023, month=6, day=29))
+        # result = await statement_usecase(s_data)
         # d_data = dto.DepositInput(first_name="JoHN",
         #                           last_name="dOe",
         #                           amount=100500)
@@ -91,7 +88,7 @@ async def main():
         #                            last_name="dOe",
         #                            amount=100500)
         # result = await withdraw_usecase(w_data)
-        pprint(result.dict())
+        pprint(result)
 
 
 if __name__ == "__main__":

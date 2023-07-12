@@ -5,20 +5,22 @@ from application.services import (AccountService,
 from infrastructure.database.models import dto
 from infrastructure.unit_of_work import UnitOfWork
 
+from .base import BaseUsecase
 
-class Withdraw:
 
-    def __init__(self, uow: UnitOfWork):
-        self.uow = uow
-        self._account_service = AccountService(uow=uow)
-        self._customer_service = CustomerService(uow=uow)
-        self._operation_service = OperationService(uow=uow)
+class Withdraw(BaseUsecase):
+
+    # def __init__(self, uow: UnitOfWork):
+    #     self.uow = uow
+    #     self._account_service = AccountService(uow=uow)
+    #     self._customer_service = CustomerService(uow=uow)
+    #     self._operation_service = OperationService(uow=uow)
 
     async def __call__(
             self,
             input_data: dto.WithdrawInput
     ) -> dto.SummaryOperationInfo:
-        async with self.uow:
+        async with self._uow:
             customer_search_data = dto.BankCustomerSearch(first_name=input_data.first_name,
                                                           last_name=input_data.last_name)
             customer = await self._customer_service.by_fullname(search_data=customer_search_data)

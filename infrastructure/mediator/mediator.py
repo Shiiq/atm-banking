@@ -1,0 +1,23 @@
+from application.usecases import BankStatement, Deposit, Withdraw
+
+from infrastructure.di.container import DIContainer, DIScope
+
+
+class Mediator:
+
+    def __init__(self, di_container: DIContainer, app_state):
+        self._app_state = app_state
+        self._di_container = di_container
+        self._bank_statement_handler = BankStatement
+
+    async def get_bank_statement_handler(self):
+        async with self._di_container.enter_scope(
+                scope=DIScope.REQUEST, state=self._app_state
+        ) as request_state:
+            bank_statement_handler = await self._di_container.execute(
+                required_dependency=self._bank_statement_handler,
+                scope=DIScope.REQUEST,
+                state=request_state
+            )
+            print(id(bank_statement_handler))
+            return bank_statement_handler

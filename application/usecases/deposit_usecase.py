@@ -5,10 +5,10 @@ from application.services import (AccountService,
 from infrastructure.database.models import dto
 from infrastructure.unit_of_work import UnitOfWork
 
-from .base import BaseUsecase
+from .base import IUsecase
 
 
-class Deposit(BaseUsecase):
+class Deposit(IUsecase):
 
     # def __init__(self, uow: UnitOfWork):
     #     self.uow = uow

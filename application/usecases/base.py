@@ -13,7 +13,7 @@ from infrastructure.unit_of_work import UnitOfWork
 #         self._operation_service = OperationService(uow=uow)
 
 
-class BaseUsecase:
+class IUsecase:
 
     def __init__(
             self,
@@ -22,7 +22,11 @@ class BaseUsecase:
             customer_service: CustomerService,
             operation_service: OperationService
     ):
+        print("IUSECASE INIT")
         self._uow = uow
         self._account_service = account_service
         self._customer_service = customer_service
         self._operation_service = operation_service
+
+    async def __call__(self, input_data):
+        raise NotImplementedError

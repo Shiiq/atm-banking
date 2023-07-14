@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 
 from application.usecases import Deposit, IUsecase
 from infrastructure.database.models.dto import DepositInput, SummaryOperationInfo
-from infrastructure.mediator import Mediator
+from infrastructure.provider import Provider
 from presentation.api.providers import Stub
 
 deposit_router = APIRouter(prefix="/deposit")
@@ -13,7 +13,7 @@ deposit_router = APIRouter(prefix="/deposit")
 @deposit_router.post(path="/")
 async def deposit(
         deposit_input: DepositInput,
-        mediator: Annotated[IUsecase, Depends(Stub(Mediator))]
+        provider=Depends(Stub(Deposit))
 ) -> SummaryOperationInfo:
-    res = await mediator(deposit_input)
+    res = await provider(deposit_input)
     return res

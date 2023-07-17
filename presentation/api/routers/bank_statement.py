@@ -1,10 +1,9 @@
 from typing import Annotated, Union
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends
 
-from application.usecases import BankStatement, IUsecase
+from application.usecases import BankStatement
 from infrastructure.database.models.dto import BankStatementInput, BankOperationsInfo
-from infrastructure.provider import Provider
 from presentation.api.providers import Stub
 
 bank_statement_router = APIRouter(prefix="/bank_statement")
@@ -13,7 +12,7 @@ bank_statement_router = APIRouter(prefix="/bank_statement")
 @bank_statement_router.post(path="/")
 async def bank_statement(
         bank_statement_input: BankStatementInput,
-        provider=Depends(BankStatement)
+        handler=Depends(Stub(BankStatement))
 ) -> BankOperationsInfo:
-    res = await provider(bank_statement_input)
-    return res
+    response = await handler.execute(bank_statement_input)
+    return response

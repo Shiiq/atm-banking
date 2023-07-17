@@ -7,17 +7,14 @@ from .base import IUsecase
 
 class BankStatement(IUsecase):
 
-    # def __init__(self, uow: UnitOfWork):
-    #     super().__init__(uow=uow)
-    #     self.uow = uow
-    #     self._account_service = AccountService(uow=uow)
-    #     self._customer_service = CustomerService(uow=uow)
-    #     self._operation_service = OperationService(uow=uow)
-
-    async def __call__(
+    # async def __call__(
+    #         self,
+    #         input_data: BankStatementInput
+    # ):
+    async def execute(
             self,
             input_data: BankStatementInput
-    ):
+    ) -> BankOperationsInfo:
         async with self._uow:
             customer_search_data = BankCustomerSearch(first_name=input_data.first_name,
                                                       last_name=input_data.last_name)

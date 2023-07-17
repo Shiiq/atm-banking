@@ -1,7 +1,7 @@
 from datetime import date, datetime, time
 from typing import Optional
 
-from pydantic import Field, PositiveInt, validator
+from pydantic import Field, PositiveInt, field_validator
 
 from infrastructure.database.models.constants import BankOperationsToDB
 from ._base import DTO, FrozenDTO
@@ -37,12 +37,12 @@ class BankOperationSearch(DTO):
     since: Optional[datetime] = Field(default=None)
     till: Optional[datetime] = Field(default=None)
 
-    @validator("since", pre=True)
+    @field_validator("since", mode="before")
     def convert_since_to_datetime(cls, d: date) -> datetime:
         t = time(hour=0, minute=0, second=0, microsecond=0)
         return datetime.combine(d, t)
 
-    @validator("till", pre=True)
+    @field_validator("till", mode="before")
     def convert_till_to_datetime(cls, d: date) -> datetime:
         t = time(hour=23, minute=59, second=59, microsecond=999999)
         return datetime.combine(d, t)

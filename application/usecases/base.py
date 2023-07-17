@@ -27,6 +27,3 @@ class IUsecase:
         self._account_service = account_service
         self._customer_service = customer_service
         self._operation_service = operation_service
-
-    async def __call__(self, input_data):
-        raise NotImplementedError

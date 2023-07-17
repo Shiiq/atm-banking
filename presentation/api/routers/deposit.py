@@ -2,9 +2,8 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from application.usecases import Deposit, IUsecase
+from application.usecases import Deposit
 from infrastructure.database.models.dto import DepositInput, SummaryOperationInfo
-from infrastructure.provider import Provider
 from presentation.api.providers import Stub
 
 deposit_router = APIRouter(prefix="/deposit")
@@ -13,7 +12,7 @@ deposit_router = APIRouter(prefix="/deposit")
 @deposit_router.post(path="/")
 async def deposit(
         deposit_input: DepositInput,
-        provider=Depends(Stub(Deposit))
+        handler=Depends(Stub(Deposit))
 ) -> SummaryOperationInfo:
-    res = await provider(deposit_input)
-    return res
+    response = await handler(deposit_input)
+    return response

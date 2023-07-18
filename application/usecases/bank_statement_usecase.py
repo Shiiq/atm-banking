@@ -1,7 +1,7 @@
-from infrastructure.database.models.dto import (BankStatementInput,
-                                                BankCustomerSearch,
-                                                BankOperationSearch,
-                                                BankOperationsInfo)
+from application.dto import (BankStatementInput,
+                             BankCustomerSearch,
+                             BankOperationSearch,
+                             BankOperationsInfo)
 from .base import IUsecase
 
 

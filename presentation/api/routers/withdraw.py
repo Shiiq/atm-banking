@@ -1,9 +1,7 @@
-from typing import Annotated
-
 from fastapi import APIRouter, Depends
 
 from application.usecases import Withdraw
-from infrastructure.database.models.dto import WithdrawInput, SummaryOperationInfo
+from application.dto import WithdrawInput, SummaryOperationInfo
 from presentation.api.providers import Stub
 
 withdraw_router = APIRouter(prefix="/withdraw")

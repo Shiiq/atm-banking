@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import Field, NonNegativeInt
 
-from ._base import DTO, FrozenDTO
+from .base import DTO, FrozenDTO
 
 
 class BankAccountCreate(FrozenDTO):

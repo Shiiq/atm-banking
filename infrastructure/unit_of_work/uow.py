@@ -1,7 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-# from infrastructure.database.repositories import IAccountRepo, ICustomerRepo, IOperationRepo
-
 
 class UnitOfWork:
     _in_transaction: bool
@@ -9,16 +7,10 @@ class UnitOfWork:
     def __init__(
             self,
             session: AsyncSession,
-            # account_repo: IAccountRepo,
-            # customer_repo: ICustomerRepo,
-            # operation_repo: IOperationRepo,
     ):
         self._session = session
         print("hello from INIT uow")
         self._in_transaction = False
-        # self.account_repo = account_repo
-        # self.customer_repo = customer_repo
-        # self.operation_repo = operation_repo
 
     async def __aenter__(self):
         if self._in_transaction:
@@ -30,14 +22,13 @@ class UnitOfWork:
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         if exc_type:
-            await self.rollback()
-            return
+            await self._rollback()
         else:
-            await self.commit()
+            await self._commit()
         self._in_transaction = False
 
-    async def commit(self):
+    async def _commit(self):
         await self._session.commit()
 
-    async def rollback(self):
+    async def _rollback(self):
         await self._session.rollback()

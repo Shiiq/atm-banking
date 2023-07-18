@@ -2,7 +2,7 @@ from sqlalchemy import Enum, ForeignKey, Integer
 from sqlalchemy.orm import mapped_column
 
 from infrastructure.database.models.constants import BankOperationsToDB
-from ._base import Base
+from .base import Base
 
 BANK_OPERATION = "bank_operation"
 

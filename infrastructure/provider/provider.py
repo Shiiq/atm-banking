@@ -21,7 +21,6 @@ class Provider:
                 scope=DIScope.REQUEST,
                 state=request_state
             )
-            print(id(bank_statement_handler))
             return bank_statement_handler
 
     async def get_deposit_handler(self):
@@ -33,7 +32,6 @@ class Provider:
                 scope=DIScope.REQUEST,
                 state=request_state
             )
-            print(id(deposit_handler))
             return deposit_handler
 
     async def get_withdraw_handler(self):
@@ -45,5 +43,4 @@ class Provider:
                 scope=DIScope.REQUEST,
                 state=request_state
             )
-            print(id(withdraw_handler))
             return withdraw_handler

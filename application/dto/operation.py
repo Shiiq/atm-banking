@@ -4,7 +4,7 @@ from typing import Optional
 from pydantic import Field, PositiveInt, field_validator
 
 from infrastructure.database.models.constants import BankOperationsToDB
-from ._base import DTO, FrozenDTO
+from .base import DTO, FrozenDTO
 
 
 class BankOperationCreate(FrozenDTO):

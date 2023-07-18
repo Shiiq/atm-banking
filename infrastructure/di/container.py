@@ -23,7 +23,6 @@ class DIContainer:
         self._container = container
         self._executor = executor
         self._scopes = scopes
-
         self._solved_dependencies = {}
 
     def enter_scope(self, scope: Scope, state: Optional[ScopeState] = None):

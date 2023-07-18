@@ -1,19 +1,13 @@
 import asyncio
-from datetime import datetime, date
+from datetime import datetime
 from pprint import pprint
 
-from sqlalchemy import inspect, select, update
-from sqlalchemy.orm import joinedload
+from sqlalchemy import inspect, select
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from infrastructure.config.db_config import get_db_config
-from infrastructure.database.models.constants import BankOperationsFromInput, BankOperationsToDB
-from infrastructure.database.repositories import AccountRepo, CustomerRepo, OperationRepo
-from infrastructure.database.models.db import BankAccountModel, BankCustomerModel, BankOperationModel
-from infrastructure.database.models import dto
-
-from infrastructure.unit_of_work import UnitOfWork
-from application.usecases import BankStatement, Deposit, Withdraw
+from infrastructure.database.models.constants import BankOperationsToDB
+from infrastructure.database.models.db import BankCustomerModel, BankOperationModel
 
 
 def init_db_engine(db_url: str) -> AsyncEngine:

@@ -1,9 +1,9 @@
 from datetime import datetime
 
 from infrastructure.database.models.constants import BankOperationsFromInput
-from infrastructure.database.models.dto import (BankStatementInput,
-                                                DepositInput,
-                                                WithdrawInput)
+from application.dto import (BankStatementInput,
+                             DepositInput,
+                             WithdrawInput)
 
 FORMAT = "%d/%m/%Y"
 

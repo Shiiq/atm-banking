@@ -3,9 +3,9 @@ from typing import Optional
 from application.exceptions import CustomerNotExist, CustomerIDNotExist
 from infrastructure.database.models.db import (BankAccountModel,
                                                BankCustomerModel)
-from infrastructure.database.models.dto import (BankCustomerCreate,
-                                                BankCustomerRead,
-                                                BankCustomerSearch)
+from application.dto import (BankCustomerCreate,
+                             BankCustomerRead,
+                             BankCustomerSearch)
 from infrastructure.database.repositories import ICustomerRepo
 from .utils import DataConverter
 

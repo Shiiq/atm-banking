@@ -7,5 +7,8 @@ __all__ = (
     "AccountRepo",
     "CustomerRepo",
     "OperationRepo",
-    "IAccountRepo", "ICustomerRepo", "IOperationRepo"
+
+    "IAccountRepo",
+    "ICustomerRepo",
+    "IOperationRepo",
 )

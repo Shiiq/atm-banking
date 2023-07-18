@@ -1,9 +1,5 @@
 from application.exceptions import CustomerNotExist
-from application.services import (AccountService,
-                                  CustomerService,
-                                  OperationService)
-from infrastructure.database.models import dto
-from infrastructure.unit_of_work import UnitOfWork
+from .. import dto
 
 from .base import IUsecase
 

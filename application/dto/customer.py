@@ -4,7 +4,7 @@ from typing import Optional
 from pydantic import Field
 
 from .account import BankAccountCreate
-from ._base import DTO, FrozenDTO
+from .base import DTO, FrozenDTO
 
 
 class BankCustomerCreate(FrozenDTO):

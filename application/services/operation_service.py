@@ -1,7 +1,7 @@
 from infrastructure.database.models.db import BankOperationModel
-from infrastructure.database.models.dto import (BankOperationCreate,
-                                                BankOperationRead,
-                                                BankOperationSearch)
+from application.dto import (BankOperationCreate,
+                             BankOperationRead,
+                             BankOperationSearch)
 from infrastructure.database.repositories import IOperationRepo
 from .utils import DataConverter
 

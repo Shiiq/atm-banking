@@ -1,7 +1,7 @@
 from sqlalchemy import Integer
 from sqlalchemy.orm import mapped_column, relationship
 
-from ._base import Base, UpdatedAtTimestampMixin
+from .base import Base, UpdatedAtTimestampMixin
 
 BANK_ACCOUNT = "bank_account"
 

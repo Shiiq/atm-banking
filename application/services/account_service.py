@@ -1,9 +1,9 @@
 from typing import Optional
 
 from application.exceptions import AccountIDNotExist
-from infrastructure.database.models.dto import (BankAccountRead,
-                                                BankAccountUpdate,
-                                                BankAccountSearch)
+from application.dto import (BankAccountRead,
+                             BankAccountUpdate,
+                             BankAccountSearch)
 from infrastructure.database.repositories import IAccountRepo
 from .utils import DataConverter
 

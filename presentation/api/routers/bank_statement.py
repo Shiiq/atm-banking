@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from application.usecases import BankStatement
 from application.dto import BankStatementInput, BankOperationsInfo
+from application.operation_handlers import BankStatement
 from presentation.api.providers import Stub
 
 bank_statement_router = APIRouter(prefix="/bank_statement")

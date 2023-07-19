@@ -1,4 +1,4 @@
-from application.usecases import BankStatement, Deposit, Withdraw
+from application.operation_handlers import BankStatement, Deposit, Withdraw
 
 from infrastructure.di.container import DIContainer, DIScope
 
@@ -10,7 +10,7 @@ class Provider:
         self._di_container = di_container
         self._bank_statement_handler = BankStatement
         self._deposit_handler = Deposit
-        self._withdraw_hanlder = Withdraw
+        self._withdraw_handler = Withdraw
 
     async def get_bank_statement_handler(self):
         async with self._di_container.enter_scope(
@@ -39,7 +39,7 @@ class Provider:
             scope=DIScope.REQUEST, state=self._app_state
         ) as request_state:
             withdraw_handler = await self._di_container.execute(
-                required_dependency=self._withdraw_hanlder,
+                required_dependency=self._withdraw_handler,
                 scope=DIScope.REQUEST,
                 state=request_state
             )

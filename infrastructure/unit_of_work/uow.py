@@ -1,6 +1,16 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
+class UnitOfWorkError(Exception):
+
+    @property
+    def message(self):
+        return "Unit Of Work is already in transaction"
+
+    def __str__(self):
+        return self.message
+
+
 class UnitOfWork:
     _in_transaction: bool
 
@@ -13,7 +23,7 @@ class UnitOfWork:
 
     async def __aenter__(self):
         if self._in_transaction:
-            raise RuntimeError("Unit Of Work is already in transaction")
+            raise UnitOfWorkError()
 
         self._in_transaction = True
         await self._session.begin()

@@ -1,6 +1,6 @@
 
 
-class DataConverter:
+class DataConverterMixin:
 
     def _from_dto_to_orm(self, input_data, output_model):
         return output_model(**input_data.model_dump())

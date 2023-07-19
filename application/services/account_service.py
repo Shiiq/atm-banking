@@ -5,10 +5,10 @@ from application.dto import (BankAccountRead,
                              BankAccountUpdate,
                              BankAccountSearch)
 from infrastructure.database.repositories import IAccountRepo
-from .data_converter import DataConverter
+from .data_converter import DataConverterMixin
 
 
-class AccountService(DataConverter):
+class AccountService(DataConverterMixin):
 
     def __init__(self, account_repo: IAccountRepo):
         self.account_repo = account_repo

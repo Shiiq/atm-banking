@@ -7,10 +7,10 @@ from application.dto import (BankCustomerCreate,
                              BankCustomerRead,
                              BankCustomerSearch)
 from infrastructure.database.repositories import ICustomerRepo
-from .data_converter import DataConverter
+from .data_converter import DataConverterMixin
 
 
-class CustomerService(DataConverter):
+class CustomerService(DataConverterMixin):
 
     def __init__(self, customer_repo: ICustomerRepo):
         self.customer_repo = customer_repo

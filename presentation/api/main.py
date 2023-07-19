@@ -3,7 +3,7 @@ import asyncio
 import uvicorn
 from fastapi import FastAPI
 
-from application.usecases import BankStatement, Deposit, Withdraw
+from application.operation_handlers import BankStatement, Deposit, Withdraw
 
 from infrastructure.config.db_config import get_db_config
 from infrastructure.di.container import DIScope
@@ -12,6 +12,15 @@ from infrastructure.provider import Provider
 
 from presentation.api.exception_handlers import setup_exception_handlers
 from presentation.api.routers import setup_routers
+
+
+def create_app() -> FastAPI:
+    app = FastAPI()
+    return app
+
+def setup_app(app: FastAPI):
+    setup_routers(app)
+    setup_exception_handlers(app)
 
 
 async def run():

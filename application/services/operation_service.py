@@ -44,8 +44,6 @@ class OperationService(DataConverterMixin):
         ]
 
     async def by_date_interval(self, search_data: BankOperationSearch):
-        op = await self.operation_repo.get_by_id(operation_id=1)
-        print(50*"-", type(op.bank_operation_type), op.bank_operation_type.value)
         operations = await self.operation_repo.get_by_date_interval(
             account_id=search_data.bank_account_id,
             customer_id=search_data.bank_customer_id,

@@ -12,7 +12,6 @@ from .interfaces import IOperationRepo
 class OperationRepo(SARepo, IOperationRepo):
 
     def __init__(self, session: AsyncSession):
-        print("hello from INIT OpRepo")
         super().__init__(session)
 
     async def create(self, operation: BankOperationModel) -> BankOperationModel:

@@ -5,7 +5,7 @@ from application.dto import (BankAccountRead,
                              BankAccountUpdate,
                              BankAccountSearch)
 from infrastructure.database.repositories import IAccountRepo
-from .utils import DataConverter
+from .data_converter import DataConverter
 
 
 class AccountService(DataConverter):

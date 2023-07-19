@@ -9,7 +9,6 @@ class UnitOfWork:
             session: AsyncSession,
     ):
         self._session = session
-        print("hello from INIT uow")
         self._in_transaction = False
 
     async def __aenter__(self):

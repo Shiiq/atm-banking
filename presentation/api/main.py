@@ -4,20 +4,21 @@ import uvicorn
 from fastapi import FastAPI
 
 from application.usecases import BankStatement, Deposit, Withdraw
+
 from infrastructure.config.db_config import get_db_config
 from infrastructure.di.container import DIScope
 from infrastructure.di.builder import build_container
 from infrastructure.provider import Provider
-from presentation.api.providers import Stub
-from presentation.api.routers import (bank_statement_router, deposit_router, withdraw_router)
+
+from presentation.api.exception_handlers import setup_exception_handlers
+from presentation.api.routers import setup_routers
 
 
 async def run():
     app = FastAPI()
 
-    app.include_router(bank_statement_router)
-    app.include_router(deposit_router)
-    app.include_router(withdraw_router)
+    setup_routers(app)
+    setup_exception_handlers(app)
 
     container = build_container(db_config=get_db_config)
 

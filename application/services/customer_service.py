@@ -7,7 +7,7 @@ from application.dto import (BankCustomerCreate,
                              BankCustomerRead,
                              BankCustomerSearch)
 from infrastructure.database.repositories import ICustomerRepo
-from .utils import DataConverter
+from .data_converter import DataConverter
 
 
 class CustomerService(DataConverter):

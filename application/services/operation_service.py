@@ -3,7 +3,7 @@ from application.dto import (BankOperationCreate,
                              BankOperationRead,
                              BankOperationSearch)
 from infrastructure.database.repositories import IOperationRepo
-from .utils import DataConverter
+from .data_converter import DataConverter
 
 
 class OperationService(DataConverter):

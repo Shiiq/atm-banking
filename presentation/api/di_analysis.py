@@ -18,7 +18,7 @@ from infrastructure.database.repositories import (AccountRepo,
                                                   ICustomerRepo,
                                                   IOperationRepo)
 from application.services import AccountService, CustomerService, OperationService
-from application.usecases import BankStatement, Deposit, Withdraw, BaseUsecase
+from application.usecases import BankStatement, Deposit, Withdraw
 
 
 class DIScope(enum.StrEnum):

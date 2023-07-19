@@ -12,7 +12,6 @@ from .interfaces import ICustomerRepo
 class CustomerRepo(SARepo, ICustomerRepo):
 
     def __init__(self, session: AsyncSession):
-        print("hello from INIT CusRepo")
         super().__init__(session)
 
     async def create(self, customer: BankCustomerModel) -> BankCustomerModel:

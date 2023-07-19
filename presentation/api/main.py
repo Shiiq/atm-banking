@@ -18,16 +18,18 @@ def create_app() -> FastAPI:
     app = FastAPI()
     return app
 
-def setup_app(app: FastAPI):
-    setup_routers(app)
-    setup_exception_handlers(app)
+
+def setup_dependencies(app: FastAPI, provider: Provider):
+    app.dependency_overrides[BankStatement] = provider.get_bank_statement_handler
+    app.dependency_overrides[Deposit] = provider.get_deposit_handler
+    app.dependency_overrides[Withdraw] = provider.get_withdraw_handler
 
 
 async def run():
     app = FastAPI()
 
-    setup_routers(app)
-    setup_exception_handlers(app)
+    setup_routers(app=app)
+    setup_exception_handlers(app=app)
 
     container = build_container(db_config=get_db_config)
 
@@ -36,14 +38,7 @@ async def run():
         provider = Provider(di_container=container,
                             app_state=app_state)
 
-        app.dependency_overrides[BankStatement] = provider.get_bank_statement_handler
-        app.dependency_overrides[Deposit] = provider.get_deposit_handler
-        app.dependency_overrides[Withdraw] = provider.get_withdraw_handler
-
-        # app.add_middleware(DIMiddleware,
-        #                    container=container,
-        #                    app_state=app_state,
-        #                    dependency=BaseUsecase)
+        setup_dependencies(app=app, provider=provider)
 
         config = uvicorn.Config(app=app)
         server = uvicorn.Server(config)

@@ -132,4 +132,4 @@ dmypy.json
 /for_debuging.py
 
 .idea
-/infrastructure/alembic/versions/
+/app/infrastructure/alembic/versions/

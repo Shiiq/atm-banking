@@ -6,8 +6,8 @@ from sqlalchemy import inspect, select
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from infrastructure.config.db_config import get_db_config
-from infrastructure.database.models.constants import BankOperationsToDB
-from infrastructure.database.models.db import BankCustomerModel, BankOperationModel
+from app.infrastructure.database import BankOperationsToDB
+from app.infrastructure.database import BankCustomerModel, BankOperationModel
 
 
 def init_db_engine(db_url: str) -> AsyncEngine:

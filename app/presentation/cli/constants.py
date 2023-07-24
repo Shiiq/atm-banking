@@ -9,13 +9,6 @@ WELCOME_MESSAGE = ("Please input your request in the format "
 EXITING_MESSAGE = ("Work with the ATM is completed.")
 
 
-class BankOperationsFromInput(StrEnum):
-    """Possible bank operations to choose from CLI or API"""
-    DEPOSIT = "deposit"
-    WITHDRAW = "withdraw"
-    BANK_STATEMENT = "bank_statement"
-
-
 class ExitCommand(StrEnum):
     """Exit command."""
     EXIT = "exit"

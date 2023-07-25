@@ -1,6 +1,5 @@
-from app.application.dto import (BankStatementInput,
-                                 DepositInput,
-                                 WithdrawInput)
+from app.application.dto import BankStatementInput, DepositInput, WithdrawInput
+from app.application.operation_handlers import BankStatement, Deposit, Withdraw
 from app.infrastructure.provider import Provider
 from app.presentation.cli.common import (EXIT_MESSAGE,
                                          RETRY_MESSAGE,
@@ -16,8 +15,9 @@ class CLIApp:
     def __init__(self):
         self._input_handler: InputHandler = ...
         self._provider: Provider = ...
+        self.handlers = {}
 
-    def register_handler(self):
+    def register_handler(self, command, handler):
         pass
 
     def run(self):

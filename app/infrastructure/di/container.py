@@ -8,6 +8,7 @@ from di.dependent import Dependent
 
 
 class DIScope(StrEnum):
+
     APP = "app"
     REQUEST = "request"
 

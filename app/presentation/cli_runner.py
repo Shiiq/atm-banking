@@ -3,13 +3,12 @@ from app.infrastructure.config.db_config import get_db_config
 from app.infrastructure.di.builder import build_container
 from app.infrastructure.di.container import DIScope
 from app.infrastructure.provider import build_provider, setup_api_handlers
-from app.presentation.api.app import create_app, setup_app, run_app
+
 
 
 async def main():
 
     app_config = get_app_config()
-    app = create_app(app_config=app_config)
 
     container = build_container(db_config=get_db_config)
 
@@ -17,8 +16,5 @@ async def main():
 
         provider = build_provider(di_container=container,
                                   app_state=app_state)
-        setup_api_handlers(provider=provider)
 
-        setup_app(app=app, provider=provider)
-
-        await run_app(app=app, app_config=app_config)
+        pass

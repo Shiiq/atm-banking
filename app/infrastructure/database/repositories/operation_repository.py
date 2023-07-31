@@ -4,7 +4,7 @@ from typing import Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from infrastructure.database.models.db import BankOperationModel
+from app.infrastructure.database.models.db import BankOperationModel
 from .interfaces import IOperationRepo
 from .sa_repository import SARepo
 

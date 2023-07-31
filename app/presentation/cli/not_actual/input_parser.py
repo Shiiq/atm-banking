@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from app.infrastructure.database import BankOperationsFromInput
-from application.dto import (BankStatementInput,
+from app.application.dto import (BankStatementInput,
                              DepositInput,
                              WithdrawInput)
 

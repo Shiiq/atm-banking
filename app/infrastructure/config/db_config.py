@@ -19,6 +19,7 @@ class DBConfig(BaseSettings):
     @property
     def postgres_url(self):
         """Postgres database url"""
+
         return ("postgresql+asyncpg://"
                 f"{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
                 f"@{self.DB_HOST}:{self.DB_PORT}/{self.POSTGRES_DB}")
@@ -26,6 +27,7 @@ class DBConfig(BaseSettings):
     @property
     def sqlite_url(self):
         """SQLITE database url"""
+
         return f"sqlite+aiosqlite:///./{self.SQLITE_DATABASE_URL}"
 
 

@@ -14,7 +14,7 @@ class DBConfig(BaseSettings):
     # SQLITE DB
     SQLITE_DATABASE_URL: str = "atm_dev.db"
 
-    ECHO: bool = True
+    ECHO: bool = False
 
     @property
     def postgres_url(self):

@@ -67,7 +67,7 @@ async def unit_of_work_error_callback(request: Request, error: UnitOfWorkError):
 
 async def convert_exception_to_json(request: Request, status_code: int, error):
     return JSONResponse(
-        content=ExceptionData(error_message=error.message,
+        content=ExceptionData(error_message=error.msg,
                               error_body=error)
         .model_dump(exclude={"error_body"}),
         status_code=status_code

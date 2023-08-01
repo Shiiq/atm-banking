@@ -31,7 +31,7 @@ class CLIApp:
         print(WELCOME_MESSAGE)
         while True:
             try:
-                input_data = input(REQUESTING_MESSAGE)
+                input_data = input(REQUESTING_MESSAGE).lower()
                 request = self._input_handler.parse(input_data)
             except ExitOperation as err:
                 # logging exiting
@@ -46,7 +46,7 @@ class CLIApp:
                 response = await operation_handler.execute(request)
                 self.print_result(response=response)
             except ApplicationException as err:
-                self.print_error(error=err)
+                pass
 
     async def run(self):
         # logging prepare for launch cli

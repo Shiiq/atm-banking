@@ -4,11 +4,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 class UnitOfWorkError(Exception):
 
     @property
-    def message(self):
+    def msg(self):
         return "Unit Of Work is already in transaction"
 
     def __str__(self):
-        return self.message
+        return self.msg
 
 
 class UnitOfWork:

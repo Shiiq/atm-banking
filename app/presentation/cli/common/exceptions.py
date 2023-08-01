@@ -1,30 +1,30 @@
 
 
 class CLIAppException(Exception):
-    """Base CLI app exception"""
+    """Base class for CLI app exception"""
 
 
 class WrongOperationError(CLIAppException):
 
-    def __init__(self, message: str):
-        self._message = message
+    def __init__(self, msg: str):
+        self._msg = msg
 
     @property
-    def message(self):
-        return self._message
+    def msg(self):
+        return self._msg
 
     def __str__(self):
-        return self.message
+        return self.msg
 
 
 class ExitOperation(CLIAppException):
 
-    def __init__(self, message: str):
-        self._message = message
+    def __init__(self, msg: str):
+        self._msg = msg
 
     @property
-    def message(self):
-        return self._message
+    def msg(self):
+        return self._msg
 
     def __str__(self):
-        return self.message
+        return self.msg

@@ -22,7 +22,7 @@ class ExceptionData(BaseModel, Generic[Exc]):
     )
 
     error_message: str
-    error_data: Exc
+    error_body: Exc
 
 
 async def account_id_not_exist_callback(request: Request, error: AccountIDNotExist):
@@ -68,7 +68,7 @@ async def unit_of_work_error_callback(request: Request, error: UnitOfWorkError):
 async def convert_exception_to_json(request: Request, status_code: int, error):
     return JSONResponse(
         content=ExceptionData(error_message=error.message,
-                              error_data=error)
-        .model_dump(exclude={"error_data"}),
+                              error_body=error)
+        .model_dump(exclude={"error_body"}),
         status_code=status_code
     )

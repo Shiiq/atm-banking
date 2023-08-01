@@ -26,38 +26,4 @@ class Provider:
                 scope=DIScope.REQUEST,
                 state=request_state
             )
-            print(id(handler))
             return handler
-
-    # async def get_bank_statement_handler(self):
-    #     async with self._di_container.enter_scope(
-    #             scope=DIScope.REQUEST, state=self._app_state
-    #     ) as request_state:
-    #         bank_statement_handler = await self._di_container.execute(
-    #             required_dependency=self._bank_statement_handler,
-    #             scope=DIScope.REQUEST,
-    #             state=request_state
-    #         )
-    #         return bank_statement_handler
-    #
-    # async def get_deposit_handler(self):
-    #     async with self._di_container.enter_scope(
-    #             scope=DIScope.REQUEST, state=self._app_state
-    #     ) as request_state:
-    #         deposit_handler = await self._di_container.execute(
-    #             required_dependency=self._deposit_handler,
-    #             scope=DIScope.REQUEST,
-    #             state=request_state
-    #         )
-    #         return deposit_handler
-    #
-    # async def get_withdraw_handler(self):
-    #     async with self._di_container.enter_scope(
-    #         scope=DIScope.REQUEST, state=self._app_state
-    #     ) as request_state:
-    #         withdraw_handler = await self._di_container.execute(
-    #             required_dependency=self._withdraw_handler,
-    #             scope=DIScope.REQUEST,
-    #             state=request_state
-    #         )
-    #         return withdraw_handler

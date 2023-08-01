@@ -1,5 +1,6 @@
-from app.application.dto import BankStatementInput, DepositInput, WithdrawInput
-from app.application.operation_handlers import BankStatement, Deposit, Withdraw
+from pprint import pprint
+
+from app.application.exceptions import ApplicationException
 from app.infrastructure.provider import Provider
 from app.presentation.cli.common import (EXIT_MESSAGE,
                                          RETRY_MESSAGE,
@@ -12,34 +13,41 @@ from app.presentation.cli.handlers import ExceptionHandler, InputHandler
 
 class CLIApp:
 
-    def __init__(self):
-        self._exception_handler: ExceptionHandler = ...
-        self._input_handler: InputHandler = ...
-        self._provider: Provider = ...
-        self.handlers = {}
+    def __init__(self, provider: Provider, input_handler: InputHandler):
+        #self._exception_handler: ExceptionHandler = ...
+        self._input_handler = input_handler
+        self._provider = provider
 
-    async def get_handler(self, operation):
+    def print_result(self, response):
+        pprint(response.model_dump())
+
+    def print_error(self, error):
+        pprint(error.msg)
+
+    async def _get_handler(self, operation):
         return await self._provider.get_handler(operation)
 
-    def _run(self):
+    async def _run(self):
         print(WELCOME_MESSAGE)
         while True:
             try:
                 input_data = input(REQUESTING_MESSAGE)
                 request = self._input_handler.parse(input_data)
-            except ExitOperation as e:
+            except ExitOperation as err:
                 # logging exiting
                 print(EXIT_MESSAGE)
-                self._exception_handler.handle(e)
                 break
-            except WrongOperationError as e:
+            except WrongOperationError as err:
                 # logging wrong operation
                 print(RETRY_MESSAGE)
-                self._exception_handler.handle(e)
                 continue
-            # operation_handler = self.get_handler[request.operation_type]
-            # process
+            operation_handler = await self._get_handler(operation=request.operation_type)
+            try:
+                response = await operation_handler.execute(request)
+                self.print_result(response=response)
+            except ApplicationException as err:
+                self.print_error(error=err)
 
-    def run(self):
+    async def run(self):
         # logging prepare for launch cli
-        self._run()
+        await self._run()

@@ -10,14 +10,13 @@ from app.presentation.cli.common import (ExitCommand,
                                          ValidateDataError,
                                          WrongOperationError)
 
-DEPOSIT_OR_WITHDRAW_PATTERN = r"(?P<operation_type>[deposit|withdraw]) (?P<first_name>[^\W\d]+) (?P<last_name>[^\W\d]+) (?P<amount>\d+)"
+DEPOSIT_OR_WITHDRAW_PATTERN = r"(?P<operation_type>deposit|withdraw)\s+(?P<first_name>[^\W\d]+)\s+(?P<last_name>[^\W\d]+)\s+(?P<amount>\d+)"
 
 
 class InputHandler:
 
     def __init__(self):
         self.deposit_pattern = DEPOSIT_OR_WITHDRAW_PATTERN
-        self.withdraw_pattern = DEPOSIT_OR_WITHDRAW_PATTERN
 
     def parse(self, input_data: str) -> BankStatementInput | DepositInput | WithdrawInput:
         if input_data.strip().lower() == ExitCommand.EXIT:
@@ -26,9 +25,14 @@ class InputHandler:
 
 
     def __parse(self, input_data: str):
-        print(input_data)
+        print(50 * "-")
         match = re.match(self.deposit_pattern, input_data)
-        print(match.groups) #("operation_type"))
+        if not match:
+            # TODO raise
+            pass
+        print(match.group("operation_type"))
+        print(match.group("first_name"), match.group("last_name"), match.group("amount"))
+        print(50 * "-")
 
         first_name = "john"
         last_name = "doe"

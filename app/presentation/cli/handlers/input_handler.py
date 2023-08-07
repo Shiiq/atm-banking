@@ -10,7 +10,9 @@ from app.presentation.cli.common import (ExitCommand,
                                          ValidateDataError,
                                          WrongOperationError)
 
-DEPOSIT_OR_WITHDRAW_PATTERN = r"(?P<operation_type>deposit|withdraw)\s+(?P<first_name>[^\W\d]+)\s+(?P<last_name>[^\W\d]+)\s+(?P<amount>\d+)"
+DEPOSIT_OR_WITHDRAW_PATTERN = (
+    r"(?P<operation_type>deposit|withdraw)\s+(?P<first_name>[^\W\d]+)\s+(?P<last_name>[^\W\d]+)\s+(?P<amount>\d+)"
+)
 
 
 class InputHandler:

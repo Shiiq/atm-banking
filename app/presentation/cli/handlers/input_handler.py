@@ -13,6 +13,15 @@ from app.presentation.cli.common import (ExitCommand,
 
 class InputHandler:
 
+    def __init__(self):
+        input_dto_provider = {
+            "bank statement": BankStatementInput,
+            "bank_statement": BankStatementInput,
+            "bankstatement": BankStatementInput,
+            "deposit": DepositInput,
+            "withdraw": WithdrawInput,
+        }
+
     def parse(self, input_data: str) -> BankStatementInput | DepositInput | WithdrawInput:
         if input_data.strip().lower() == ExitCommand.EXIT:
             raise ExitOperation("Exiting")

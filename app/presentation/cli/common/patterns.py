@@ -1,0 +1,5 @@
+
+
+OPERATIONS_PATTERN = r"bank[\s_]+statement|deposit|withdraw"
+BANK_STATEMENT_ARGS_PATTERN = r""
+DEPOSIT_WITHDRAW_ARGS_PATTERN = r""

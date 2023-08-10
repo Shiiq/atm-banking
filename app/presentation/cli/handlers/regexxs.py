@@ -1,29 +1,31 @@
 from enum import StrEnum
 import re
 
-
-class BankOperationsInput(StrEnum):
-
-    DEPOSIT = "deposit"
-    WITHDRAW = "withdraw"
-    BANK_STATEMENT = "bank_statement"
+from app.application.dto import BankStatementInput, DepositInput, WithdrawInput
 
 
-operation_provider = {
-    "deposit": BankOperationsInput.DEPOSIT,
-    "withdraw": BankOperationsInput.WITHDRAW,
-    "bank_statement": BankOperationsInput.BANK_STATEMENT,
-    "bankstatement": BankOperationsInput.BANK_STATEMENT,
-    "bank statement": BankOperationsInput.BANK_STATEMENT
-}
+# class BankOperationsInput(StrEnum):
+#
+#     DEPOSIT = "deposit"
+#     WITHDRAW = "withdraw"
+#     BANK_STATEMENT = "bank_statement"
+#
+#
+# operation_provider = {
+#     "deposit": BankOperationsInput.DEPOSIT,
+#     "withdraw": BankOperationsInput.WITHDRAW,
+#     "bank_statement": BankOperationsInput.BANK_STATEMENT,
+#     "bankstatement": BankOperationsInput.BANK_STATEMENT,
+#     "bank statement": BankOperationsInput.BANK_STATEMENT
+# }
 
 operations_pattern = r"bank[\s_]+statement|deposit|withdraw"
 bank_statement_args_pattern = (
-    r"(?P<operation_type>bank[\s_]+statement|deposit|withdraw)\s+"
+    r"(?P<operation_type>bank[\s_]?statement|deposit|withdraw)\s+"
     r"(?P<first_name>[^\W\d]+)\s+"
     r"(?P<last_name>[^\W\d]+)\s+"
-    r"(?P<since>\d{4}[.-]\d\d\[.-]\d\d\)\s+"
-    r"(?P<till>\d{4}[.-]\d\d\[.-]\d\d\)"
+    r"(?P<since>\d{4}[.-]\d{2}[.-]\d{2})\s+"
+    r"(?P<till>\d{4}[.-]\d{2}[.-]\d{2})"
 )
 deposit_or_withdraw_args_pattern = (
     r"(?P<operation_type>bank[\s_]+statement|deposit|withdraw)\s+"
@@ -47,21 +49,33 @@ deposit_withdraw_and_args = [
 ]
 bank_statement_and_args = [
     bank_statement_and_args1 := " bank statement  lolo   vosk  2050-02-12 2019.31-21",
-    # bank_statement_and_args2 := "  banKSTateMent  lolo dvosk  2050-12-12    1233.05.01",
+    bank_statement_and_args2 := "  banKSTateMent  lolo dvosk  2050-12-12    1233.05.01",
     bank_statement_and_args3 := "bank_statement lolo   vosk  2014.12.01   2015-12-06",
     # input_bank_statement4 := " bank\nstatement",
 ]
 
-for i in bank_statement_and_args:
-    decomposite = re.search(bank_statement_args_pattern, i, flags=re.I)
-    # print(operation.group(1))
-    # print(dir(operation))
 
-    # val = operation.group().lower()
-    vals = decomposite.groups()
-    # operation, first_name, last_name, amount = vals
-    print(vals)
-    # print(operation, first_name, last_name, amount)
-    # get_op = operation_provider.get(val)
-    # print(get_op)
-    print(30 * "-")
+def parsing_deposit_withdraw_input(pattern, input_str):
+    ...
+
+
+def parsing_bank_statement_input(pattern, input_str):
+    decomposite = re.search(pattern, input_str, flags=re.I)
+    operation_type = decomposite.group("operation_type").lower()
+    first_name = decomposite.group("first_name")
+    last_name = decomposite.group("last_name")
+    since = decomposite.group("since")
+    till = decomposite.group("till")
+    p = r"(\d{4})[.-](\d{2})[.-](\d{2})"
+    print(re.sub(p, r"\1-\2-\3", since))
+    # since = re.sub(r"\d{4}[.-]\d{2}[.-]\d{2}", r"\d{4}-\d{2}-\d{2}", since)
+    # till = re.sub("r\d{4}[.-]\d{2}[.-]\d{2}", r"\d{4}-\d{2}-\d{2}", till)
+    # output = BankStatementInput(first_name=first_name,
+    #                             last_name=last_name,
+    #                             since=since,
+    #                             till=till)
+    # return output
+
+
+for i in bank_statement_and_args:
+    print(parsing_bank_statement_input(bank_statement_args_pattern, i))

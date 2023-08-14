@@ -31,7 +31,7 @@ class CLIApp:
         print(WELCOME_MESSAGE)
         while True:
             try:
-                input_data = input(REQUESTING_MESSAGE).lower()
+                input_data = input(REQUESTING_MESSAGE)
                 request = self._input_handler.parse(input_data)
             except ExitOperation as err:
                 # logging exiting

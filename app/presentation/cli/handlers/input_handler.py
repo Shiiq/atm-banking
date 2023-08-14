@@ -1,4 +1,6 @@
 import re
+from re import Pattern
+from typing import Type
 
 from app.application.dto import (BankOperationsInput,
                                  BankStatementInput,
@@ -43,10 +45,13 @@ class InputHandler:
         },
     }
 
-    def _check_operation_type(self, raw_data: str):
+    def _check_operation_type(
+            self,
+            raw_data: str
+    ) -> BankOperationsInput:
+
         parsed_input = re.search(pattern=OPERATION_TYPES_PATTERN,
-                                 string=raw_data,
-                                 flags=re.I)
+                                 string=raw_data)
         if not parsed_input:
             # logging wrong operation
             raise WrongOperationError("Wrong operation")
@@ -61,7 +66,11 @@ class InputHandler:
                                 string=operation_type)
         return self._OPERATION_TYPE_MAPPING[operation_type]
 
-    def _parse_input(self, raw_data: str):
+    def _parse(
+            self,
+            raw_data: str
+    ) -> BankStatementInput | DepositInput | WithdrawInput:
+
         operation_type = self._check_operation_type(raw_data)
         args_pattern = (self._OPERATION_PARAM_MAPPING
                         .get(operation_type)
@@ -78,8 +87,15 @@ class InputHandler:
                                              raw_data=raw_data,
                                              data_model=parsed_data_model)
 
-    def _bank_statement(self, pattern, raw_data, data_model):
-        parsed_data = re.search(pattern, raw_data)
+    def _bank_statement(
+            self,
+            pattern: Pattern[str],
+            raw_data: str,
+            data_model: Type[BankStatementInput]
+    ) -> BankStatementInput:
+
+        parsed_data = re.search(pattern=pattern,
+                                string=raw_data)
         if not parsed_data:
             raise InputDataError("Incorrect data has been entered")
         first_name = parsed_data.group("first_name")
@@ -96,8 +112,15 @@ class InputHandler:
                           since=since,
                           till=till)
 
-    def _deposit_or_withdraw(self, pattern, raw_data, data_model):
-        parsed_data = re.search(pattern=pattern, string=raw_data)
+    def _deposit_or_withdraw(
+            self,
+            pattern: Pattern[str],
+            raw_data: str,
+            data_model: Type[DepositInput | WithdrawInput]
+    ) -> DepositInput | WithdrawInput:
+
+        parsed_data = re.search(pattern=pattern,
+                                string=raw_data)
         if not parsed_data:
             raise InputDataError("Incorrect data has been entered")
         first_name = parsed_data.group("first_name")
@@ -108,24 +131,26 @@ class InputHandler:
                           last_name=last_name,
                           amount=amount)
 
-    def parse_input(self, input_data):
-        return self._parse_input(raw_data=input_data.lower())
+    def parse(
+            self,
+            input_data: str
+    ) -> BankStatementInput | DepositInput | WithdrawInput:
+
+        return self._parse(raw_data=input_data.lower())
 
 
-ih = InputHandler()
-bank_statement_and_args_input = [
-    " bank statement  lolo   vosk  2016-07-12 2019.03-21",
-    "  bankstatement  lolo dvosk  2020-04-12    2005.05.01",
-    "bank_statement lolo   vosk  2014.12.01   2015-12-06",
-]
-deposit_withdraw_and_args_input = [
-    "   dEposit   lolo  vosk  2050 z",
-    " withdraw  posa  keow  104010",
-]
-all_in_one_input = [*bank_statement_and_args_input, *deposit_withdraw_and_args_input]
-
-c = 0
-for i in all_in_one_input:
-    print(c)
-    c += 1
-    print(ih.parse_input(i))
+# ih = InputHandler()
+# bank_statement_and_args_input = [
+#     " bank statement  lolo   vosk  2016-07-12 2019.03-21",
+#     "  bankstatement  lolo dvosk  2020-04-12    2005.05.01",
+#     "bank_statement lolo   vosk  2014.12.01   2015-12-06",
+# ]
+# deposit_withdraw_and_args_input = [
+#     "   dEposit   lolo  vosk  2050 z",
+#     " withdraw  posa  keow  104010",
+# ]
+#
+# all_in_one_input = [*bank_statement_and_args_input, *deposit_withdraw_and_args_input]
+#
+# for i in all_in_one_input:
+#     print(ih.parse_input(i))

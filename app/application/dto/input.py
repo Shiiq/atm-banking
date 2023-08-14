@@ -6,7 +6,7 @@ from pydantic import Field, PositiveInt
 from .base import FrozenDTO
 
 
-class BankOperationsFromInput(StrEnum):
+class BankOperationsInput(StrEnum):
 
     DEPOSIT = "deposit"
     WITHDRAW = "withdraw"
@@ -17,8 +17,8 @@ class BankStatementInput(FrozenDTO):
 
     first_name: str
     last_name: str
-    operation_type: BankOperationsFromInput = Field(
-        default=BankOperationsFromInput.BANK_STATEMENT
+    operation_type: BankOperationsInput = Field(
+        default=BankOperationsInput.BANK_STATEMENT
     )
     since: date
     till: date
@@ -28,8 +28,8 @@ class DepositInput(FrozenDTO):
 
     first_name: str
     last_name: str
-    operation_type: BankOperationsFromInput = Field(
-        default=BankOperationsFromInput.DEPOSIT
+    operation_type: BankOperationsInput = Field(
+        default=BankOperationsInput.DEPOSIT
     )
     amount: PositiveInt
 
@@ -38,7 +38,7 @@ class WithdrawInput(FrozenDTO):
 
     first_name: str
     last_name: str
-    operation_type: BankOperationsFromInput = Field(
-        default=BankOperationsFromInput.WITHDRAW
+    operation_type: BankOperationsInput = Field(
+        default=BankOperationsInput.WITHDRAW
     )
     amount: PositiveInt

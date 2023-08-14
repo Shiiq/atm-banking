@@ -1,4 +1,4 @@
-from app.application.dto import BankOperationsFromInput
+from app.application.dto import BankOperationsInput
 from app.application.operation_handlers import BankStatement, Deposit, Withdraw
 from app.infrastructure.di.container import DIContainer, DIScope
 

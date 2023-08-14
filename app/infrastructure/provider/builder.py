@@ -1,4 +1,4 @@
-from app.application.dto import BankOperationsFromInput
+from app.application.dto import BankOperationsInput
 from app.application.operation_handlers import BankStatement, Deposit, Withdraw
 from app.infrastructure.di.container import DIContainer, DIScope
 
@@ -18,6 +18,6 @@ def setup_api_handlers(provider: Provider):
 
 
 def setup_cli_handlers(provider: Provider):
-    provider.register_handler(BankOperationsFromInput.BANK_STATEMENT, BankStatement)
-    provider.register_handler(BankOperationsFromInput.DEPOSIT, Deposit)
-    provider.register_handler(BankOperationsFromInput.WITHDRAW, Withdraw)
+    provider.register_handler(BankOperationsInput.BANK_STATEMENT, BankStatement)
+    provider.register_handler(BankOperationsInput.DEPOSIT, Deposit)
+    provider.register_handler(BankOperationsInput.WITHDRAW, Withdraw)

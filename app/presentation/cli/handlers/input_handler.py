@@ -6,18 +6,18 @@ from app.application.dto import (BankOperationsInput,
                                  BankStatementInput,
                                  DepositInput,
                                  WithdrawInput)
-from app.presentation.cli.common import (ExitCommand,
-                                         ExitOperation,
-                                         InputDataError,
-                                         WrongOperationError)
-from app.presentation.cli.handlers.re_patterns import (OPERATION_TYPES_PATTERN,
-                                                       BANK_STATEMENT_OPERATION_PATTERN,
-                                                       DEPOSIT_OPERATION_PATTERN,
-                                                       WITHDRAW_OPERATION_PATTERN,
-                                                       BANK_STATEMENT_VARIATIONS_PATTERN,
-                                                       REPL_BANK_STATEMENT_PATTERN,
-                                                       DATE_VARIATIONS_PATTERN,
-                                                       REPL_DATE_PATTERN)
+from app.presentation.cli.common.commands import ExitCommand
+from app.presentation.cli.common.exceptions import (ExitOperation,
+                                                    InputDataError,
+                                                    WrongOperationError)
+from .re_patterns import (OPERATION_TYPES_PATTERN,
+                          BANK_STATEMENT_OPERATION_PATTERN,
+                          DEPOSIT_OPERATION_PATTERN,
+                          WITHDRAW_OPERATION_PATTERN,
+                          BANK_STATEMENT_VARIATIONS_PATTERN,
+                          REPL_BANK_STATEMENT_PATTERN,
+                          DATE_VARIATIONS_PATTERN,
+                          REPL_DATE_PATTERN)
 
 
 class InputHandler:
@@ -137,20 +137,3 @@ class InputHandler:
     ) -> BankStatementInput | DepositInput | WithdrawInput:
 
         return self._parse(raw_data=input_data.lower())
-
-
-# ih = InputHandler()
-# bank_statement_and_args_input = [
-#     " bank statement  lolo   vosk  2016-07-12 2019.03-21",
-#     "  bankstatement  lolo dvosk  2020-04-12    2005.05.01",
-#     "bank_statement lolo   vosk  2014.12.01   2015-12-06",
-# ]
-# deposit_withdraw_and_args_input = [
-#     "   dEposit   lolo  vosk  2050 z",
-#     " withdraw  posa  keow  104010",
-# ]
-#
-# all_in_one_input = [*bank_statement_and_args_input, *deposit_withdraw_and_args_input]
-#
-# for i in all_in_one_input:
-#     print(ih.parse_input(i))

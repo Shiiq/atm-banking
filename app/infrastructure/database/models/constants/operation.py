@@ -1,8 +1,8 @@
 from enum import StrEnum
 
 
-class BankOperationsToDB(StrEnum):
-    """Bank operations to write to DB"""
+class BankOperationsDB(StrEnum):
+    """Bank operations to read/write from DB"""
 
     DEPOSIT = "deposit"
     WITHDRAW = "withdraw"

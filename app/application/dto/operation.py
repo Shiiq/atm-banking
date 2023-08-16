@@ -3,8 +3,9 @@ from typing import Optional
 
 from pydantic import Field, PositiveInt, field_validator
 
-from app.infrastructure.database.models.constants import BankOperationsToDB
+from app.infrastructure.database.models.constants import BankOperationsDB
 from .base import DTO, FrozenDTO
+from .input import BankOperationType
 
 
 class BankOperationCreate(FrozenDTO):
@@ -13,7 +14,7 @@ class BankOperationCreate(FrozenDTO):
     amount: PositiveInt
     bank_account_id: int
     bank_customer_id: int
-    bank_operation_type: BankOperationsToDB
+    bank_operation_type: BankOperationType
 
 
 class BankOperationRead(FrozenDTO):
@@ -23,7 +24,7 @@ class BankOperationRead(FrozenDTO):
     amount: PositiveInt
     bank_account_id: int
     bank_customer_id: int
-    bank_operation_type: BankOperationsToDB
+    bank_operation_type: BankOperationType
     created_at: datetime
 
 
@@ -33,7 +34,7 @@ class BankOperationSearch(DTO):
     id: Optional[int] = Field(default=None)
     bank_account_id: Optional[int] = Field(default=None)
     bank_customer_id: Optional[int] = Field(default=None)
-    bank_operation_type: Optional[BankOperationsToDB] = Field(default=None)
+    bank_operation_type: Optional[BankOperationType] = Field(default=None)
     since: Optional[datetime] = Field(default=None)
     till: Optional[datetime] = Field(default=None)
 

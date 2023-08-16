@@ -7,9 +7,10 @@ from app.presentation.cli.common.exceptions import (ExitOperation,
                                                     InputDataError,
                                                     WrongOperationError)
 from app.presentation.cli.common.messages import (EXIT_MESSAGE,
-                                                  RETRY_MESSAGE,
+                                                  INCORRECT_DATA_MESSAGE,
                                                   REQUESTING_MESSAGE,
-                                                  WELCOME_MESSAGE)
+                                                  WELCOME_MESSAGE,
+                                                  WRONG_OPERATION_MESSAGE)
 from app.presentation.cli.handlers import ExceptionHandler, InputHandler
 
 
@@ -45,9 +46,14 @@ class CLIApp:
                 break
             except WrongOperationError as err:
                 # logging wrong operation
-                print(RETRY_MESSAGE)
+                print(WRONG_OPERATION_MESSAGE)
                 continue
-            operation_handler = await self._get_handler(operation=request.operation_type)
+            except InputDataError as err:
+                print(INCORRECT_DATA_MESSAGE)
+                continue
+            operation_handler = await self._get_handler(
+                operation=request.operation_type
+            )
             try:
                 response = await operation_handler.execute(request)
                 self.print_result(response=response)

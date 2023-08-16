@@ -1,7 +1,7 @@
 from .account import BankAccountCreate, BankAccountRead, BankAccountUpdate, BankAccountSearch
 from .customer import BankCustomerCreate, BankCustomerRead, BankCustomerSearch
 from .operation import BankOperationCreate, BankOperationRead, BankOperationSearch
-from .input import BankOperationsInput, BankStatementInput, DepositInput, WithdrawInput
+from .input import BankOperationType, BankStatementInput, DepositInput, WithdrawInput
 from .output import BankOperationsInfo, SummaryOperationInfo
 
 __all__ = (
@@ -16,7 +16,7 @@ __all__ = (
     "BankOperationRead",
     "BankOperationSearch",
 
-    "BankOperationsInput",
+    "BankOperationType",
     "BankStatementInput",
     "DepositInput",
     "WithdrawInput",

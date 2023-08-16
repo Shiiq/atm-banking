@@ -19,7 +19,9 @@ class Base(DeclarativeBase):
 
     registry = mapper_registry
     metadata = mapper_registry.metadata
-    id = mapped_column(Integer, primary_key=True, autoincrement=True)
+    id = mapped_column(Integer,
+                       primary_key=True,
+                       autoincrement=True)
     created_at = mapped_column(DateTime,
                                nullable=False,
                                server_default=sql.func.now())

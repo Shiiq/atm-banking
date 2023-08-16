@@ -2,7 +2,7 @@ import re
 from re import Pattern
 from typing import Type
 
-from app.application.dto import (BankOperationsInput,
+from app.application.dto import (BankOperationType,
                                  BankStatementInput,
                                  DepositInput,
                                  WithdrawInput)
@@ -23,23 +23,23 @@ from .re_patterns import (OPERATION_TYPES_PATTERN,
 class InputHandler:
 
     _OPERATION_TYPE_MAPPING = {
-        "bank statement": BankOperationsInput.BANK_STATEMENT,
-        "bank_statement": BankOperationsInput.BANK_STATEMENT,
-        "bankstatement": BankOperationsInput.BANK_STATEMENT,
-        "deposit": BankOperationsInput.DEPOSIT,
-        "withdraw": BankOperationsInput.WITHDRAW
+        "bank statement": BankOperationType.BANK_STATEMENT,
+        "bank_statement": BankOperationType.BANK_STATEMENT,
+        "bankstatement": BankOperationType.BANK_STATEMENT,
+        "deposit": BankOperationType.DEPOSIT,
+        "withdraw": BankOperationType.WITHDRAW
     }
 
     _OPERATION_PARAM_MAPPING = {
-        BankOperationsInput.BANK_STATEMENT: {
+        BankOperationType.BANK_STATEMENT: {
             "args_pattern": BANK_STATEMENT_OPERATION_PATTERN,
             "parsed_data_model": BankStatementInput
         },
-        BankOperationsInput.DEPOSIT: {
+        BankOperationType.DEPOSIT: {
             "args_pattern": DEPOSIT_OPERATION_PATTERN,
             "parsed_data_model": DepositInput
         },
-        BankOperationsInput.WITHDRAW: {
+        BankOperationType.WITHDRAW: {
             "args_pattern": WITHDRAW_OPERATION_PATTERN,
             "parsed_data_model": WithdrawInput
         },
@@ -48,7 +48,7 @@ class InputHandler:
     def _check_operation_type(
             self,
             raw_data: str
-    ) -> BankOperationsInput:
+    ) -> BankOperationType:
 
         parsed_input = re.search(pattern=OPERATION_TYPES_PATTERN,
                                  string=raw_data)
@@ -78,11 +78,11 @@ class InputHandler:
         parsed_data_model = (self._OPERATION_PARAM_MAPPING
                              .get(operation_type)
                              .get("parsed_data_model"))
-        if operation_type == BankOperationsInput.BANK_STATEMENT:
+        if operation_type == BankOperationType.BANK_STATEMENT:
             return self._bank_statement(pattern=args_pattern,
                                         raw_data=raw_data,
                                         data_model=parsed_data_model)
-        elif operation_type == BankOperationsInput.DEPOSIT or BankOperationsInput.WITHDRAW:
+        elif operation_type == BankOperationType.DEPOSIT or BankOperationType.WITHDRAW:
             return self._deposit_or_withdraw(pattern=args_pattern,
                                              raw_data=raw_data,
                                              data_model=parsed_data_model)

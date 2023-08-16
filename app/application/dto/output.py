@@ -6,7 +6,7 @@ from .account import BankAccountRead
 from .customer import BankCustomerRead
 from .operation import BankOperationRead
 from .base import FrozenDTO
-from .input import BankOperationsInput
+from .input import BankOperationType
 
 
 # class _BankOperationsInfo(FrozenDTO):

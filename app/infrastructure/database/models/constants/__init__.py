@@ -1,5 +1,5 @@
-from .operation import BankOperationsToDB
+from .operation import BankOperationsDB
 
 __all__ = (
-    "BankOperationsToDB",
+    "BankOperationsDB",
 )

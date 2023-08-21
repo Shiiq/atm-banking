@@ -7,8 +7,10 @@ _bank_statement_operation_pattern = (
     r"(?P<operation_type>bank[\s_]?statement)\s+"
     r"(?P<first_name>[^\W\d]+)\s+"
     r"(?P<last_name>[^\W\d]+)\s+"
-    r"(?P<since>(\d{4})[.-](\d{2})[.-](\d{2}))\s+"
-    r"(?P<till>(\d{4})[.-](\d{2})[.-](\d{2}))"
+    # r"(?P<since>(\d{4})[.-](\d{2})[.-](\d{2}))\s+"
+    # r"(?P<till>(\d{4})[.-](\d{2})[.-](\d{2}))"
+    r"(?P<since>(\d{2})[.-](\d{2})[.-](\d{4}))\s+"
+    r"(?P<till>(\d{2})[.-](\d{2})[.-](\d{4}))"
 )
 BANK_STATEMENT_OPERATION_PATTERN = re.compile(_bank_statement_operation_pattern)
 
@@ -32,9 +34,9 @@ _bank_statement_variations_pattern = r"bank[\s_]?statement"
 BANK_STATEMENT_VARIATIONS_PATTERN = re.compile(_bank_statement_variations_pattern)
 REPL_BANK_STATEMENT_PATTERN = r"bank_statement"
 
-_date_variations_pattern = r"(\d{4})[.-](\d{2})[.-](\d{2})"
+_date_variations_pattern = r"(\d{2})[.-](\d{2})[.-](\d{4})"
 DATE_VARIATIONS_PATTERN = re.compile(_date_variations_pattern)
-REPL_DATE_PATTERN = r"\1-\2-\3"
+REPL_DATE_PATTERN = r"\3-\2-\1"
 
 __all__ = (
     "OPERATION_TYPES_PATTERN",

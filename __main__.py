@@ -23,4 +23,5 @@ async def parse_args():
         print("gggg")
 
 
-asyncio.run(parse_args())
+if __name__ == "__main__":
+    asyncio.run(parse_args())

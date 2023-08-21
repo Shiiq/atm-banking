@@ -1,7 +1,7 @@
 
 
 BANK_STATEMENT_FORMAT_MESSAGE = (
-    "<bank statement first name last name since[YYYY-MM-DD] till[YYYY-MM-DD]>\n"
+    "<bank statement first name last name since[DD-MM-YYYY] till[DD-MM-YYYY]>\n"
 )
 
 DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE = (

@@ -12,7 +12,9 @@ class BankCustomerCreate(FrozenDTO):
 
     first_name: str
     last_name: str
-    bank_account: BankAccountCreate = Field(default=BankAccountCreate())
+    bank_account: BankAccountCreate = Field(
+        default_factory=BankAccountCreate
+    )
 
 
 class BankCustomerRead(FrozenDTO):

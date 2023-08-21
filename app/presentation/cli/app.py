@@ -26,21 +26,21 @@ class CLIApp:
         self._provider = provider
 
     def print_result(self, response):
-        pprint(response.model_dump())
+        pprint(response.model_dump_json(), indent=4)
 
     def print_error(self, error):
-        pprint(error.msg)
+        pprint(error.msg, indent=4)
 
     async def _get_handler(self, operation):
         return await self._provider.get_handler(operation)
 
     async def _run(self):
         print(WELCOME_MESSAGE)
-        while True:
+        while input_data := input(REQUESTING_MESSAGE):  # True
+
             try:
-                input_data = input(REQUESTING_MESSAGE)
                 request = self._input_handler.parse(input_data)
-            except ExitOperation:
+            except ExitOperation as err:
                 # logging exiting
                 print(EXIT_MESSAGE)
                 break
@@ -51,13 +51,16 @@ class CLIApp:
             except InputDataError as err:
                 print(INCORRECT_DATA_MESSAGE)
                 continue
+
             operation_handler = await self._get_handler(
                 operation=request.operation_type
             )
+
             try:
                 response = await operation_handler.execute(request)
                 self.print_result(response=response)
             except ApplicationException as err:
+                print(err.msg)
                 pass
 
     async def run(self):

@@ -5,11 +5,13 @@ from pydantic import Field, NonNegativeInt
 
 from .base import DTO, FrozenDTO
 
+DEFAULT_BALANCE = 0
+
 
 class BankAccountCreate(FrozenDTO):
     """Bank account model to write to DB"""
 
-    balance: NonNegativeInt = Field(default=0)
+    balance: NonNegativeInt = Field(default=DEFAULT_BALANCE)
 
 
 class BankAccountRead(FrozenDTO):

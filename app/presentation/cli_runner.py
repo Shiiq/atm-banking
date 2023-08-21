@@ -6,7 +6,7 @@ from app.presentation.cli.app import CLIApp
 from app.presentation.cli.handlers import InputHandler
 
 
-async def main():
+async def cli_start():
 
     container = build_container(db_config=get_db_config)
 

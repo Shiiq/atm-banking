@@ -8,10 +8,10 @@ from app.application.dto import (BankAccountRead,
                                  DepositInput,
                                  SummaryOperationInfo)
 from app.application.exceptions import CustomerNotExist
-from .base import IUsecase
+from .base import BaseHandler
 
 
-class Deposit(IUsecase):
+class Deposit(BaseHandler):
 
     async def execute(
             self,

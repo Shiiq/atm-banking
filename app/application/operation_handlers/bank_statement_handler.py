@@ -2,10 +2,10 @@ from app.application.dto import (BankCustomerSearch,
                                  BankOperationSearch,
                                  BankStatementInput,
                                  BankOperationsInfo)
-from .base import IUsecase
+from .base import BaseHandler
 
 
-class BankStatement(IUsecase):
+class BankStatement(BaseHandler):
 
     async def execute(
             self,

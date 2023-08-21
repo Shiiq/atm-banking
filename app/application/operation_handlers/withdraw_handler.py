@@ -7,10 +7,10 @@ from app.application.dto import (BankAccountRead,
                                  WithdrawInput,
                                  SummaryOperationInfo)
 from app.application.exceptions import AccountHasInsufficientFunds
-from .base import IUsecase
+from .base import BaseHandler
 
 
-class Withdraw(IUsecase):
+class Withdraw(BaseHandler):
 
     async def execute(
             self,

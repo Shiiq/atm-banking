@@ -4,7 +4,7 @@ from app.application.services import (AccountService,
 from app.infrastructure.unit_of_work import UnitOfWork
 
 
-class IUsecase:
+class BaseHandler:
 
     def __init__(
             self,

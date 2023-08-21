@@ -3,7 +3,6 @@ from typing import Optional
 
 from pydantic import Field, PositiveInt, field_validator
 
-from app.infrastructure.database.models.constants import BankOperationsDB
 from .base import DTO, FrozenDTO
 from .input import BankOperationType
 

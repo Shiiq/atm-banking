@@ -6,7 +6,7 @@ from app.infrastructure.provider import build_provider, setup_api_handlers
 from app.presentation.api.app import create_app, setup_app, run_app
 
 
-async def main():
+async def api_start():
 
     app_config = get_app_config()
     app = create_app(app_config=app_config)

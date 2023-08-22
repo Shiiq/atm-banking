@@ -82,7 +82,7 @@ class InputHandler:
             return self._bank_statement(pattern=args_pattern,
                                         raw_data=raw_data,
                                         data_model=parsed_data_model)
-        elif operation_type == BankOperationType.DEPOSIT or BankOperationType.WITHDRAW:
+        elif operation_type in (BankOperationType.DEPOSIT, BankOperationType.WITHDRAW):
             return self._deposit_or_withdraw(pattern=args_pattern,
                                              raw_data=raw_data,
                                              data_model=parsed_data_model)
@@ -97,6 +97,7 @@ class InputHandler:
         parsed_data = re.search(pattern=pattern,
                                 string=raw_data)
         if not parsed_data:
+            # logging
             raise InputDataError("Incorrect data has been entered")
         first_name = parsed_data.group("first_name")
         last_name = parsed_data.group("last_name")
@@ -122,6 +123,7 @@ class InputHandler:
         parsed_data = re.search(pattern=pattern,
                                 string=raw_data)
         if not parsed_data:
+            # logging
             raise InputDataError("Incorrect data has been entered")
         first_name = parsed_data.group("first_name")
         last_name = parsed_data.group("last_name")

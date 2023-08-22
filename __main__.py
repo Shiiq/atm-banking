@@ -19,8 +19,6 @@ async def parse_args():
         await api_start()
     elif args.cli:
         await cli_start()
-    else:
-        print("gggg")
 
 
 if __name__ == "__main__":

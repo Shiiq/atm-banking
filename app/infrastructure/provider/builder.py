@@ -11,13 +11,7 @@ def build_provider(di_container: DIContainer, app_state: DIScope):
     return provider
 
 
-def setup_api_handlers(provider: Provider):
-    provider.register_handler(BankStatement, BankStatement)
-    provider.register_handler(Deposit, Deposit)
-    provider.register_handler(Withdraw, Withdraw)
-
-
-def setup_cli_handlers(provider: Provider):
+def setup_handlers(provider: Provider):
     provider.register_handler(BankOperationType.BANK_STATEMENT, BankStatement)
     provider.register_handler(BankOperationType.DEPOSIT, Deposit)
     provider.register_handler(BankOperationType.WITHDRAW, Withdraw)

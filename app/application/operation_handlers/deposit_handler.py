@@ -17,6 +17,7 @@ class Deposit(BaseHandler):
             self,
             input_data: DepositInput
     ) -> SummaryOperationInfo:
+
         async with self._uow:
             try:
                 customer_search_data = BankCustomerSearch(first_name=input_data.first_name,

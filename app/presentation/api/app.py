@@ -5,7 +5,7 @@ from app.infrastructure.config.app_config import AppConfig
 from app.infrastructure.provider import Provider
 
 from app.presentation.api.exception_handlers import setup_exception_handlers
-from app.presentation.api.providers import setup_dependencies
+from app.presentation.api.dependencies import setup_dependencies
 from app.presentation.api.routers import setup_routers
 
 

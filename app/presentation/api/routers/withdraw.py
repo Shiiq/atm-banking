@@ -8,9 +8,8 @@ from app.application.exceptions import (AccountIDNotExist,
                                         AccountHasInsufficientFunds,
                                         CustomerIDNotExist,
                                         CustomerNotExist)
-from app.application.operation_handlers import Withdraw
 from app.presentation.api.exception_handlers import ExceptionData
-from app.presentation.api.providers import Stub
+from app.presentation.api.dependencies import get_provider
 
 withdraw_router = APIRouter(prefix="/withdraw")
 
@@ -23,7 +22,10 @@ withdraw_router = APIRouter(prefix="/withdraw")
         },
         status.HTTP_404_NOT_FOUND: {
             "model": ExceptionData[
-                Union[AccountIDNotExist, AccountHasInsufficientFunds, CustomerIDNotExist, CustomerNotExist]
+                Union[AccountIDNotExist,
+                      AccountHasInsufficientFunds,
+                      CustomerIDNotExist,
+                      CustomerNotExist]
             ]
         }
     },
@@ -31,7 +33,11 @@ withdraw_router = APIRouter(prefix="/withdraw")
 )
 async def withdraw(
         withdraw_input: WithdrawInput,
-        handler=Depends(Stub(Withdraw))
+        provider=Depends(get_provider)
 ) -> SummaryOperationInfo:
+
+    handler = await provider.get_handler(
+        key_class=withdraw_input.operation_type
+    )
     response = await handler.execute(withdraw_input)
     return response

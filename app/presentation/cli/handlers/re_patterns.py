@@ -7,8 +7,6 @@ _bank_statement_operation_pattern = (
     r"(?P<operation_type>bank[\s_]?statement)\s+"
     r"(?P<first_name>[^\W\d]+)\s+"
     r"(?P<last_name>[^\W\d]+)\s+"
-    # r"(?P<since>(\d{4})[.-](\d{2})[.-](\d{2}))\s+"
-    # r"(?P<till>(\d{4})[.-](\d{2})[.-](\d{2}))"
     r"(?P<since>(\d{2})[.-](\d{2})[.-](\d{4}))\s+"
     r"(?P<till>(\d{2})[.-](\d{2})[.-](\d{4}))"
 )

@@ -1,7 +1,7 @@
 from app.infrastructure.config.db_config import get_db_config
 from app.infrastructure.di.builder import build_container
 from app.infrastructure.di.container import DIScope
-from app.infrastructure.provider import build_provider, setup_cli_handlers
+from app.infrastructure.provider import build_provider, setup_handlers
 from app.presentation.cli.app import CLIApp
 from app.presentation.cli.handlers import InputHandler
 
@@ -14,7 +14,7 @@ async def cli_start():
 
         provider = build_provider(di_container=container,
                                   app_state=app_state)
-        setup_cli_handlers(provider=provider)
+        setup_handlers(provider=provider)
         input_handler = InputHandler()
 
         app = CLIApp(provider=provider,

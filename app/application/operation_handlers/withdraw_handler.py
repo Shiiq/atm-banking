@@ -16,6 +16,7 @@ class Withdraw(BaseHandler):
             self,
             input_data: WithdrawInput
     ) -> SummaryOperationInfo:
+
         async with self._uow:
             customer_search_data = BankCustomerSearch(first_name=input_data.first_name,
                                                       last_name=input_data.last_name)

@@ -10,7 +10,6 @@ async def api_start():
 
     app_config = get_app_config()
     app = create_app(app_config=app_config)
-
     container = build_container(db_config=get_db_config)
 
     async with container.enter_scope(scope=DIScope.APP) as app_state:

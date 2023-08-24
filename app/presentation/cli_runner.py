@@ -7,7 +7,7 @@ from app.presentation.cli.handlers import InputHandler
 
 
 async def cli_start():
-    print(__name__)
+
     container = build_container(db_config=get_db_config)
 
     async with container.enter_scope(scope=DIScope.APP) as app_state:

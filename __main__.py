@@ -3,12 +3,12 @@ import asyncio
 import logging
 
 from app.infrastructure.config.log_config import get_log_config
-from app.infrastructure.logger.builder import build_logger
+from app.infrastructure.logger.builder import build_main_logger
 from app.presentation.api_runner import api_start
 from app.presentation.cli_runner import cli_start
 
 log_config = get_log_config()
-logger = build_logger(log_config=log_config)
+logger = build_main_logger(log_config=log_config)
 
 
 async def parse_args():

@@ -6,8 +6,10 @@ class LogConfig(BaseSettings):
 
     LOG_FORMAT: str = "%(asctime)s :: %(levelname)s :: %(name)s :: %(message)s"
     DATE_FORMAT: str = "%Y-%m-%d %H:%M:%S"
-    NAME: str = "app"
-    LEVEL: str = "INFO"
+    NAME: str = "atm-banking.main"
+    STREAM_LOG_LEVEL: str = "ERROR"
+    FILE_LOG_LEVEL: str = "INFO"
+    FILE_LOG_PATH: str = "./operation_logs/logs.txt"
 
 
 def get_log_config():

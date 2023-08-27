@@ -8,8 +8,9 @@ class LogConfig(BaseSettings):
     DATE_FORMAT: str = "%Y-%m-%d %H:%M:%S"
     NAME: str = "atm-banking.main"
     STREAM_LOG_LEVEL: str = "ERROR"
+    BASE_LEVEL: str = "INFO"
     FILE_LOG_LEVEL: str = "INFO"
-    FILE_LOG_PATH: str = "./operation_logs/logs.txt"
+    FILE_LOG_PATH: str = "./logs/operations.txt"
 
 
 def get_log_config():

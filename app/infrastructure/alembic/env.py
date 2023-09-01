@@ -7,10 +7,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from app.infrastructure.database.models.db import (Base,
-                                                   BankAccountModel,
-                                                   BankCustomerModel,
-                                                   BankOperationModel)
+from app.infrastructure.database.models.db import (Base)
 from app.infrastructure.config.db_config import get_db_config
 
 db_config = get_db_config().sqlite_url

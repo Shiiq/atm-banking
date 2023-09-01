@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
-from app.infrastructure.database.models.db import BankAccountModel
+from app.infrastructure.database.models import BankAccountModel
 from .interfaces import IAccountRepo
 from .sa_repository import SARepo
 

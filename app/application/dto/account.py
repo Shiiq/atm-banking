@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from typing import Optional
+from uuid import UUID
 
 from pydantic import Field, NonNegativeInt
 
@@ -17,7 +18,8 @@ class BankAccountCreate(FrozenDTO):
 class BankAccountRead(FrozenDTO):
     """Bank account output model from DB"""
 
-    id: int
+    # id: int
+    id: UUID
     balance: NonNegativeInt
     created_at: datetime
     updated_at: datetime
@@ -26,14 +28,17 @@ class BankAccountRead(FrozenDTO):
 class BankAccountUpdate(DTO):
     """Bank account update data model"""
 
-    id: int
+    # id: int
+    id: UUID
     balance: NonNegativeInt
 
 
 class BankAccountSearch(DTO):
     """Bank account search data model"""
 
-    id: Optional[int] = Field(default=None)
-    customer_id: Optional[int] = Field(default=None)
+    # id: Optional[int] = Field(default=None)
+    id: Optional[UUID] = Field(default=None)
+    # customer_id: Optional[int] = Field(default=None)
+    customer_id: Optional[UUID] = Field(default=None)
     created_at: Optional[date] = Field(default=None)
     updated_at: Optional[date] = Field(default=None)

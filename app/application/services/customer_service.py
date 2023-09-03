@@ -4,8 +4,8 @@ from app.application.dto import (BankCustomerCreate,
                                  BankCustomerRead,
                                  BankCustomerSearch)
 from app.application.exceptions import CustomerNotExist, CustomerIDNotExist
-from app.infrastructure.database.models.db import (BankAccountModel,
-                                                   BankCustomerModel)
+from app.infrastructure.database.models import (BankAccountModel,
+                                                BankCustomerModel)
 from app.infrastructure.database.repositories import ICustomerRepo
 from .data_converter import DataConverterMixin
 

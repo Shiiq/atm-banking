@@ -1,9 +1,11 @@
+from uuid import UUID
+
 from .base import ApplicationException
 
 
 class CustomerIDNotExist(ApplicationException):
 
-    def __init__(self, customer_id: int):
+    def __init__(self, customer_id: UUID):
         self.customer_id = customer_id
 
     @property

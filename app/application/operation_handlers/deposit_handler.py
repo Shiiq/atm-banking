@@ -12,7 +12,7 @@ from app.application.dto import (BankAccountRead,
 from app.application.exceptions import CustomerNotExist
 from .base import BaseHandler
 
-_l = logging.getLogger("deposit handler")
+_logger = logging.getLogger(__name__)
 
 
 class Deposit(BaseHandler):
@@ -27,22 +27,34 @@ class Deposit(BaseHandler):
                 customer_search_data = BankCustomerSearch(first_name=input_data.first_name,
                                                           last_name=input_data.last_name)
                 customer = await self._customer_service.by_fullname(search_data=customer_search_data)
+                _logger.info(
+                    f"The customer '{customer.id}' requested"
+                    f" a deposit operation in the amount of '{input_data.amount}'"
+                )
             except CustomerNotExist as err:
-                _l.info(err.msg)
+                _logger.info(
+                    f"A customer '{input_data.first_name} {input_data.last_name}' does not exist"
+                )
                 customer_create_data = BankCustomerCreate(first_name=input_data.first_name,
                                                           last_name=input_data.last_name)
                 customer = await self._customer_service.create(create_data=customer_create_data)
-                _l.info(f"A new customer {err.first_name} {err.last_name} has been registered")
+                _logger.info(
+                    f"Customer '{customer.first_name} {customer.last_name}' has been registered"
+                )
             account_search_data = BankAccountSearch(id=customer.bank_account_id)
             account = await self._update_bank_account(account_search_data=account_search_data,
                                                       operation_amount=input_data.amount)
-            _l.info("Deposit operation was successful")
+            _logger.info(
+                f"Deposit operation for customer '{customer.id}' was successful"
+            )
             operation_register_data = BankOperationCreate(amount=input_data.amount,
                                                           bank_account_id=account.id,
                                                           bank_customer_id=customer.id,
                                                           bank_operation_type=input_data.operation_type)
             operation = await self._register_bank_operation(operation_register_data=operation_register_data)
-            _l.info("Deposit operation was registered")
+            _logger.info(
+                f"Deposit operation for customer '{customer.id}' was registered"
+            )
             return SummaryOperationInfo(account=account,
                                         customer=customer,
                                         operation=operation)

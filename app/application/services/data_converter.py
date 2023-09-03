@@ -1,5 +1,4 @@
 
-
 class DataConverterMixin:
 
     def _from_dto_to_orm(self, input_data, output_model):

@@ -1,5 +1,5 @@
 import logging
-from logging import Logger, handlers
+from logging import handlers
 
 from app.infrastructure.config.log_config import LogConfig
 
@@ -9,7 +9,7 @@ def setup_root_logger(log_config: LogConfig):
     logger.setLevel(log_config.BASE_LEVEL)
     formatter = logging.Formatter(
         fmt=log_config.LOG_FORMAT,
-        datefmt=log_config.DATE_FORMAT
+        datefmt=log_config.DATETIME_FORMAT
     )
     # system logging
     stream_handler = logging.StreamHandler()

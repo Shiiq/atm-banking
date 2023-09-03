@@ -11,6 +11,8 @@ from app.application.dto import (BankAccountRead,
 from app.application.exceptions import AccountHasInsufficientFunds
 from .base import BaseHandler
 
+_logger = logging.getLogger(__name__)
+
 
 class Withdraw(BaseHandler):
 
@@ -23,17 +25,24 @@ class Withdraw(BaseHandler):
             customer_search_data = BankCustomerSearch(first_name=input_data.first_name,
                                                       last_name=input_data.last_name)
             customer = await self._customer_service.by_fullname(search_data=customer_search_data)
-
+            _logger.info(
+                f"The customer '{customer.id}' requested"
+                f" a withdraw operation in the amount of '{input_data.amount}'"
+            )
             account_search_data = BankAccountSearch(id=customer.bank_account_id)
             account = await self._update_bank_account(account_search_data=account_search_data,
                                                       operation_amount=input_data.amount)
-            logging.info("Withdraw operation was successful")
+            _logger.info(
+                f"Withdraw operation for customer '{customer.id}' was successful"
+            )
             operation_register_data = BankOperationCreate(amount=input_data.amount,
                                                           bank_account_id=account.id,
                                                           bank_customer_id=customer.id,
                                                           bank_operation_type=input_data.operation_type)
             operation = await self._register_bank_operation(operation_register_data=operation_register_data)
-            logging.info("Withdraw operation was registered")
+            _logger.info(
+                f"Withdraw operation for customer '{customer.id}' was registered"
+            )
             return SummaryOperationInfo(account=account,
                                         customer=customer,
                                         operation=operation)
@@ -46,7 +55,9 @@ class Withdraw(BaseHandler):
         current_account = await self._account_service.by_id(search_data=account_search_data)
         if not self._check_possibility_to_withdraw(current_balance=current_account.balance,
                                                    requested_amount=operation_amount):
-            logging.info(f"An account with ID '{current_account.id}' has insufficient funds to withdraw")
+            _logger.info(
+                f"An account '{current_account.id}' has insufficient funds"
+            )
             raise AccountHasInsufficientFunds(account_id=current_account.id)
         else:
             account_update_data = BankAccountUpdate(id=current_account.id,

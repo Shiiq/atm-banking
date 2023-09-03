@@ -1,7 +1,7 @@
 from app.application.dto import (BankOperationCreate,
                                  BankOperationRead,
                                  BankOperationSearch)
-from app.infrastructure.database.models.db import BankOperationModel
+from app.infrastructure.database.models import BankOperationModel
 from app.infrastructure.database.repositories import IOperationRepo
 from .data_converter import DataConverterMixin
 

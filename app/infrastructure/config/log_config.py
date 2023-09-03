@@ -10,7 +10,7 @@ class LogConfig(BaseSettings):
     """Log config"""
 
     LOG_FORMAT: str = "%(asctime)s :: %(levelname)s :: %(name)s :: %(message)s"
-    DATE_FORMAT: str = "%Y-%m-%d %H:%M:%S"
+    DATETIME_FORMAT: str = "%Y-%m-%d %H:%M:%S"
     BASE_LEVEL: str = "INFO"
     STREAM_LOG_LEVEL: str = "DEBUG"
     FILE_LOG_LEVEL: str = "INFO"

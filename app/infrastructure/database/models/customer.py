@@ -1,4 +1,6 @@
-from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint
+from uuid import UUID
+
+from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint, Uuid
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base, UpdatedAtTimestampMixin
@@ -14,9 +16,12 @@ class BankCustomerModel(UpdatedAtTimestampMixin, Base):
                                             nullable=False)
     last_name: Mapped[str] = mapped_column(String(length=50),
                                            nullable=False)
-    bank_account_id: Mapped[int | None] = mapped_column(Integer,
-                                                        ForeignKey("bank_account.id"),
-                                                        nullable=True)
+    bank_account_id: Mapped[UUID | None] = mapped_column(Uuid(as_uuid=True),
+                                                         ForeignKey("bank_account.id"),
+                                                         nullable=True)
+    # bank_account_id: Mapped[int | None] = mapped_column(Integer,
+    #                                                     ForeignKey("bank_account.id"),
+    #                                                     nullable=True)
     bank_account = relationship("BankAccountModel",
                                 uselist=False,
                                 back_populates="customer")

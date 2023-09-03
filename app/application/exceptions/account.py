@@ -1,9 +1,11 @@
+from uuid import UUID
+
 from .base import ApplicationException
 
 
 class AccountIDNotExist(ApplicationException):
 
-    def __init__(self, account_id: int):
+    def __init__(self, account_id: UUID):
         self.account_id = account_id
 
     @property
@@ -16,7 +18,7 @@ class AccountIDNotExist(ApplicationException):
 
 class AccountHasInsufficientFunds(ApplicationException):
 
-    def __init__(self, account_id: int):
+    def __init__(self, account_id: UUID):
         self.account_id = account_id
 
     @property

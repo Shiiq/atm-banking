@@ -8,8 +8,6 @@ from app.presentation.api_runner import api_start
 from app.presentation.cli_runner import cli_start
 
 
-
-
 async def parse_args():
 
     log_config = get_log_config()
@@ -17,17 +15,20 @@ async def parse_args():
 
     main_parser = argparse.ArgumentParser(description="api or cli")
     group = main_parser.add_mutually_exclusive_group(required=True)
-
-    group.add_argument("-api", help="running the app via api", action="store_true")
-    group.add_argument("-cli", help="running the app via cli", action="store_true")
+    group.add_argument("-api",
+                       action="store_true",
+                       help="running the app via api")
+    group.add_argument("-cli",
+                       action="store_true",
+                       help="running the app via cli")
 
     args = main_parser.parse_args()
 
     if args.api:
-        logging.info("running the api application")
+        logging.warning("preparing to launch the api application")
         await api_start()
     elif args.cli:
-        logging.info("running the cli application")
+        logging.warning("preparing to launch the cli application")
         await cli_start()
 
 

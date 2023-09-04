@@ -40,6 +40,7 @@ class Deposit(BaseHandler):
                 customer = await self._customer_service.create(create_data=customer_create_data)
                 _logger.info(
                     f"Customer '{customer.first_name} {customer.last_name}' has been registered"
+                    f" with ID '{customer.id}'"
                 )
             account_search_data = BankAccountSearch(id=customer.bank_account_id)
             account = await self._update_bank_account(account_search_data=account_search_data,

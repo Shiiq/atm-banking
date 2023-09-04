@@ -12,8 +12,6 @@ class BankOperationCreate(FrozenDTO):
     """Bank operation model to write to DB"""
 
     amount: PositiveInt
-    # bank_account_id: int
-    # bank_customer_id: int
     bank_account_id: UUID
     bank_customer_id: UUID
     bank_operation_type: BankOperationType
@@ -22,11 +20,8 @@ class BankOperationCreate(FrozenDTO):
 class BankOperationRead(FrozenDTO):
     """Bank operation output model from DB"""
 
-    # id: int
     id: UUID
     amount: PositiveInt
-    # bank_account_id: int
-    # bank_customer_id: int
     bank_account_id: UUID
     bank_customer_id: UUID
     bank_operation_type: BankOperationType
@@ -36,9 +31,6 @@ class BankOperationRead(FrozenDTO):
 class BankOperationSearch(DTO):
     """Bank operation search data model"""
 
-    # id: Optional[int] = Field(default=None)
-    # bank_account_id: Optional[int] = Field(default=None)
-    # bank_customer_id: Optional[int] = Field(default=None)
     id: Optional[UUID] = Field(default=None)
     bank_account_id: Optional[UUID] = Field(default=None)
     bank_customer_id: Optional[UUID] = Field(default=None)

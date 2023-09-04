@@ -134,3 +134,4 @@ dmypy.json
 .idea
 /app/infrastructure/alembic/versions/
 /test_fastapi_app/
+/logs/

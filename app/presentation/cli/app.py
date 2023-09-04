@@ -1,3 +1,4 @@
+import logging
 from pprint import pprint
 
 from app.application.exceptions import ApplicationException
@@ -12,6 +13,8 @@ from app.presentation.cli.common.messages import (EXIT_MESSAGE,
                                                   WELCOME_MESSAGE,
                                                   WRONG_OPERATION_MESSAGE)
 from app.presentation.cli.handlers import ExceptionHandler, InputHandler
+
+_logger = logging.getLogger(__name__)
 
 
 class CLIApp:
@@ -38,14 +41,15 @@ class CLIApp:
             try:
                 request = self._input_handler.parse(input_data)
             except ExitOperation as err:
-                # logging exiting
+                _logger.info("Received the 'EXIT' command, work with the terminal is done.")
                 print(EXIT_MESSAGE)
                 break
             except WrongOperationError as err:
-                # logging wrong operation
+                _logger.info("Received unknown operation")
                 print(WRONG_OPERATION_MESSAGE)
                 continue
             except InputDataError as err:
+                _logger.info("Received incorrect data")
                 print(INCORRECT_DATA_MESSAGE)
                 continue
 
@@ -56,9 +60,7 @@ class CLIApp:
                 response = await handler.execute(request)
                 self.print_result(response=response)
             except ApplicationException as err:
-                print(err.msg)
-                pass
+                continue
 
     async def run(self):
-        # logging prepare for launch cli
         await self._run()

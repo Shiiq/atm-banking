@@ -1,3 +1,5 @@
+from pydantic import TypeAdapter
+
 from app.application.dto import (BankOperationCreate,
                                  BankOperationRead,
                                  BankOperationSearch)
@@ -9,6 +11,7 @@ from .data_converter import DataConverterMixin
 class OperationService(DataConverterMixin):
 
     def __init__(self, operation_repo: IOperationRepo):
+        self._list_adapter = TypeAdapter(list[BankOperationRead | None])
         self.operation_repo = operation_repo
 
     async def create(self, create_data: BankOperationCreate) -> BankOperationRead:
@@ -29,19 +32,13 @@ class OperationService(DataConverterMixin):
         operations = await self.operation_repo.get_by_account_id(
             account_id=search_data.bank_account_id
         )
-        return [
-            self._from_orm_to_dto(input_data=operation, output_model=BankOperationRead)
-            for operation in operations
-        ]
+        return self._list_adapter.validate_python(operations)
 
     async def by_customer(self, search_data: BankOperationSearch):
         operations = await self.operation_repo.get_by_customer_id(
             customer_id=search_data.bank_customer_id
         )
-        return [
-            self._from_orm_to_dto(input_data=operation, output_model=BankOperationRead)
-            for operation in operations
-        ]
+        return self._list_adapter.validate_python(operations)
 
     async def by_date_interval(self, search_data: BankOperationSearch):
         operations = await self.operation_repo.get_by_date_interval(
@@ -50,7 +47,4 @@ class OperationService(DataConverterMixin):
             start_date=search_data.since,
             end_date=search_data.till
         )
-        return [
-            self._from_orm_to_dto(input_data=operation, output_model=BankOperationRead)
-            for operation in operations
-        ]
+        return self._list_adapter.validate_python(operations)

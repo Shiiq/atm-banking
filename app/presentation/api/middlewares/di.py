@@ -24,11 +24,11 @@ class DIMiddleware(BaseHTTPMiddleware):
                 scope=DIScope.REQUEST,
                 state=self.app_state
         ) as request_state:
-            base_usecase = await self.container.execute(
+            handler = await self.container.execute(
                 required_dependency=self.dependency,
                 scope=DIScope.REQUEST,
                 state=request_state
             )
-            request.state.base_usecase = base_usecase
+            request.state.handler = handler
             response = await call_next(request)
             return response

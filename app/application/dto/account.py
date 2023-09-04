@@ -18,7 +18,6 @@ class BankAccountCreate(FrozenDTO):
 class BankAccountRead(FrozenDTO):
     """Bank account output model from DB"""
 
-    # id: int
     id: UUID
     balance: NonNegativeInt
     created_at: datetime
@@ -28,7 +27,6 @@ class BankAccountRead(FrozenDTO):
 class BankAccountUpdate(DTO):
     """Bank account update data model"""
 
-    # id: int
     id: UUID
     balance: NonNegativeInt
 
@@ -36,9 +34,7 @@ class BankAccountUpdate(DTO):
 class BankAccountSearch(DTO):
     """Bank account search data model"""
 
-    # id: Optional[int] = Field(default=None)
     id: Optional[UUID] = Field(default=None)
-    # customer_id: Optional[int] = Field(default=None)
     customer_id: Optional[UUID] = Field(default=None)
     created_at: Optional[date] = Field(default=None)
     updated_at: Optional[date] = Field(default=None)

@@ -22,7 +22,6 @@ def setup_app(app: FastAPI, provider: Provider):
 
 
 async def run_app(app: FastAPI, app_config: AppConfig):
-    # logging prepare for launch api
     server_config = uvicorn.Config(app=app,
                                    host=app_config.host,
                                    port=app_config.port)

@@ -82,7 +82,8 @@ class InputHandler:
             return self._bank_statement(pattern=args_pattern,
                                         raw_data=raw_data,
                                         data_model=parsed_data_model)
-        elif operation_type in (BankOperationType.DEPOSIT, BankOperationType.WITHDRAW):
+        elif (operation_type == BankOperationType.DEPOSIT
+              or operation_type == BankOperationType.WITHDRAW):
             return self._deposit_or_withdraw(pattern=args_pattern,
                                              raw_data=raw_data,
                                              data_model=parsed_data_model)
@@ -107,7 +108,6 @@ class InputHandler:
         till = re.sub(pattern=DATE_VARIATIONS_PATTERN,
                       repl=REPL_DATE_PATTERN,
                       string=parsed_data.group("till"))
-
         return data_model(first_name=first_name,
                           last_name=last_name,
                           since=since,
@@ -128,7 +128,6 @@ class InputHandler:
         first_name = parsed_data.group("first_name")
         last_name = parsed_data.group("last_name")
         amount = parsed_data.group("amount")
-
         return data_model(first_name=first_name,
                           last_name=last_name,
                           amount=amount)

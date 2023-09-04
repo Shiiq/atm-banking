@@ -16,7 +16,7 @@ _deposit_operation_pattern = (
     r"(?P<operation_type>deposit)\s+"
     r"(?P<first_name>[^\W\d]+)\s+"
     r"(?P<last_name>[^\W\d]+)\s+"
-    r"(?P<amount>\d{1,7})"
+    r"(?P<amount>\d{1,8})"
 )
 DEPOSIT_OPERATION_PATTERN = re.compile(_deposit_operation_pattern)
 

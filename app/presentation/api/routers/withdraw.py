@@ -3,7 +3,7 @@ from typing import Union
 from fastapi import APIRouter, Depends
 from starlette import status
 
-from app.application.dto import WithdrawInput, SummaryOperationInfo
+from app.application.dto import WithdrawInput, FullOperationInfo
 from app.application.exceptions import (AccountIDNotExist,
                                         AccountHasInsufficientFunds,
                                         CustomerIDNotExist,
@@ -18,7 +18,7 @@ withdraw_router = APIRouter(prefix="/withdraw")
     path="/",
     responses={
         status.HTTP_200_OK: {
-            "model": SummaryOperationInfo
+            "model": FullOperationInfo
         },
         status.HTTP_404_NOT_FOUND: {
             "model": ExceptionData[
@@ -34,7 +34,7 @@ withdraw_router = APIRouter(prefix="/withdraw")
 async def withdraw(
         withdraw_input: WithdrawInput,
         provider=Depends(get_provider)
-) -> SummaryOperationInfo:
+) -> FullOperationInfo:
 
     handler = await provider.get_handler(
         key_class=withdraw_input.operation_type

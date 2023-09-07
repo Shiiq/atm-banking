@@ -7,7 +7,7 @@ from app.application.dto import (BankAccountRead,
                                  BankOperationCreate,
                                  BankOperationRead,
                                  WithdrawInput,
-                                 SummaryOperationInfo)
+                                 FullOperationInfo)
 from app.application.exceptions import AccountHasInsufficientFunds
 from .base import BaseHandler
 
@@ -19,7 +19,7 @@ class Withdraw(BaseHandler):
     async def execute(
             self,
             input_data: WithdrawInput
-    ) -> SummaryOperationInfo:
+    ) -> FullOperationInfo:
 
         async with self._uow:
             customer_search_data = BankCustomerSearch(first_name=input_data.first_name,
@@ -43,9 +43,9 @@ class Withdraw(BaseHandler):
             _logger.info(
                 f"Withdraw operation for customer '{customer.id}' was registered"
             )
-            return SummaryOperationInfo(account=account,
-                                        customer=customer,
-                                        operation=operation)
+            return FullOperationInfo(account=account,
+                                     customer=customer,
+                                     operation=operation)
 
     async def _update_bank_account(
             self,

@@ -47,3 +47,5 @@ class BankOperationSearch(DTO):
     def convert_till_to_datetime(cls, d: date) -> datetime:
         t = time(hour=23, minute=59, second=59, microsecond=999999)
         return datetime.combine(d, t)
+
+

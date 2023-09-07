@@ -1,39 +1,37 @@
-from datetime import date
+from datetime import date, datetime
 
-from pydantic import PositiveInt
+from pydantic import PositiveInt, NonNegativeInt
 
 from .account import BankAccountRead
 from .customer import BankCustomerRead
 from .operation import BankOperationRead
-from .base import FrozenDTO
 from .input import BankOperationType
+from .base import FrozenDTO
 
 
-# class _BankOperationsInfo(FrozenDTO):
-#
-#     since: date
-#     till: date
-#     first_name: str
-#     last_name: str
-#     operations: list[BankOperationRead]
-#
-#
-# class _SummaryOperationInfo(FrozenDTO):
-#
-#     first_name: str
-#     last_name: str
-#     operation: BankOperationsFromInput
-#     amount: PositiveInt
+class ShortOperationInfo(FrozenDTO):
+
+    operation_datetime: datetime
+    operation_type: BankOperationType
+    operation_amount: PositiveInt
+    balance: NonNegativeInt
 
 
-class SummaryOperationInfo(FrozenDTO):
+class FullOperationInfo(FrozenDTO):
 
     account: BankAccountRead
     customer: BankCustomerRead
     operation: BankOperationRead
 
 
-class BankOperationsInfo(FrozenDTO):
+class ShortBankStatementInfo(FrozenDTO):
+
+    since: date
+    till: date
+    operations: list[ShortOperationInfo]
+
+
+class FullBankStatementInfo(FrozenDTO):
 
     since: date
     till: date

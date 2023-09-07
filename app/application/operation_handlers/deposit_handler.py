@@ -8,7 +8,7 @@ from app.application.dto import (BankAccountRead,
                                  BankOperationCreate,
                                  BankOperationRead,
                                  DepositInput,
-                                 SummaryOperationInfo)
+                                 FullOperationInfo)
 from app.application.exceptions import CustomerNotExist
 from .base import BaseHandler
 
@@ -20,7 +20,7 @@ class Deposit(BaseHandler):
     async def execute(
             self,
             input_data: DepositInput
-    ) -> SummaryOperationInfo:
+    ) -> FullOperationInfo:
 
         async with self._uow:
             try:
@@ -56,9 +56,9 @@ class Deposit(BaseHandler):
             _logger.info(
                 f"Deposit operation for customer '{customer.id}' was registered"
             )
-            return SummaryOperationInfo(account=account,
-                                        customer=customer,
-                                        operation=operation)
+            return FullOperationInfo(account=account,
+                                     customer=customer,
+                                     operation=operation)
 
     async def _update_bank_account(
             self,

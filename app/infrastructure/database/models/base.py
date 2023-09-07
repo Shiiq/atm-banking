@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from sqlalchemy import DateTime, Integer, MetaData, sql, Uuid
+from sqlalchemy import DateTime, MetaData, sql, Uuid
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, registry
 
 convention = {

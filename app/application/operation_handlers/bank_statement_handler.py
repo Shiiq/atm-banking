@@ -3,7 +3,8 @@ import logging
 from app.application.dto import (BankCustomerSearch,
                                  BankOperationSearch,
                                  BankStatementInput,
-                                 BankOperationsInfo)
+                                 ShortBankStatementInfo,
+                                 FullBankStatementInfo)
 from .base import BaseHandler
 
 _logger = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ class BankStatement(BaseHandler):
     async def execute(
             self,
             input_data: BankStatementInput
-    ) -> BankOperationsInfo:
+    ) -> FullBankStatementInfo:
 
         async with self._uow:
             customer_search_data = BankCustomerSearch(first_name=input_data.first_name,
@@ -32,7 +33,10 @@ class BankStatement(BaseHandler):
             _logger.info(
                 f"A bank statement for customer '{customer.id}' is prepared"
             )
-            return BankOperationsInfo(customer=customer,
-                                      since=input_data.since,
-                                      till=input_data.till,
-                                      operations=operations)
+            # return ShortBankStatementInfo(since=input_data.since,
+            #                               till=input_data.till,
+            #                               operations=...)
+            return FullBankStatementInfo(customer=customer,
+                                         since=input_data.since,
+                                         till=input_data.till,
+                                         operations=operations)

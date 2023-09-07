@@ -19,9 +19,6 @@ class BankCustomerModel(UpdatedAtTimestampMixin, Base):
     bank_account_id: Mapped[UUID | None] = mapped_column(Uuid(as_uuid=True),
                                                          ForeignKey("bank_account.id"),
                                                          nullable=True)
-    # bank_account_id: Mapped[int | None] = mapped_column(Integer,
-    #                                                     ForeignKey("bank_account.id"),
-    #                                                     nullable=True)
     bank_account = relationship("BankAccountModel",
                                 uselist=False,
                                 back_populates="customer")

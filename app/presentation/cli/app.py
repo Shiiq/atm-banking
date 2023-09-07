@@ -60,6 +60,7 @@ class CLIApp:
                 response = await handler.execute(request)
                 self.print_result(response=response)
             except ApplicationException as err:
+                # TODO !! there is not logging a case when customer is not exist
                 continue
 
     async def run(self):

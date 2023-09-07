@@ -21,11 +21,5 @@ class BankOperationModel(Base):
     bank_customer_id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True),
                                                    ForeignKey("bank_customer.id"),
                                                    nullable=False)
-    # bank_account_id: Mapped[int] = mapped_column(Integer,
-    #                                              ForeignKey("bank_account.id"),
-    #                                              nullable=False)
-    # bank_customer_id: Mapped[int] = mapped_column(Integer,
-    #                                               ForeignKey("bank_customer.id"),
-    #                                               nullable=False)
     bank_operation_type: Mapped[BankOperationType] = mapped_column(Enum(BankOperationsDB),
                                                                    nullable=False)

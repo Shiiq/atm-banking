@@ -1,10 +1,10 @@
 
 
-BANK_STATEMENT_FORMAT_MESSAGE = (
+_BANK_STATEMENT_FORMAT_MESSAGE = (
     "<bank statement first name last name since[DD-MM-YYYY] till[DD-MM-YYYY]>\n"
 )
 
-DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE = (
+_DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE = (
     "<[deposit or withdraw] first name last name amount>\n"
 )
 
@@ -17,10 +17,11 @@ INCORRECT_DATA_MESSAGE = (
 REQUESTING_MESSAGE = "Please enter your request >>> "
 
 WELCOME_MESSAGE = (
+    "\n"
     f"Please input your request in the format:\n"
-    f"{DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE}"
+    f"{_DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE}"
     "Or if you need a bank statement, then enter the request in the format:\n"
-    f"{BANK_STATEMENT_FORMAT_MESSAGE}"
+    f"{_BANK_STATEMENT_FORMAT_MESSAGE}"
     "For exit input <exit>.\n\n"
 )
 
@@ -29,8 +30,8 @@ WRONG_OPERATION_MESSAGE = (
 )
 
 __all__ = (
-    # "BANK_STATEMENT_FORMAT_MESSAGE",
-    # "DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE",
+    # "_BANK_STATEMENT_FORMAT_MESSAGE",
+    # "_DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE",
     "EXIT_MESSAGE",
     "INCORRECT_DATA_MESSAGE",
     "REQUESTING_MESSAGE",

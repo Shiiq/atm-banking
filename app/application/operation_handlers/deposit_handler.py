@@ -59,7 +59,7 @@ class Deposit(BaseHandler):
         return ShortOperationInfo(operation_datetime=operation.created_at,
                                   operation_type=operation.bank_operation_type,
                                   operation_amount=operation.amount,
-                                  balance=account.balance)
+                                  current_balance=account.balance)
 
     async def _update_bank_account(
             self,

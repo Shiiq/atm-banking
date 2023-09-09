@@ -29,13 +29,14 @@ class CLIApp:
         self._provider = provider
 
     def print_result(self, response):
-        pprint(response.model_dump(), indent=4)
+        pprint(response.model_dump(exclude_none=True), indent=4)
 
     def print_error(self, error):
         pprint(error.msg, indent=4)
 
     async def _run(self):
         print(WELCOME_MESSAGE)
+        # TODO !! need to implement RUN|STOP signal
         while input_data := input(REQUESTING_MESSAGE):  # True
 
             try:
@@ -59,6 +60,7 @@ class CLIApp:
             try:
                 response = await handler.execute(request)
                 self.print_result(response=response)
+                # TODO !! operation success message
             except ApplicationException as err:
                 # TODO !! there is not logging a case when customer is not exist
                 continue

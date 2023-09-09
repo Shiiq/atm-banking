@@ -15,7 +15,7 @@ class BankStatement(BaseHandler):
     async def execute(
             self,
             input_data: BankStatementInput
-    ) -> FullBankStatementInfo:
+    ) -> ShortBankStatementInfo:
 
         async with self._uow:
             customer_search_data = BankCustomerSearch(first_name=input_data.first_name,
@@ -33,10 +33,6 @@ class BankStatement(BaseHandler):
             _logger.info(
                 f"A bank statement for customer '{customer.id}' is prepared"
             )
-            # return ShortBankStatementInfo(since=input_data.since,
-            #                               till=input_data.till,
-            #                               operations=...)
-            return FullBankStatementInfo(customer=customer,
-                                         since=input_data.since,
-                                         till=input_data.till,
-                                         operations=operations)
+            return ShortBankStatementInfo(since=input_data.since,
+                                          till=input_data.till,
+                                          operations=operations)

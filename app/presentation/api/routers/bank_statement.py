@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from app.application.dto import BankStatementInput, FullBankStatementInfo
+from app.application.dto import BankStatementInput, FullBankStatementInfo, ShortBankStatementInfo
 from app.presentation.api.dependencies import get_provider
 
 bank_statement_router = APIRouter(prefix="/bank_statement")
@@ -10,7 +10,7 @@ bank_statement_router = APIRouter(prefix="/bank_statement")
 async def bank_statement(
         bank_statement_input: BankStatementInput,
         provider=Depends(get_provider)
-) -> FullBankStatementInfo:
+) -> ShortBankStatementInfo:
 
     handler = await provider.get_handler(
         key_class=bank_statement_input.operation_type

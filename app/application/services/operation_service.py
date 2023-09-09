@@ -2,16 +2,18 @@ from pydantic import TypeAdapter
 
 from app.application.dto import (BankOperationCreate,
                                  BankOperationRead,
-                                 BankOperationSearch)
+                                 BankOperationSearch,
+                                 ShortOperationInfo)
 from app.infrastructure.database.models import BankOperationModel
 from app.infrastructure.database.repositories import IOperationRepo
 from .data_converter import DataConverterMixin
 
 
 class OperationService(DataConverterMixin):
-
+    # TODO !! full|short operations info check
     def __init__(self, operation_repo: IOperationRepo):
-        self._list_adapter = TypeAdapter(list[BankOperationRead | None])
+        self._full_adapter = TypeAdapter(list[BankOperationRead | None])
+        self._short_adapter = TypeAdapter(list[ShortOperationInfo | None])
         self.operation_repo = operation_repo
 
     async def create(self, create_data: BankOperationCreate) -> BankOperationRead:
@@ -47,4 +49,6 @@ class OperationService(DataConverterMixin):
             start_date=search_data.since,
             end_date=search_data.till
         )
-        return self._list_adapter.validate_python(operations)
+        if search_data.fullness:
+            return self._full_adapter.validate_python(operations)
+        return self._short_adapter.validate_python(operations)

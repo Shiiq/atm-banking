@@ -27,7 +27,6 @@ class UnitOfWork:
 
         self._in_transaction = True
         await self._session.begin()
-        return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         if exc_type:

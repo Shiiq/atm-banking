@@ -25,10 +25,10 @@ async def parse_args():
     args = main_parser.parse_args()
 
     if args.api:
-        logging.warning("preparing to launch the api application")
+        logging.warning("preparing the api application")
         await api_start()
     elif args.cli:
-        logging.warning("preparing to launch the cli application")
+        logging.warning("preparing the cli application")
         await cli_start()
 
 

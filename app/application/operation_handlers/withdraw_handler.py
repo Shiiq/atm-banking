@@ -53,6 +53,7 @@ class Withdraw(BaseHandler):
             account_search_data: BankAccountSearch,
             operation_amount: int
     ) -> BankAccountRead:
+
         current_account = await self._account_service.by_id(search_data=account_search_data)
         if not self._check_possibility_to_withdraw(current_balance=current_account.balance,
                                                    requested_amount=operation_amount):
@@ -71,11 +72,13 @@ class Withdraw(BaseHandler):
             current_balance: int,
             requested_amount: int
     ) -> bool:
+
         return (current_balance - requested_amount) >= 0
 
     async def _register_bank_operation(
             self,
             operation_register_data: BankOperationCreate
     ) -> BankOperationRead:
+
         operation = await self._operation_service.create(create_data=operation_register_data)
         return operation

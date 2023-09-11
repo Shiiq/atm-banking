@@ -36,3 +36,4 @@ class BankStatement(BaseHandler):
             return ShortBankStatementInfo(since=input_data.since,
                                           till=input_data.till,
                                           operations=operations)
+3

@@ -2,7 +2,8 @@ from typing import Optional
 
 from app.application.dto import (BankCustomerCreate,
                                  BankCustomerRead,
-                                 BankCustomerSearch)
+                                 BankCustomerSearch,
+                                 BankAccountRead)
 from app.application.exceptions import CustomerNotExist, CustomerIDNotExist
 from app.infrastructure.database.models import (BankAccountModel,
                                                 BankCustomerModel)
@@ -32,13 +33,19 @@ class CustomerService(DataConverterMixin):
         return self._from_orm_to_dto(input_data=customer,
                                      output_model=BankCustomerRead)
 
-    async def by_fullname(self, search_data: BankCustomerSearch) -> Optional[BankCustomerRead]:
+    async def by_fullname(self, search_data: BankCustomerSearch):# -> Optional[BankCustomerRead]:
         customer = await self.customer_repo.get_by_fullname(
             customer_first_name=search_data.first_name,
             customer_last_name=search_data.last_name
         )
-        if not customer:
-            raise CustomerNotExist(first_name=search_data.first_name,
-                                   last_name=search_data.last_name)
-        return self._from_orm_to_dto(input_data=customer,
-                                     output_model=BankCustomerRead)
+        bank_account = customer.bank_account
+        bank_account = self._from_orm_to_dto(input_data=bank_account,
+                                             output_model=BankAccountRead)
+        customer = self._from_orm_to_dto(input_data=customer,
+                                         output_model=BankCustomerRead)
+        return customer, bank_account
+        # if not customer:
+        #     raise CustomerNotExist(first_name=search_data.first_name,
+        #                            last_name=search_data.last_name)
+        # return self._from_orm_to_dto(input_data=customer,
+        #                              output_model=BankCustomerRead)

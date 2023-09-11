@@ -39,10 +39,20 @@ class CustomerService(DataConverterMixin):
             customer_last_name=search_data.last_name
         )
         bank_account = customer.bank_account
-        bank_account = self._from_orm_to_dto(input_data=bank_account,
-                                             output_model=BankAccountRead)
+        print("BEFORE CONV")
+        for i in self.customer_repo._session.identity_map.values():
+            print(i)
         customer = self._from_orm_to_dto(input_data=customer,
                                          output_model=BankCustomerRead)
+        print("customer CONV")
+        for i in self.customer_repo._session.identity_map.values():
+            print(i)
+        bank_account = self._from_orm_to_dto(input_data=bank_account,
+                                             output_model=BankAccountRead)
+        print("bank_account CONV")
+        for i in self.customer_repo._session.identity_map.values():
+            print(i)
+        print("AFTER CONV")
         return customer, bank_account
         # if not customer:
         #     raise CustomerNotExist(first_name=search_data.first_name,

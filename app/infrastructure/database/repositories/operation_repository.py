@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import select
+from sqlalchemy import select, inspect
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.database.models import BankOperationModel
@@ -18,9 +18,49 @@ class OperationRepo(SARepo, IOperationRepo):
             self,
             operation: BankOperationModel
     ) -> BankOperationModel:
-
+        # print(50*"-")
+        # print("OPERATION REPO CREATE METH BEFORE ADD TO SESS")
+        # for i in self._session.identity_map.values():
+        #     print(i)
+        #     print("TRANSIENT", inspect(i).transient)
+        #     print("PENDING", inspect(i).pending)
+        #     print("PERSISTENT", inspect(i).persistent)
+        #     print("DELETED", inspect(i).deleted)
+        #     print("DETACHED", inspect(i).detached)
+        # print("TRANSIENT", inspect(operation).transient)
+        # print("PENDING", inspect(operation).pending)
+        # print("PERSISTENT", inspect(operation).persistent)
+        # print("DELETED", inspect(operation).deleted)
+        # print("DETACHED", inspect(operation).detached)
         self._session.add(operation)
+        # print("OPERATION REPO CREATE METH AFTER ADD TO SESS BEFORE FLUSH")
+        # for i in self._session.identity_map.values():
+        #     print(i)
+        # print("TRANSIENT", inspect(operation).transient)
+        # print("PENDING", inspect(operation).pending)
+        # print("PERSISTENT", inspect(operation).persistent)
+        # print("DELETED", inspect(operation).deleted)
+        # print("DETACHED", inspect(operation).detached)
+            # print("TRANSIENT", inspect(i).transient)
+            # print("PENDING", inspect(i).pending)
+            # print("PERSISTENT", inspect(i).persistent)
+            # print("DELETED", inspect(i).deleted)
+            # print("DETACHED", inspect(i).detached)
         await self._session.flush()
+        # print("OPERATION REPO CREATE METH AFTER FLUSH")
+        # print("TRANSIENT", inspect(operation).transient)
+        # print("PENDING", inspect(operation).pending)
+        # print("PERSISTENT", inspect(operation).persistent)
+        # print("DELETED", inspect(operation).deleted)
+        # print("DETACHED", inspect(operation).detached)
+        # for i in self._session.identity_map.values():
+        #     print(i)
+        #     print("TRANSIENT", inspect(i).transient)
+        #     print("PENDING", inspect(i).pending)
+        #     print("PERSISTENT", inspect(i).persistent)
+        #     print("DELETED", inspect(i).deleted)
+        #     print("DETACHED", inspect(i).detached)
+        # print(50*"-")
         return operation
 
     async def get_all(self):

@@ -24,7 +24,6 @@ class Base(DeclarativeBase):
     metadata = mapper_registry.metadata
 
     id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True),
-                                     # autoincrement=True
                                      default=uuid4,
                                      primary_key=True)
     created_at: Mapped[datetime] = mapped_column(DateTime,
@@ -37,5 +36,5 @@ class UpdatedAtTimestampMixin:
 
     updated_at: Mapped[datetime] = mapped_column(DateTime,
                                                  nullable=False,
-                                                 server_default=sql.func.now(),
-                                                 onupdate=sql.func.now())
+                                                 onupdate=sql.func.now(),
+                                                 server_default=sql.func.now())

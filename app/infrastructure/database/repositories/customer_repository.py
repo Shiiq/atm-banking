@@ -1,6 +1,7 @@
 from typing import Optional
+from uuid import UUID
 
-from sqlalchemy import select, inspect
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
@@ -25,7 +26,7 @@ class CustomerRepo(SARepo, ICustomerRepo):
 
     async def get_by_id(
             self,
-            customer_id: int
+            customer_id: UUID
     ) -> Optional[BankCustomerModel]:
 
         customer = await self._session.get(
@@ -46,14 +47,4 @@ class CustomerRepo(SARepo, ICustomerRepo):
                         BankCustomerModel.last_name == customer_last_name)
                  .options(joinedload(BankCustomerModel.bank_account)))
         customer = await self._session.scalar(query)
-        # print(50*"-")
-        # print("CUSTOMER REPO GET BY FULLNAME METH")
-        # for i in self._session.identity_map.values():
-        #     print(i)
-        #     print("TRANSIENT", inspect(i).transient)
-        #     print("PENDING", inspect(i).pending)
-        #     print("PERSISTENT", inspect(i).persistent)
-        #     print("DELETED", inspect(i).deleted)
-        #     print("DETACHED", inspect(i).detached)
-        # print(50*"-")
         return customer

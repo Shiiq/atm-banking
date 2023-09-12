@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import Optional
+from uuid import UUID
 
-from sqlalchemy import select, inspect
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.database.models import BankOperationModel
@@ -18,49 +19,9 @@ class OperationRepo(SARepo, IOperationRepo):
             self,
             operation: BankOperationModel
     ) -> BankOperationModel:
-        # print(50*"-")
-        # print("OPERATION REPO CREATE METH BEFORE ADD TO SESS")
-        # for i in self._session.identity_map.values():
-        #     print(i)
-        #     print("TRANSIENT", inspect(i).transient)
-        #     print("PENDING", inspect(i).pending)
-        #     print("PERSISTENT", inspect(i).persistent)
-        #     print("DELETED", inspect(i).deleted)
-        #     print("DETACHED", inspect(i).detached)
-        # print("TRANSIENT", inspect(operation).transient)
-        # print("PENDING", inspect(operation).pending)
-        # print("PERSISTENT", inspect(operation).persistent)
-        # print("DELETED", inspect(operation).deleted)
-        # print("DETACHED", inspect(operation).detached)
+
         self._session.add(operation)
-        # print("OPERATION REPO CREATE METH AFTER ADD TO SESS BEFORE FLUSH")
-        # for i in self._session.identity_map.values():
-        #     print(i)
-        # print("TRANSIENT", inspect(operation).transient)
-        # print("PENDING", inspect(operation).pending)
-        # print("PERSISTENT", inspect(operation).persistent)
-        # print("DELETED", inspect(operation).deleted)
-        # print("DETACHED", inspect(operation).detached)
-            # print("TRANSIENT", inspect(i).transient)
-            # print("PENDING", inspect(i).pending)
-            # print("PERSISTENT", inspect(i).persistent)
-            # print("DELETED", inspect(i).deleted)
-            # print("DETACHED", inspect(i).detached)
         await self._session.flush()
-        # print("OPERATION REPO CREATE METH AFTER FLUSH")
-        # print("TRANSIENT", inspect(operation).transient)
-        # print("PENDING", inspect(operation).pending)
-        # print("PERSISTENT", inspect(operation).persistent)
-        # print("DELETED", inspect(operation).deleted)
-        # print("DETACHED", inspect(operation).detached)
-        # for i in self._session.identity_map.values():
-        #     print(i)
-        #     print("TRANSIENT", inspect(i).transient)
-        #     print("PENDING", inspect(i).pending)
-        #     print("PERSISTENT", inspect(i).persistent)
-        #     print("DELETED", inspect(i).deleted)
-        #     print("DETACHED", inspect(i).detached)
-        # print(50*"-")
         return operation
 
     async def get_all(self):
@@ -71,7 +32,7 @@ class OperationRepo(SARepo, IOperationRepo):
 
     async def get_by_id(
             self,
-            operation_id: int
+            operation_id: UUID
     ) -> Optional[BankOperationModel]:
 
         query = (select(BankOperationModel)
@@ -81,7 +42,7 @@ class OperationRepo(SARepo, IOperationRepo):
 
     async def get_by_account_id(
             self,
-            account_id: int
+            account_id: UUID
     ):
 
         query = (select(BankOperationModel)
@@ -91,7 +52,7 @@ class OperationRepo(SARepo, IOperationRepo):
 
     async def get_by_customer_id(
             self,
-            customer_id: int
+            customer_id: UUID
     ):
 
         query = (select(BankOperationModel)
@@ -101,8 +62,8 @@ class OperationRepo(SARepo, IOperationRepo):
 
     async def get_by_date_interval(
             self,
-            account_id: int,
-            customer_id: int,
+            account_id: UUID,
+            customer_id: UUID,
             start_date: datetime,
             end_date: datetime
     ):

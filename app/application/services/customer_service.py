@@ -2,8 +2,7 @@ from typing import Optional
 
 from app.application.dto import (BankCustomerCreate,
                                  BankCustomerRead,
-                                 BankCustomerSearch,
-                                 BankAccountRead)
+                                 BankCustomerSearch)
 from app.application.exceptions import CustomerNotExist, CustomerIDNotExist
 from app.infrastructure.database.models import (BankAccountModel,
                                                 BankCustomerModel)
@@ -16,46 +15,48 @@ class CustomerService(DataConverterMixin):
     def __init__(self, customer_repo: ICustomerRepo):
         self.customer_repo = customer_repo
 
-    async def create(self, create_data: BankCustomerCreate) -> BankCustomerRead:
-        account_orm = self._from_dto_to_orm(input_data=create_data.bank_account,
-                                            output_model=BankAccountModel)
-        customer_orm = BankCustomerModel(first_name=create_data.first_name,
-                                         last_name=create_data.last_name,
-                                         bank_account=account_orm)
+    async def create(
+            self,
+            create_data: BankCustomerCreate
+    ) -> BankCustomerRead:
+
+        account_orm = self._from_dto_to_orm(
+            input_data=create_data.bank_account,
+            output_model=BankAccountModel
+        )
+        customer_orm = BankCustomerModel(
+            first_name=create_data.first_name,
+            last_name=create_data.last_name,
+            bank_account=account_orm
+        )
         customer = await self.customer_repo.create(customer=customer_orm)
         return self._from_orm_to_dto(input_data=customer,
                                      output_model=BankCustomerRead)
 
-    async def by_id(self, search_data: BankCustomerSearch) -> Optional[BankCustomerRead]:
-        customer = await self.customer_repo.get_by_id(customer_id=search_data.id)
+    async def by_id(
+            self,
+            search_data: BankCustomerSearch
+    ) -> Optional[BankCustomerRead]:
+
+        customer = await self.customer_repo.get_by_id(
+            customer_id=search_data.id
+        )
         if not customer:
             raise CustomerIDNotExist(customer_id=search_data.id)
         return self._from_orm_to_dto(input_data=customer,
                                      output_model=BankCustomerRead)
 
-    async def by_fullname(self, search_data: BankCustomerSearch):# -> Optional[BankCustomerRead]:
+    async def by_fullname(
+            self,
+            search_data: BankCustomerSearch
+    ) -> Optional[BankCustomerRead]:
+
         customer = await self.customer_repo.get_by_fullname(
             customer_first_name=search_data.first_name,
             customer_last_name=search_data.last_name
         )
-        bank_account = customer.bank_account
-        print("BEFORE CONV")
-        for i in self.customer_repo._session.identity_map.values():
-            print(i)
-        customer = self._from_orm_to_dto(input_data=customer,
-                                         output_model=BankCustomerRead)
-        print("customer CONV")
-        for i in self.customer_repo._session.identity_map.values():
-            print(i)
-        bank_account = self._from_orm_to_dto(input_data=bank_account,
-                                             output_model=BankAccountRead)
-        print("bank_account CONV")
-        for i in self.customer_repo._session.identity_map.values():
-            print(i)
-        print("AFTER CONV")
-        return customer, bank_account
-        # if not customer:
-        #     raise CustomerNotExist(first_name=search_data.first_name,
-        #                            last_name=search_data.last_name)
-        # return self._from_orm_to_dto(input_data=customer,
-        #                              output_model=BankCustomerRead)
+        if not customer:
+            raise CustomerNotExist(first_name=search_data.first_name,
+                                   last_name=search_data.last_name)
+        return self._from_orm_to_dto(input_data=customer,
+                                     output_model=BankCustomerRead)

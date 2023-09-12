@@ -4,7 +4,7 @@ from uuid import UUID
 
 from pydantic import Field
 
-from .account import BankAccountCreate
+from .account import BankAccountCreate, BankAccountRead
 from .base import DTO, FrozenDTO
 
 
@@ -27,6 +27,7 @@ class BankCustomerRead(FrozenDTO):
     bank_account_id: UUID
     created_at: datetime
     updated_at: datetime
+    bank_account: Optional[BankAccountRead] = Field(default=None)
 
 
 class BankCustomerSearch(DTO):

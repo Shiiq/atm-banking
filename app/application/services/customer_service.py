@@ -29,9 +29,13 @@ class CustomerService(DataConverterMixin):
             last_name=create_data.last_name,
             bank_account=account_orm
         )
-        customer = await self.customer_repo.create(customer=customer_orm)
-        return self._from_orm_to_dto(input_data=customer,
-                                     output_model=BankCustomerRead)
+        customer = await self.customer_repo.create(
+            customer=customer_orm
+        )
+        return self._from_orm_to_dto(
+            input_data=customer,
+            output_model=BankCustomerRead
+        )
 
     async def by_id(
             self,
@@ -43,8 +47,10 @@ class CustomerService(DataConverterMixin):
         )
         if not customer:
             raise CustomerIDNotExist(customer_id=search_data.id)
-        return self._from_orm_to_dto(input_data=customer,
-                                     output_model=BankCustomerRead)
+        return self._from_orm_to_dto(
+            input_data=customer,
+            output_model=BankCustomerRead
+        )
 
     async def by_fullname(
             self,
@@ -58,5 +64,7 @@ class CustomerService(DataConverterMixin):
         if not customer:
             raise CustomerNotExist(first_name=search_data.first_name,
                                    last_name=search_data.last_name)
-        return self._from_orm_to_dto(input_data=customer,
-                                     output_model=BankCustomerRead)
+        return self._from_orm_to_dto(
+            input_data=customer,
+            output_model=BankCustomerRead
+        )

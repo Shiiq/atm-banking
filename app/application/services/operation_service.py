@@ -10,10 +10,9 @@ from .data_converter import DataConverterMixin
 
 
 class OperationService(DataConverterMixin):
-    # TODO !! full|short operations info check
+
     def __init__(self, operation_repo: IOperationRepo):
-        self._full_adapter = TypeAdapter(list[BankOperationRead | None])
-        self._short_adapter = TypeAdapter(list[ShortOperationInfo | None])
+        self._list_adapter = TypeAdapter(list[ShortOperationInfo])
         self.operation_repo = operation_repo
 
     async def create(
@@ -21,11 +20,17 @@ class OperationService(DataConverterMixin):
             create_data: BankOperationCreate
     ) -> BankOperationRead:
 
-        operation_orm = self._from_dto_to_orm(input_data=create_data,
-                                              output_model=BankOperationModel)
-        operation = await self.operation_repo.create(operation=operation_orm)
-        return self._from_orm_to_dto(input_data=operation,
-                                     output_model=BankOperationRead)
+        operation_orm = self._from_dto_to_orm(
+            input_data=create_data,
+            output_model=BankOperationModel
+        )
+        operation = await self.operation_repo.create(
+            operation=operation_orm
+        )
+        return self._from_orm_to_dto(
+            input_data=operation,
+            output_model=BankOperationRead
+        )
 
     async def by_id(
             self,
@@ -35,18 +40,10 @@ class OperationService(DataConverterMixin):
         operation = await self.operation_repo.get_by_id(
             operation_id=search_data.id
         )
-        return self._from_orm_to_dto(input_data=operation,
-                                     output_model=BankOperationRead)
-
-    async def by_account(
-            self,
-            search_data: BankOperationSearch
-    ):
-
-        operations = await self.operation_repo.get_by_account_id(
-            account_id=search_data.bank_account_id
+        return self._from_orm_to_dto(
+            input_data=operation,
+            output_model=BankOperationRead
         )
-        return self._list_adapter.validate_python(operations)
 
     async def by_customer(
             self,
@@ -54,6 +51,7 @@ class OperationService(DataConverterMixin):
     ):
 
         operations = await self.operation_repo.get_by_customer_id(
+            account_id=search_data.bank_account_id,
             customer_id=search_data.bank_customer_id
         )
         return self._list_adapter.validate_python(operations)
@@ -69,6 +67,4 @@ class OperationService(DataConverterMixin):
             start_date=search_data.since,
             end_date=search_data.till
         )
-        if search_data.fullness:
-            return self._full_adapter.validate_python(operations)
-        return self._short_adapter.validate_python(operations)
+        return self._list_adapter.validate_python(operations)

@@ -36,10 +36,7 @@ class IOperationRepo(Protocol):
     async def get_by_id(self, operation_id):
         ...
 
-    async def get_by_account_id(self, account_id):
-        ...
-
-    async def get_by_customer_id(self, customer_id):
+    async def get_by_customer_id(self, account_id, customer_id):
         ...
 
     async def get_by_date_interval(self, account_id, customer_id, start_date, end_date):

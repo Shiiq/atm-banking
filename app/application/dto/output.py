@@ -37,7 +37,7 @@ class ShortBankStatementInfo(FrozenDTO):
 
     since: date
     till: date
-    # balance: NonNegativeInt
+    balance: NonNegativeInt
     operations: list[ShortOperationInfo]
 
 

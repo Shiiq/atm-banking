@@ -40,23 +40,15 @@ class OperationRepo(SARepo, IOperationRepo):
         operation = await self._session.execute(query)
         return operation.scalars().first()
 
-    async def get_by_account_id(
-            self,
-            account_id: UUID
-    ):
-
-        query = (select(BankOperationModel)
-                 .where(BankOperationModel.bank_account_id == account_id))
-        operations = await self._session.execute(query)
-        return operations.scalars().all()
-
     async def get_by_customer_id(
             self,
-            customer_id: UUID
+            account_id: UUID,
+            customer_id: UUID,
     ):
 
         query = (select(BankOperationModel)
-                 .where(BankOperationModel.bank_customer_id == customer_id))
+                 .where(BankOperationModel.bank_account_id == account_id,
+                        BankOperationModel.bank_customer_id == customer_id))
         operations = await self._session.execute(query)
         return operations.scalars().all()
 

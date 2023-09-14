@@ -29,6 +29,7 @@ withdraw_router = APIRouter(prefix="/withdraw")
             ]
         }
     },
+    response_model=ShortOperationInfo,
     status_code=status.HTTP_200_OK
 )
 async def withdraw(

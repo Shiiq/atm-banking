@@ -14,6 +14,7 @@ deposit_router = APIRouter(prefix="/deposit")
             "model": ShortOperationInfo
         }
     },
+    response_model=ShortOperationInfo,
     status_code=status.HTTP_200_OK
 )
 async def deposit(

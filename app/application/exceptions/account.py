@@ -12,7 +12,8 @@ class AccountIDNotExist(ApplicationException):
     def msg(self):
         return f"An account with ID '{self.account_id}' does not exist"
 
-    def __str__(self):
+    @property
+    def ui_msg(self):
         return self.msg
 
 
@@ -24,6 +25,3 @@ class AccountHasInsufficientFunds(ApplicationException):
     @property
     def msg(self):
         return f"An account with ID '{self.account_id}' has insufficient funds"
-
-    def __str__(self):
-        return self.msg

@@ -1,20 +1,18 @@
+# messages for the cli app
 
 
 _BANK_STATEMENT_FORMAT_MESSAGE = (
-    "<bank statement first name last name since[DD-MM-YYYY] till[DD-MM-YYYY]>\n"
+    "bank statement <first name> <last name> "
+    "<since[DD-MM-YYYY]> <till[DD-MM-YYYY]>\n"
 )
 
 _DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE = (
     "<[deposit or withdraw] first name last name amount>\n"
 )
 
-EXIT_MESSAGE = "Work with the ATM is completed\n"
-
-INCORRECT_DATA_MESSAGE = (
-    "Incorrect data has been entered, please repeat your request\n"
-)
-
 REQUESTING_MESSAGE = "Please enter your request >>> "
+
+OPERATION_SUCCESS_MESSAGE = "The operation was completed successfully"
 
 WELCOME_MESSAGE = (
     "\n"
@@ -25,16 +23,8 @@ WELCOME_MESSAGE = (
     "For exit input <exit>.\n\n"
 )
 
-WRONG_OPERATION_MESSAGE = (
-    "Invalid operation, please enter your request again, or enter <Exit>\n"
-)
-
 __all__ = (
-    # "_BANK_STATEMENT_FORMAT_MESSAGE",
-    # "_DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE",
-    "EXIT_MESSAGE",
-    "INCORRECT_DATA_MESSAGE",
     "REQUESTING_MESSAGE",
+    "OPERATION_SUCCESS_MESSAGE",
     "WELCOME_MESSAGE",
-    "WRONG_OPERATION_MESSAGE",
 )

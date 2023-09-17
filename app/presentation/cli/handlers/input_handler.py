@@ -54,12 +54,12 @@ class InputHandler:
                                  string=raw_data)
         if not parsed_input:
             # logging wrong operation
-            raise WrongOperationError("Wrong operation")
+            raise WrongOperationError
 
         operation_type = parsed_input.group()
         if operation_type == ExitCommand.EXIT:
             # logging exit operation
-            raise ExitOperation("Exiting")
+            raise ExitOperation
 
         operation_type = re.sub(pattern=BANK_STATEMENT_VARIATIONS_PATTERN,
                                 repl=REPL_BANK_STATEMENT_PATTERN,
@@ -99,7 +99,7 @@ class InputHandler:
                                 string=raw_data)
         if not parsed_data:
             # logging
-            raise InputDataError("Incorrect data has been entered")
+            raise InputDataError
         first_name = parsed_data.group("first_name")
         last_name = parsed_data.group("last_name")
         since = re.sub(pattern=DATE_VARIATIONS_PATTERN,
@@ -124,7 +124,7 @@ class InputHandler:
                                 string=raw_data)
         if not parsed_data:
             # logging
-            raise InputDataError("Incorrect data has been entered")
+            raise InputDataError
         first_name = parsed_data.group("first_name")
         last_name = parsed_data.group("last_name")
         amount = parsed_data.group("amount")

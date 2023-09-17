@@ -24,9 +24,6 @@ class DIContainer:
         self._container = container
         self._executor = executor
         self._scopes = scopes
-
-        # self._app_scope = scopes
-        # self._request_scope = request_scope
         self._solved_dependencies = {}
 
     def enter_scope(
@@ -34,6 +31,7 @@ class DIContainer:
             scope: Scope,
             state: Optional[ScopeState] = None
     ):
+
         return self._container.enter_scope(scope=scope, state=state)
 
     async def execute(
@@ -42,6 +40,7 @@ class DIContainer:
             scope: Scope,
             state: ScopeState
     ):
+
         solved_dependency = self._solved_dependencies.get(required_dependency)
         if not solved_dependency:
             solved_dependency = self._container.solve(

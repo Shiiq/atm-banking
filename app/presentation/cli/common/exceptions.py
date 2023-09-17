@@ -1,34 +1,39 @@
 
+_EXIT_MESSAGE = "Work with the ATM is completed\n"
+_INCORRECT_DATA_MESSAGE = (
+    "Incorrect data has been entered, please repeat your request\n"
+)
+_WRONG_OPERATION_MESSAGE = (
+    "Invalid operation, please enter your request again, or enter <Exit>\n"
+)
+
 
 class CLIAppException(Exception):
     """Base class for CLI app exception"""
+
     pass
 
 
 class ExitOperation(CLIAppException):
 
-    def __init__(self, msg: str):
-        self._msg = msg
+    _msg = _EXIT_MESSAGE
+    # def __init__(self):
+    #     self._msg = _EXIT_MESSAGE
 
     @property
-    def msg(self):
+    def ui_msg(self):
         return self._msg
-
-    def __str__(self):
-        return self.msg
 
 
 class InputDataError(CLIAppException):
 
-    def __init__(self, msg):
-        self._msg = msg
+    _msg = _INCORRECT_DATA_MESSAGE
+    # def __init__(self):
+    #     self._msg = _INCORRECT_DATA_MESSAGE
 
     @property
-    def msg(self):
-        return
-
-    def __str__(self):
-        return self.msg
+    def ui_msg(self):
+        return self._msg
 
 
 class ValidateDataError(CLIAppException):
@@ -41,18 +46,13 @@ class ValidateDataError(CLIAppException):
         return (f"An error '{self._errors_data['msg']}' has occured. "
                 f"Please input in '{self._errors_data['loc']}' fields correct data.")
 
-    def __str__(self):
-        return self.msg
-
 
 class WrongOperationError(CLIAppException):
 
-    def __init__(self, msg: str):
-        self._msg = msg
+    _msg = _WRONG_OPERATION_MESSAGE
+    # def __init__(self):
+    #     self._msg = _WRONG_OPERATION_MESSAGE
 
     @property
-    def msg(self):
+    def ui_msg(self):
         return self._msg
-
-    def __str__(self):
-        return self.msg

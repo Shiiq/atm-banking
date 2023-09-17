@@ -1,4 +1,5 @@
 import logging
+from pprint import PrettyPrinter
 
 from app.infrastructure.config.db_config import get_db_config
 from app.infrastructure.di.builder import build_container
@@ -17,8 +18,10 @@ async def cli_start():
                                   app_state=app_state)
         setup_handlers(provider=provider)
         input_handler = InputHandler()
+        output_handler = PrettyPrinter()
         logging.warning("setting up the application")
         app = CLIApp(provider=provider,
-                     input_handler=input_handler)
+                     input_handler=input_handler,
+                     output_handler=output_handler)
         logging.warning("running the cli application")
         await app.run()

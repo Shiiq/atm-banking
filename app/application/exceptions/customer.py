@@ -12,9 +12,6 @@ class CustomerIDNotExist(ApplicationException):
     def msg(self):
         return f"A customer with ID '{self.customer_id}' does not exist"
 
-    def __str__(self):
-        return self.msg
-
 
 class CustomerNotExist(ApplicationException):
 
@@ -28,6 +25,3 @@ class CustomerNotExist(ApplicationException):
 
     def _fullname(self):
         return f"{self.first_name} {self.last_name}"
-
-    def __str__(self):
-        return self.msg

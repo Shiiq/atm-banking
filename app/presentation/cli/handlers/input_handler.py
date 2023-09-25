@@ -62,6 +62,7 @@ class InputHandler:
         # adds underscore between to the string value
         # if operation "bank statement" or "bankstatement"
         # e.g. "bank statement" or "bankstatement" -> "bank_statement"
+        # or nothing will happen for the other types of operations
         operation_type = re.sub(pattern=BANK_STATEMENT_VARIATIONS_PATTERN,
                                 repl=REPL_BANK_STATEMENT_PATTERN,
                                 string=operation_type)

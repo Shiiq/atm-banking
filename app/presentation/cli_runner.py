@@ -11,20 +11,19 @@ from app.presentation.cli.handlers import InputHandler
 
 async def cli_start():
 
-    # input_handler = InputHandler()
-    # output_handler = PrettyPrinter()
     # logging.warning("setting up the application")
     # app = CLIApp(provider=provider,
     #              input_handler=input_handler,
     #              output_handler=output_handler)
     container = build_container(db_config=get_db_config)
+    input_handler = InputHandler()
+    output_handler = PrettyPrinter()
 
     async with container.enter_scope(scope=DIScope.APP) as app_state:
         provider = build_provider(di_container=container,
                                   app_state=app_state)
         setup_handlers(provider=provider)
-        input_handler = InputHandler()
-        output_handler = PrettyPrinter()
+
         logging.warning("setting up the application")
         app = CLIApp(provider=provider,
                      input_handler=input_handler,

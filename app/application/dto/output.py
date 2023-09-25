@@ -22,7 +22,7 @@ class ShortOperationInfo(FrozenDTO):
         validation_alias="amount"
     )
     current_balance: Optional[NonNegativeInt] = Field(
-        default=None,
+        default=None
     )
 
 

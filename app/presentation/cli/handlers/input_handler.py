@@ -22,15 +22,13 @@ from .re_patterns import (OPERATION_TYPES_PATTERN,
 
 class InputHandler:
 
-    _OPERATION_TYPE_MAPPING = {
-        "bank statement": BankOperationType.BANK_STATEMENT,
+    _OPERATION_TYPES_MAPPING = {
         "bank_statement": BankOperationType.BANK_STATEMENT,
-        "bankstatement": BankOperationType.BANK_STATEMENT,
         "deposit": BankOperationType.DEPOSIT,
         "withdraw": BankOperationType.WITHDRAW
     }
 
-    _OPERATION_PARAM_MAPPING = {
+    _OPERATION_PARAMS_MAPPING = {
         BankOperationType.BANK_STATEMENT: {
             "args_pattern": BANK_STATEMENT_OPERATION_PATTERN,
             "parsed_data_model": BankStatementInput
@@ -61,10 +59,13 @@ class InputHandler:
             # logging exit operation
             raise ExitOperation
 
+        # adds underscore between to the string value
+        # if operation "bank statement" or "bankstatement"
+        # e.g. "bank statement" or "bankstatement" -> "bank_statement"
         operation_type = re.sub(pattern=BANK_STATEMENT_VARIATIONS_PATTERN,
                                 repl=REPL_BANK_STATEMENT_PATTERN,
                                 string=operation_type)
-        return self._OPERATION_TYPE_MAPPING[operation_type]
+        return self._OPERATION_TYPES_MAPPING[operation_type]
 
     def _parse(
             self,
@@ -72,10 +73,10 @@ class InputHandler:
     ) -> BankStatementInput | DepositInput | WithdrawInput:
 
         operation_type = self._check_operation_type(raw_data)
-        args_pattern = (self._OPERATION_PARAM_MAPPING
+        args_pattern = (self._OPERATION_PARAMS_MAPPING
                         .get(operation_type)
                         .get("args_pattern"))
-        parsed_data_model = (self._OPERATION_PARAM_MAPPING
+        parsed_data_model = (self._OPERATION_PARAMS_MAPPING
                              .get(operation_type)
                              .get("parsed_data_model"))
         if operation_type == BankOperationType.BANK_STATEMENT:
@@ -102,12 +103,16 @@ class InputHandler:
             raise InputDataError
         first_name = parsed_data.group("first_name")
         last_name = parsed_data.group("last_name")
+
+        # converts date format from "DD-MM-YYYY" to "YYYY-MM-DD"
+        # e.g. "31-01-2023" -> "2023-01-31"
         since = re.sub(pattern=DATE_VARIATIONS_PATTERN,
                        repl=REPL_DATE_PATTERN,
                        string=parsed_data.group("since"))
         till = re.sub(pattern=DATE_VARIATIONS_PATTERN,
                       repl=REPL_DATE_PATTERN,
                       string=parsed_data.group("till"))
+
         return data_model(first_name=first_name,
                           last_name=last_name,
                           since=since,

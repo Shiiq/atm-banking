@@ -9,7 +9,7 @@ from .base import DTO, FrozenDTO
 
 
 class BankCustomerCreate(FrozenDTO):
-    """Bank customer model to write to DB"""
+    """Bank customer model for creating"""
 
     first_name: str
     last_name: str

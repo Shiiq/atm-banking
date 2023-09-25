@@ -4,7 +4,7 @@ _INCORRECT_DATA_MESSAGE = (
     "Incorrect data has been entered, please repeat your request\n"
 )
 _WRONG_OPERATION_MESSAGE = (
-    "Invalid operation, please enter your request again, or enter <Exit>\n"
+    "Unknown operation, please enter your request again, or enter <Exit>\n"
 )
 
 

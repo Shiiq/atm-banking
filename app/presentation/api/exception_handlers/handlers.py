@@ -11,10 +11,10 @@ from app.application.exceptions import (AccountIDNotExist,
                                         CustomerNotExist)
 from app.infrastructure.unit_of_work import UnitOfWorkError
 
-Exc = TypeVar("Exc")
+_Exc = TypeVar("_Exc")
 
 
-class ExceptionData(BaseModel, Generic[Exc]):
+class ExceptionData(BaseModel, Generic[_Exc]):
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
@@ -22,10 +22,13 @@ class ExceptionData(BaseModel, Generic[Exc]):
     )
 
     error_message: str
-    error_body: Exc
+    error_body: _Exc
 
 
-async def account_id_not_exist_callback(request: Request, error: AccountIDNotExist):
+async def account_id_not_exist_callback(
+        request: Request,
+        error: AccountIDNotExist
+):
     return await convert_exception_to_json(
         request=request,
         status_code=status.HTTP_404_NOT_FOUND,
@@ -33,7 +36,10 @@ async def account_id_not_exist_callback(request: Request, error: AccountIDNotExi
     )
 
 
-async def account_has_insufficient_funds_callback(request: Request, error: AccountHasInsufficientFunds):
+async def account_has_insufficient_funds_callback(
+        request: Request,
+        error: AccountHasInsufficientFunds
+):
     return await convert_exception_to_json(
         request=request,
         status_code=status.HTTP_404_NOT_FOUND,
@@ -41,7 +47,10 @@ async def account_has_insufficient_funds_callback(request: Request, error: Accou
     )
 
 
-async def customer_id_not_exist_callback(request: Request, error: CustomerIDNotExist):
+async def customer_id_not_exist_callback(
+        request: Request,
+        error: CustomerIDNotExist
+):
     return await convert_exception_to_json(
         request=request,
         status_code=status.HTTP_404_NOT_FOUND,
@@ -49,7 +58,10 @@ async def customer_id_not_exist_callback(request: Request, error: CustomerIDNotE
     )
 
 
-async def customer_not_exist_callback(request: Request, error: CustomerNotExist):
+async def customer_not_exist_callback(
+        request: Request,
+        error: CustomerNotExist
+):
     return await convert_exception_to_json(
         request=request,
         status_code=status.HTTP_404_NOT_FOUND,
@@ -57,7 +69,10 @@ async def customer_not_exist_callback(request: Request, error: CustomerNotExist)
     )
 
 
-async def unit_of_work_error_callback(request: Request, error: UnitOfWorkError):
+async def unit_of_work_error_callback(
+        request: Request,
+        error: UnitOfWorkError
+):
     return await convert_exception_to_json(
         request=request,
         status_code=status.HTTP_404_NOT_FOUND,
@@ -65,7 +80,10 @@ async def unit_of_work_error_callback(request: Request, error: UnitOfWorkError):
     )
 
 
-async def convert_exception_to_json(request: Request, status_code: int, error):
+async def convert_exception_to_json(
+        request: Request,
+        status_code: int, error
+):
     return JSONResponse(
         content=ExceptionData(error_message=error.msg,
                               error_body=error)

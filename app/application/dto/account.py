@@ -10,7 +10,7 @@ DEFAULT_BALANCE = 0
 
 
 class BankAccountCreate(FrozenDTO):
-    """Bank account model to write to DB"""
+    """Bank account model for creating"""
 
     balance: NonNegativeInt = Field(default=DEFAULT_BALANCE)
 

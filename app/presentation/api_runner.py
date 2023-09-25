@@ -14,6 +14,7 @@ async def api_start():
     logging.warning("setting up the application")
     app = create_app(app_config=app_config)
     container = build_container(db_config=get_db_config)
+
     async with container.enter_scope(scope=DIScope.APP) as app_state:
         provider = build_provider(di_container=container,
                                   app_state=app_state)

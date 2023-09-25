@@ -2,7 +2,6 @@ import logging
 
 from app.application.dto import (BankAccountRead,
                                  BankAccountUpdate,
-                                 BankAccountSearch,
                                  BankCustomerSearch,
                                  BankOperationCreate,
                                  BankOperationRead,

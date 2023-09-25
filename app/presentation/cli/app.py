@@ -25,18 +25,21 @@ class CLIApp:
             input_handler: InputHandler,
             output_handler: PrettyPrinter
     ):
-        self._provider = provider
+        self._handler_provider = provider
         self._input_handler = input_handler
         self._output_handler = output_handler
         self._RUNNING = False
 
     async def run(self):
+
         await self._run()
 
     def _print_result(self, msg):
+
         self._output_handler.pprint(msg)
 
     async def _run(self):
+
         self._RUNNING = True
         print(WELCOME_MESSAGE)
         while self._RUNNING:
@@ -59,7 +62,7 @@ class CLIApp:
                 print(err.ui_msg)
                 continue
 
-            handler = await self._provider.get_handler(
+            handler = await self._handler_provider.get_handler(
                 key_class=request.operation_type
             )
             try:
@@ -68,5 +71,5 @@ class CLIApp:
                 print(OPERATION_SUCCESS_MESSAGE)
                 self._print_result(msg=response)
             except ApplicationException as err:
-                self._print_result(msg=err.msg)
+                self._print_result(msg=err.ui_msg)
                 continue

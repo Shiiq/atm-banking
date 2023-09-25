@@ -10,7 +10,7 @@ from .input import BankOperationType
 
 
 class BankOperationCreate(FrozenDTO):
-    """Bank operation model to write to DB"""
+    """Bank operation model for creating"""
 
     amount: PositiveInt
     bank_account_id: UUID

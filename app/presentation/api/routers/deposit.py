@@ -9,11 +9,6 @@ deposit_router = APIRouter(prefix="/deposit")
 
 @deposit_router.post(
     path="/",
-    responses={
-        status.HTTP_200_OK: {
-            "model": ShortOperationInfo
-        }
-    },
     response_model=ShortOperationInfo,
     status_code=status.HTTP_200_OK
 )

@@ -32,7 +32,12 @@ class CLIApp:
 
     async def run(self):
 
-        await self._run()
+        # runs the main loop for cli application
+        if not self._RUNNING:
+            await self._run()
+        else:
+            # TODO raise
+            pass
 
     def _print_result(self, msg):
 

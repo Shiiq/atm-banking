@@ -21,7 +21,6 @@ async def parse_args():
     group.add_argument("-cli",
                        action="store_true",
                        help="running the app via cli")
-
     args = main_parser.parse_args()
 
     if args.api:

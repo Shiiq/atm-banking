@@ -26,31 +26,38 @@ def setup_db_dependencies(
 
     container.bind(bind_by_type(
         Dependent(db_config, scope=DIScope.APP),
-        DBConfig))
+        DBConfig)
+    )
 
     container.bind(bind_by_type(
         Dependent(create_engine, scope=DIScope.APP),
-        AsyncEngine))
+        AsyncEngine)
+    )
 
     container.bind(bind_by_type(
         Dependent(create_session_factory, scope=DIScope.APP),
-        async_sessionmaker[AsyncSession]))
+        async_sessionmaker[AsyncSession])
+    )
 
     container.bind(bind_by_type(
         Dependent(create_db_session, scope=DIScope.REQUEST),
-        AsyncSession))
+        AsyncSession)
+    )
 
     container.bind(bind_by_type(
         Dependent(AccountRepo, scope=DIScope.REQUEST),
-        IAccountRepo))
+        IAccountRepo)
+    )
 
     container.bind(bind_by_type(
         Dependent(CustomerRepo, scope=DIScope.REQUEST),
-        ICustomerRepo))
+        ICustomerRepo)
+    )
 
     container.bind(bind_by_type(
         Dependent(OperationRepo, scope=DIScope.REQUEST),
-        IOperationRepo))
+        IOperationRepo)
+    )
 
 
 def build_container(

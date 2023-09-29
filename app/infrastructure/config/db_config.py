@@ -8,7 +8,8 @@ class DBConfig(BaseSettings):
     POSTGRES_DB: str = "atm_dev"
     POSTGRES_USER: str = "atm_dev_user"
     POSTGRES_PASSWORD: str = "atm_dev_password"
-    DB_HOST: str = "localhost"
+    # DB_HOST: str = "localhost"
+    DB_HOST: str = "db"
     DB_PORT: int = 5432
 
     # SQLITE DB

@@ -11,8 +11,11 @@ from app.infrastructure.config.db_config import DBConfig
 async def create_engine(
         db_config: DBConfig
 ) -> AsyncGenerator[AsyncEngine, None]:
-    engine = create_async_engine(url=db_config.sqlite_url,
-                                 echo=db_config.ECHO)
+
+    engine = create_async_engine(
+        url=db_config.sqlite_url,
+        echo=db_config.ECHO
+    )
     yield engine
     await engine.dispose()
 
@@ -20,14 +23,18 @@ async def create_engine(
 def create_session_factory(
         engine: AsyncEngine
 ) -> async_sessionmaker[AsyncSession]:
-    async_session_factory = async_sessionmaker(bind=engine,
-                                               autoflush=False,
-                                               expire_on_commit=False)
+
+    async_session_factory = async_sessionmaker(
+        bind=engine,
+        autoflush=False,
+        expire_on_commit=False
+    )
     return async_session_factory
 
 
 async def create_db_session(
         async_session_factory: async_sessionmaker[AsyncSession]
 ) -> AsyncGenerator[AsyncSession, None]:
+
     async with async_session_factory() as session:
         yield session

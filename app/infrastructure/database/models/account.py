@@ -11,6 +11,8 @@ class BankAccountModel(UpdatedAtTimestampMixin, Base):
     __tablename__ = BANK_ACCOUNT
 
     balance: Mapped[int] = mapped_column(Integer, default=0)
-    customer = relationship("BankCustomerModel",
-                            uselist=False,
-                            back_populates="bank_account")
+    customer: Mapped["BankCustomerModel"] = relationship(
+        "BankCustomerModel",
+        uselist=False,
+        back_populates="bank_account"
+    )

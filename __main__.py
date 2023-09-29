@@ -15,12 +15,16 @@ async def parse_args():
 
     main_parser = argparse.ArgumentParser(description="api or cli")
     group = main_parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("-api",
-                       action="store_true",
-                       help="running the app via api")
-    group.add_argument("-cli",
-                       action="store_true",
-                       help="running the app via cli")
+    group.add_argument(
+        "-api",
+        action="store_true",
+        help="running the app via api"
+    )
+    group.add_argument(
+        "-cli",
+        action="store_true",
+        help="running the app via cli"
+    )
     args = main_parser.parse_args()
 
     if args.api:

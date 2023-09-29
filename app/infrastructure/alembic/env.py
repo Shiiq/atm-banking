@@ -11,6 +11,7 @@ from app.infrastructure.database.models import Base
 from app.infrastructure.config.db_config import get_db_config
 
 SQLITE_DATABASE_URL = get_db_config().sqlite_url
+POSTGRESQL_DATABASE_URL = get_db_config().postgres_url
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

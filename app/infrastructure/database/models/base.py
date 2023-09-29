@@ -23,18 +23,24 @@ class Base(DeclarativeBase):
     registry = mapper_registry
     metadata = mapper_registry.metadata
 
-    id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True),
-                                     default=uuid4,
-                                     primary_key=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime,
-                                                 nullable=False,
-                                                 server_default=sql.func.now())
+    id: Mapped[UUID] = mapped_column(
+        Uuid(as_uuid=True),
+        default=uuid4,
+        primary_key=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        nullable=False,
+        server_default=sql.func.now()
+    )
 
 
 class UpdatedAtTimestampMixin:
     """Add 'updated_at' datetime column to DB model"""
 
-    updated_at: Mapped[datetime] = mapped_column(DateTime,
-                                                 nullable=False,
-                                                 onupdate=sql.func.now(),
-                                                 server_default=sql.func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        nullable=False,
+        onupdate=sql.func.now(),
+        server_default=sql.func.now()
+    )

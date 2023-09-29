@@ -1,0 +1,37 @@
+version: "3.8"
+
+volumes:
+  postgres_data:
+
+services:
+  app:
+    container_name: atm-banking
+    build:
+      context: .
+      dockerfile: ./Dockerfile.main
+    depends_on:
+      - db
+      - migrations
+    env_file:
+      - .env
+    command: [ "python", "__main__.py", "-api" ]
+
+  db:
+    container_name: db
+    image: postgres:15.1-alpine
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+
+  migrations:
+    container_name: migrations
+    build:
+      context: .
+      dockerfile: ./Dockerfile.migrations
+    depends_on:
+      - db
+    command: ["alembic", "upgrade", "head"]

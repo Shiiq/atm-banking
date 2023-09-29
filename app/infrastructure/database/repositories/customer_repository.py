@@ -7,13 +7,12 @@ from sqlalchemy.orm import joinedload
 
 from app.infrastructure.database.models import BankCustomerModel
 from .interfaces import ICustomerRepo
-from .sa_repository import SARepo
 
 
-class CustomerRepo(SARepo, ICustomerRepo):
+class CustomerRepo(ICustomerRepo):
 
     def __init__(self, session: AsyncSession):
-        super().__init__(session)
+        self._session = session
 
     async def create(
             self,

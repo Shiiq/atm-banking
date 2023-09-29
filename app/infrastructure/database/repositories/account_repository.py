@@ -6,13 +6,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.database.models import BankAccountModel
 from .interfaces import IAccountRepo
-from .sa_repository import SARepo
 
 
-class AccountRepo(SARepo, IAccountRepo):
+class AccountRepo(IAccountRepo):
 
     def __init__(self, session: AsyncSession):
-        super().__init__(session)
+        self._session = session
 
     async def create(
             self,

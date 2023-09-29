@@ -1,0 +1,20 @@
+FROM python:3.11.5-alpine3.18
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    POETRY_VERSION=1.6.1
+
+WORKDIR /app
+
+COPY poetry.lock pyproject.toml ./
+
+RUN python -m pip install --no-cache-dir "poetry==$POETRY_VERSION" \
+    && poetry config virtualenvs.in-project true \
+    && poetry install --only migrations --no-interaction --no-ansi
+
+ENV PATH="$PATH:/app/.venv/bin/"
+
+COPY alembic.ini ./
+COPY app/infrastructure/alembic ./app/infrastructure/alembic
+COPY app/infrastructure/config ./app/infrastructure/config
+COPY app/infrastructure/database ./app/infrastructure/database

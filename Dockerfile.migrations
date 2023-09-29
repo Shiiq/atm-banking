@@ -15,6 +15,6 @@ RUN python -m pip install --no-cache-dir "poetry==$POETRY_VERSION" \
 ENV PATH="$PATH:/app/.venv/bin/"
 
 COPY alembic.ini ./
-COPY app/infrastructure/alembic ./app/infrastructure/alembic
-COPY app/infrastructure/config ./app/infrastructure/config
-COPY app/infrastructure/database ./app/infrastructure/database
+COPY app/infrastructure/alembic ./infrastructure/alembic
+COPY app/infrastructure/config ./infrastructure/config
+COPY app/infrastructure/database/models ./infrastructure/database/models

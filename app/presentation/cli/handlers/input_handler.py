@@ -43,6 +43,35 @@ class InputHandler:
         },
     }
 
+    def parse(
+            self,
+            input_data: str
+    ) -> BankStatementInput | DepositInput | WithdrawInput:
+
+        return self._parse(raw_data=input_data.lower())
+
+    def _parse(
+            self,
+            raw_data: str
+    ) -> BankStatementInput | DepositInput | WithdrawInput:
+
+        operation_type = self._check_operation_type(raw_data)
+        args_pattern = (self._OPERATION_PARAMS_MAPPING
+                        .get(operation_type)
+                        .get("args_pattern"))
+        parsed_data_model = (self._OPERATION_PARAMS_MAPPING
+                             .get(operation_type)
+                             .get("parsed_data_model"))
+        if operation_type == BankOperationType.BANK_STATEMENT:
+            return self._bank_statement(pattern=args_pattern,
+                                        raw_data=raw_data,
+                                        data_model=parsed_data_model)
+        elif (operation_type == BankOperationType.DEPOSIT
+              or operation_type == BankOperationType.WITHDRAW):
+            return self._deposit_or_withdraw(pattern=args_pattern,
+                                             raw_data=raw_data,
+                                             data_model=parsed_data_model)
+
     def _check_operation_type(
             self,
             raw_data: str
@@ -67,28 +96,6 @@ class InputHandler:
                                 repl=REPL_BANK_STATEMENT_PATTERN,
                                 string=operation_type)
         return self._OPERATION_TYPES_MAPPING[operation_type]
-
-    def _parse(
-            self,
-            raw_data: str
-    ) -> BankStatementInput | DepositInput | WithdrawInput:
-
-        operation_type = self._check_operation_type(raw_data)
-        args_pattern = (self._OPERATION_PARAMS_MAPPING
-                        .get(operation_type)
-                        .get("args_pattern"))
-        parsed_data_model = (self._OPERATION_PARAMS_MAPPING
-                             .get(operation_type)
-                             .get("parsed_data_model"))
-        if operation_type == BankOperationType.BANK_STATEMENT:
-            return self._bank_statement(pattern=args_pattern,
-                                        raw_data=raw_data,
-                                        data_model=parsed_data_model)
-        elif (operation_type == BankOperationType.DEPOSIT
-              or operation_type == BankOperationType.WITHDRAW):
-            return self._deposit_or_withdraw(pattern=args_pattern,
-                                             raw_data=raw_data,
-                                             data_model=parsed_data_model)
 
     def _bank_statement(
             self,
@@ -137,10 +144,3 @@ class InputHandler:
         return data_model(first_name=first_name,
                           last_name=last_name,
                           amount=amount)
-
-    def parse(
-            self,
-            input_data: str
-    ) -> BankStatementInput | DepositInput | WithdrawInput:
-
-        return self._parse(raw_data=input_data.lower())

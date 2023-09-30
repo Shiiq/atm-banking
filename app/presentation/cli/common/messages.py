@@ -16,7 +16,7 @@ OPERATION_SUCCESS_MESSAGE = "The operation was completed successfully"
 
 WELCOME_MESSAGE = (
     "\n"
-    f"Please input your request in the format:\n"
+    "Please input your request in the format:\n"
     f"{_DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE}"
     "Or if you need a bank statement, then enter the request in the format:\n"
     f"{_BANK_STATEMENT_FORMAT_MESSAGE}"

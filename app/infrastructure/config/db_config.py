@@ -5,7 +5,7 @@ class DBConfig(BaseSettings):
     """Database config"""
 
     # POSTGRES DB
-    POSTGRES_DB: str = "atm_dev"
+    POSTGRES_DB_NAME: str = "atm_dev"
     POSTGRES_USER: str = "atm_dev_user"
     POSTGRES_PASSWORD: str = "atm_dev_password"
     # DB_HOST: str = "localhost"
@@ -23,7 +23,7 @@ class DBConfig(BaseSettings):
 
         return ("postgresql+asyncpg://"
                 f"{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
-                f"@{self.DB_HOST}:{self.DB_PORT}/{self.POSTGRES_DB}")
+                f"@{self.DB_HOST}:{self.DB_PORT}/{self.POSTGRES_DB_NAME}")
 
     @property
     def sqlite_url(self):

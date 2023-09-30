@@ -77,4 +77,5 @@ class CLIApp:
                 self._print_result(msg=response)
             except ApplicationException as err:
                 self._print_result(msg=err.ui_msg)
-                continue
+
+            continue

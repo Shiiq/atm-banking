@@ -34,4 +34,6 @@ services:
       dockerfile: ./Dockerfile.migrations
     depends_on:
       - db
+    env_file:
+      - .env.dev
     command: ["alembic", "upgrade", "head"]

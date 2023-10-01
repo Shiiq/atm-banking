@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.infrastructure.database.models import Base
 # from app.infrastructure.config.db_config import get_db_config
-from app.infrastructure.config.alter_db_config import DBConfig, get_db_config
+from app.infrastructure.config.alter_db_config import get_db_config
 
 
 db_config = get_db_config()

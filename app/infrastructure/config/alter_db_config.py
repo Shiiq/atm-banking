@@ -2,12 +2,19 @@ import os
 from dataclasses import dataclass, field
 
 
-@dataclass
+class DatabaseConfigLoaderError(Exception):
+
+    @property
+    def msg(self):
+        return "Database config cannot be loaded"
+
+    def __str__(self):
+        return self.msg
+
+
+@dataclass(frozen=True)
 class DBConfig:
     """Database config"""
-
-    def __post_init__(self):
-        self.DB_PORT = int(self.DB_PORT)
 
     # POSTGRES DB
     POSTGRES_DB_NAME: str = field(default="atm_dev_default")
@@ -45,6 +52,18 @@ def get_db_config() -> DBConfig:
     postgres_password = os.environ.get("POSTGRES_PASSWORD")
     db_host = os.environ.get("DB_HOST")
     db_port = os.environ.get("DB_PORT")
+    db_port = int(db_port)
+
+    credentials = [
+        postgres_db_name,
+        postgres_user,
+        postgres_password,
+        db_host,
+        db_port
+    ]
+
+    if not all(credentials):
+        raise DatabaseConfigLoaderError
 
     return DBConfig(
         POSTGRES_DB_NAME=postgres_db_name,

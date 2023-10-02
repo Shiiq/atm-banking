@@ -2,19 +2,23 @@ version: "3.8"
 
 volumes:
   postgres_data_atm_banking:
+#  app_data_atm_banking:
 
 services:
-#  app:
-#    container_name: atm-banking
-#    build:
-#      context: .
-#      dockerfile: ./Dockerfile.main
-#    depends_on:
-#      - db
-#      - migrations
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./Dockerfile.main
+    depends_on:
+      - db
+      - migrations
 #    env_file:
-#      - .env
+#      - .env.dev
 #    command: [ "python", "__main__.py", "-api" ]
+    command: ["poetry", "show", ">", "deps.txt"]
+#    command: ["poetry", "env", "info", "--path"]
+#    command: ["python", "-m", "pip", "list"]
 
   db:
     container_name: db
@@ -36,4 +40,7 @@ services:
       - db
     env_file:
       - .env.dev
-    command: ["alembic", "upgrade", "head"]
+#    command: ["alembic", "upgrade", "head"]
+    command: ["poetry", "show", ">", "deps.txt"]
+#    command: ["poetry", "env", "info", "--path"]
+#    command: ["python", "-m", "pip", "list"]

@@ -2,10 +2,10 @@ import argparse
 import asyncio
 import logging
 
-from app.infrastructure.config.log_config import get_log_config
-from app.infrastructure.logger.builder import setup_root_logger
-from app.presentation.api_runner import api_start
-from app.presentation.cli_runner import cli_start
+from src.infrastructure.config.log_config import get_log_config
+from src.infrastructure.logger.builder import setup_root_logger
+from src.presentation.api_runner import api_start
+from src.presentation.cli_runner import cli_start
 
 
 async def parse_args():
@@ -18,12 +18,12 @@ async def parse_args():
     group.add_argument(
         "-api",
         action="store_true",
-        help="running the app via api"
+        help="running the src via api"
     )
     group.add_argument(
         "-cli",
         action="store_true",
-        help="running the app via cli"
+        help="running the src via cli"
     )
     args = main_parser.parse_args()
 

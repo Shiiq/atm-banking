@@ -132,6 +132,6 @@ dmypy.json
 /for_debuging.py
 
 .idea
-/app/infrastructure/alembic/versions/
+/src/infrastructure/alembic/versions/
 /test_fastapi_app/
 /logs/

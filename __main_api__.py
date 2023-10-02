@@ -1,6 +1,6 @@
 import asyncio
 
-from app.presentation.api_runner import api_start
+from src.presentation.api_runner import api_start
 
 
 if __name__ == "__main__":

@@ -13,9 +13,12 @@ COPY poetry.lock pyproject.toml ./
 RUN python -m pip install --upgrade pip \
     && python -m pip install --no-cache-dir "poetry==$POETRY_VERSION" \
     && poetry config virtualenvs.in-project true \
+    && poetry config virtualenvs.create true \
     && poetry install --only migrations --no-interaction --no-ansi
 
 ENV PATH="$PATH:/${PROJECT_NAME}/.venv/bin/"
+
+# RUN source ./.venv/bin/activate
 
 COPY alembic.ini ./
 COPY src/infrastructure/alembic ./src/infrastructure/alembic

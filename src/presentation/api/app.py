@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 
-from src.infrastructure.config.app_config import AppConfig
+from src.infrastructure.config.api_config import AppConfig
 from src.infrastructure.provider import Provider
 
 from src.presentation.api.exception_handlers import setup_exception_handlers

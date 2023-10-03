@@ -1,6 +1,6 @@
 import logging
 
-from src.infrastructure.config.app_config import get_app_config
+from src.infrastructure.config.api_config import get_app_config
 from src.infrastructure.config.alter_db_config import get_db_config
 # from src.infrastructure.config.db_config import get_db_config
 from src.infrastructure.di.builder import build_container

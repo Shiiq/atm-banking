@@ -13,10 +13,12 @@ services:
     depends_on:
       - db
       - migrations
+    ports:
+      7000:7002
 #    env_file:
 #      - .env.dev
-#    command: [ "python", "__main__.py", "-api" ]
-    command: ["poetry", "show", ">", "deps.txt"]
+#    command: ["python", "__main__.py", "-api"]
+    command: poetry run python __main__.py -api
 #    command: ["poetry", "env", "info", "--path"]
 #    command: ["python", "-m", "pip", "list"]
 
@@ -40,7 +42,8 @@ services:
       - db
     env_file:
       - .env.dev
-#    command: ["alembic", "upgrade", "head"]
-    command: ["poetry", "show", ">", "deps.txt"]
+    command: alembic upgrade head
+#    command: which python
+#    command: pwd
 #    command: ["poetry", "env", "info", "--path"]
 #    command: ["python", "-m", "pip", "list"]

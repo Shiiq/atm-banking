@@ -1,7 +1,7 @@
 
 /tests
 /test_fastapi_app
-/logs
 /atm_dev.db
-*/docker-compose
+*/docker-compose*
+*/Dockerfile*
 */.env

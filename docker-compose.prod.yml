@@ -9,18 +9,15 @@ services:
     container_name: web
     build:
       context: .
-      dockerfile: ./Dockerfile.main
+      dockerfile: Dockerfile.web
     depends_on:
       - db
       - migrations
     ports:
-      7000:7002
-#    env_file:
-#      - .env.dev
-#    command: ["python", "__main__.py", "-api"]
-    command: poetry run python __main__.py -api
-#    command: ["poetry", "env", "info", "--path"]
-#    command: ["python", "-m", "pip", "list"]
+      - "7002:7000"
+    env_file:
+      - .env.dev
+    command: ["python", "__main__.py", "-api"]
 
   db:
     container_name: db
@@ -42,8 +39,4 @@ services:
       - db
     env_file:
       - .env.dev
-    command: alembic upgrade head
-#    command: which python
-#    command: pwd
-#    command: ["poetry", "env", "info", "--path"]
-#    command: ["python", "-m", "pip", "list"]
+    command: ["alembic", "upgrade", "head"]

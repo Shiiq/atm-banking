@@ -5,7 +5,8 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
                                     async_sessionmaker,
                                     create_async_engine)
 
-from src.infrastructure.config.db_config import DBConfig
+# from src.infrastructure.config.db_config import DBConfig
+from src.infrastructure.config.alter_db_config import DBConfig
 
 
 async def create_engine(
@@ -13,7 +14,7 @@ async def create_engine(
 ) -> AsyncGenerator[AsyncEngine, None]:
 
     engine = create_async_engine(
-        url=db_config.sqlite_url,
+        url=db_config.postgres_url,
         echo=db_config.ECHO
     )
     yield engine

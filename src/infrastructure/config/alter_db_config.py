@@ -58,7 +58,6 @@ def get_db_config() -> DBConfig:
     postgres_password = os.environ.get("POSTGRES_PASSWORD")
     db_host = os.environ.get("DB_HOST")
     db_port = os.environ.get("DB_PORT")
-    db_port = int(db_port)
 
     credentials = [
         postgres_db,
@@ -70,6 +69,8 @@ def get_db_config() -> DBConfig:
 
     if not all(credentials):
         raise DatabaseConfigLoaderError
+
+    db_port = int(db_port)
 
     return DBConfig(
         POSTGRES_DB=postgres_db,

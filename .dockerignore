@@ -1,7 +1,10 @@
-
 /tests
 /test_fastapi_app
 /atm_dev.db
-*/docker-compose*
-*/Dockerfile*
-*/.env
+*docker-compose*
+*Dockerfile*
+*.env
+*.venv
+*.gitignore
+*.git
+*temp_files

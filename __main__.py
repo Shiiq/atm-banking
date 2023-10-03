@@ -12,7 +12,6 @@ async def parse_args():
 
     log_config = get_log_config()
     setup_root_logger(log_config=log_config)
-
     main_parser = argparse.ArgumentParser(description="api or cli")
     group = main_parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
@@ -26,7 +25,6 @@ async def parse_args():
         help="running the src via cli"
     )
     args = main_parser.parse_args()
-
     if args.api:
         logging.warning("preparing the api application")
         await api_start()

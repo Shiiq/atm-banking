@@ -13,4 +13,17 @@ class APIConfig:
 
 
 def get_api_config():
-    return APIConfig()
+
+    host = os.environ.get("API_APP_HOST")
+    port = os.environ.get("API_APP_PORT")
+    title = os.environ.get("API_APP_TITLE")
+
+    config = [host, port, title]
+    if not all(config):
+        raise "App API config cannot be loaded"
+
+    return APIConfig(
+        host=host,
+        port=int(port),
+        title=title
+    )

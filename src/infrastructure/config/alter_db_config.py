@@ -49,7 +49,7 @@ def get_db_config() -> DBConfig:
     """Reads database credentials from environment
     and return DBConfig object"""
 
-    # is_local = bool(os.environ.get("LOCAL_LAUNCH"))
+    # is_local = os.environ.get("LOCAL")
     # if is_local:
     #     return DBConfig()
 
@@ -59,24 +59,20 @@ def get_db_config() -> DBConfig:
     db_host = os.environ.get("DB_HOST")
     db_port = os.environ.get("DB_PORT")
 
-    credentials = [
+    db_credentials = [
         postgres_db,
         postgres_user,
         postgres_password,
         db_host,
         db_port
     ]
-
-    if not all(credentials):
+    if not all(db_credentials):
         raise DatabaseConfigLoaderError
-
-    db_port = int(db_port)
 
     return DBConfig(
         POSTGRES_DB=postgres_db,
         POSTGRES_USER=postgres_user,
         POSTGRES_PASSWORD=postgres_password,
         DB_HOST=db_host,
-        DB_PORT=db_port,
-        # LOCAL_LAUNCH=is_local
+        DB_PORT=int(db_port),
     )

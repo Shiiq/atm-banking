@@ -18,8 +18,6 @@ RUN python -m pip install --upgrade pip \
 
 ENV PATH="$PATH:/${PROJECT_NAME}/.venv/bin/"
 
-# RUN source ./.venv/bin/activate
-
 COPY alembic.ini ./
 COPY src/infrastructure/alembic ./src/infrastructure/alembic
 COPY src/infrastructure/config ./src/infrastructure/config

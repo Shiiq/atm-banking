@@ -17,7 +17,7 @@ async def parse_args():
     group.add_argument(
         "-api",
         action="store_true",
-        help="running the src via api"
+        help="running the application via api"
     )
     group.add_argument(
         "-cli",

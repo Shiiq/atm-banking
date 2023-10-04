@@ -24,11 +24,11 @@ class DBConfig:
     DB_PORT: int = field(default=5432)
 
     # SQLITE DB
-    SQLITE_DATABASE_URL: str = field(default="atm_dev.db")
+    SQLITE_DATABASE_URL: str = field(default="atm_dev_default.db")
 
     ECHO: bool = False
 
-    # LOCAL_LAUNCH: bool = True
+    LOCAL: bool = False
 
     @property
     def postgres_url(self):
@@ -49,9 +49,14 @@ def get_db_config() -> DBConfig:
     """Reads database credentials from environment
     and return DBConfig object"""
 
-    # is_local = os.environ.get("LOCAL")
-    # if is_local:
-    #     return DBConfig()
+    is_local_condition = "1"
+    is_local = os.environ.get("LOCAL")
+    if is_local == is_local_condition:
+        sqlite_db_url = os.environ.get("SQLITE_DB_URL")
+        return DBConfig(
+            SQLITE_DATABASE_URL=sqlite_db_url,
+            LOCAL=True
+        )
 
     postgres_db = os.environ.get("POSTGRES_DB")
     postgres_user = os.environ.get("POSTGRES_USER")

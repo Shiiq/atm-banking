@@ -12,15 +12,18 @@ from src.infrastructure.config.alter_db_config import get_db_config
 
 
 db_config = get_db_config()
-
-SQLITE_DATABASE_URL = db_config.sqlite_url
-POSTGRESQL_DATABASE_URL = db_config.postgres_url
+is_local = db_config.LOCAL
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-# config.set_main_option("sqlalchemy.url", SQLITE_DATABASE_URL)
-config.set_main_option("sqlalchemy.url", POSTGRESQL_DATABASE_URL)
+
+if is_local:
+    config.set_main_option("sqlalchemy.url", db_config.sqlite_url)
+elif not is_local:
+    config.set_main_option("sqlalchemy.url", db_config.postgres_url)
+else:
+    raise "123"
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

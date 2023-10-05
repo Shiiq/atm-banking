@@ -5,7 +5,6 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
                                     async_sessionmaker,
                                     create_async_engine)
 
-# from src.infrastructure.config.db_config import DBConfig
 from src.infrastructure.config.alter_db_config import DBConfig
 
 

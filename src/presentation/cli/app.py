@@ -40,7 +40,6 @@ class CLIApp:
             pass
 
     def _print_result(self, msg):
-
         self._output_handler.pprint(msg)
 
     async def _run(self):

@@ -1,6 +1,8 @@
 import os
 from dataclasses import dataclass, field
 
+from .exceptions import ConfigLoaderError
+
 
 @dataclass(frozen=True)
 class APIConfig:
@@ -20,7 +22,7 @@ def get_api_config():
 
     config = [host, port, title]
     if not all(config):
-        raise "App API config cannot be loaded"
+        raise ConfigLoaderError("App API config cannot be loaded")
 
     return APIConfig(
         host=host,

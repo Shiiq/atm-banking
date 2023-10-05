@@ -127,11 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/atm_dev.db
 **.db
-/for_debuging.py
 
 .idea
-/src/infrastructure/alembic/versions/
+
 /test_fastapi_app/
-/logs/

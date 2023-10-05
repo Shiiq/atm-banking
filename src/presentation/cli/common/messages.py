@@ -1,5 +1,3 @@
-# messages for the cli src
-
 
 _BANK_STATEMENT_FORMAT_MESSAGE = (
     "bank statement <first name> <last name> "

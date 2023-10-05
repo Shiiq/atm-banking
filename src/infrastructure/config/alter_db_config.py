@@ -1,15 +1,7 @@
 import os
 from dataclasses import dataclass, field
 
-
-class DatabaseConfigLoaderError(Exception):
-
-    @property
-    def msg(self):
-        return "Database config cannot be loaded"
-
-    def __str__(self):
-        return self.msg
+from .exceptions import ConfigLoaderError
 
 
 @dataclass(frozen=True)
@@ -28,7 +20,7 @@ class DBConfig:
 
     ECHO: bool = False
 
-    LOCAL: bool = False
+    LOCAL: bool = field(default=False)
 
     @property
     def postgres_url(self):
@@ -52,7 +44,8 @@ def get_db_config() -> DBConfig:
     is_local_condition = "1"
     is_local = os.environ.get("LOCAL")
     if is_local == is_local_condition:
-        sqlite_db_url = os.environ.get("SQLITE_DB_URL")
+        sqlite_db_url = os.environ.get("SQLITE_DB_URL", "atm_dev_default.db")
+
         return DBConfig(
             SQLITE_DATABASE_URL=sqlite_db_url,
             LOCAL=True
@@ -72,7 +65,7 @@ def get_db_config() -> DBConfig:
         db_port
     ]
     if not all(db_credentials):
-        raise DatabaseConfigLoaderError
+        raise ConfigLoaderError("Database config cannot be loaded")
 
     return DBConfig(
         POSTGRES_DB=postgres_db,

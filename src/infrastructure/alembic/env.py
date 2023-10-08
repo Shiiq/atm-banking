@@ -22,7 +22,7 @@ if is_local:
 elif not is_local:
     config.set_main_option("sqlalchemy.url", db_config.postgres_url)
 else:
-    raise "123"
+    raise Exception("Please set the environment variable 'EXPORT LOCAL=1'")
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

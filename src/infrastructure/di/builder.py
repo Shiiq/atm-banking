@@ -10,7 +10,9 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
 
 # from src.infrastructure.config.db_config import DBConfig
 from src.infrastructure.config.alter_db_config import DBConfig
-from src.infrastructure.database.core import create_engine, create_session_factory, create_db_session
+from src.infrastructure.database.core import (create_engine,
+                                              create_db_session,
+                                              create_session_factory)
 from src.infrastructure.database.repositories import (AccountRepo,
                                                       CustomerRepo,
                                                       OperationRepo,
@@ -69,11 +71,14 @@ def build_container(
     executor = AsyncExecutor()
     scopes = (DIScope.APP, DIScope.REQUEST)
 
-    setup_db_dependencies(container=container,
-                          db_config=db_config)
-
-    di_container = DIContainer(container=container,
-                               executor=executor,
-                               scopes=scopes)
+    setup_db_dependencies(
+        container=container,
+        db_config=db_config
+    )
+    di_container = DIContainer(
+        container=container,
+        executor=executor,
+        scopes=scopes
+    )
 
     return di_container

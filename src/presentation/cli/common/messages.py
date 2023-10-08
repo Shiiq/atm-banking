@@ -5,7 +5,7 @@ _BANK_STATEMENT_FORMAT_MESSAGE = (
 )
 
 _DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE = (
-    "<[deposit or withdraw] first name last name amount>\n"
+    "<[deposit or withdraw]> <first name> <last name> <amount>\n"
 )
 
 REQUESTING_MESSAGE = "Please enter your request >>> "
@@ -18,7 +18,8 @@ WELCOME_MESSAGE = (
     f"{_DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE}"
     "Or if you need a bank statement, then enter the request in the format:\n"
     f"{_BANK_STATEMENT_FORMAT_MESSAGE}"
-    "For exit input <exit>.\n\n"
+    "For exit input <exit>."
+    "\n\n"
 )
 
 __all__ = (

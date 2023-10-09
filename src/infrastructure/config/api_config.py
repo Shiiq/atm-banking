@@ -11,5 +11,5 @@ class AppConfig(BaseSettings):
     title: str = "atm"
 
 
-def get_app_config():
+def get_api_config():
     return AppConfig()

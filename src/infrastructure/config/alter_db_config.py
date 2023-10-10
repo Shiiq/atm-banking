@@ -16,16 +16,19 @@ class DBConfig:
     DB_PORT: int = field(default=5432)
 
     # SQLITE DB
-    SQLITE_DATABASE_URL: str = field(default="atm_dev_default.db")
+    SQLITE_DATABASE_URL: str = field(default="atm_dev_local.db")
 
     ECHO: bool = False
 
     LOCAL: bool = field(default=False)
 
     @property
+    def is_local(self):
+        return self.LOCAL
+
+    @property
     def postgres_url(self):
         """Postgres database url"""
-
         return ("postgresql+asyncpg://"
                 f"{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
                 f"@{self.DB_HOST}:{self.DB_PORT}/{self.POSTGRES_DB}")
@@ -33,7 +36,6 @@ class DBConfig:
     @property
     def sqlite_url(self):
         """SQLITE database url"""
-
         return f"sqlite+aiosqlite:///./{self.SQLITE_DATABASE_URL}"
 
 
@@ -44,12 +46,7 @@ def get_db_config() -> DBConfig:
     is_local_condition = "1"
     is_local = os.environ.get("LOCAL")
     if is_local == is_local_condition:
-        sqlite_db_url = os.environ.get("SQLITE_DB_URL", "atm_dev_default.db")
-
-        return DBConfig(
-            SQLITE_DATABASE_URL=sqlite_db_url,
-            LOCAL=True
-        )
+        return DBConfig(LOCAL=True)
 
     postgres_db = os.environ.get("POSTGRES_DB")
     postgres_user = os.environ.get("POSTGRES_USER")

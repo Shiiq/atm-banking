@@ -10,11 +10,18 @@ class APIConfig:
 
     debug: bool = False
     host: str = field(default="127.0.0.1")
-    port: int = field(default=7000)
+    port: int = field(default=10000)
     title: str = field(default="ATM")
 
 
 def get_api_config():
+    """Reads application config from environment
+    and return APIConfig object"""
+
+    is_local_condition = "1"
+    is_local = os.environ.get("LOCAL")
+    if is_local == is_local_condition:
+        return APIConfig()
 
     host = os.environ.get("API_APP_HOST")
     port = os.environ.get("API_APP_PORT")

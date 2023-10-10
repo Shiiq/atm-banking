@@ -20,5 +20,4 @@ class LogConfig:
 
 def get_log_config():
     """Return LogConfig object"""
-
     return LogConfig()

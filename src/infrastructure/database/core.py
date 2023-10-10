@@ -12,8 +12,12 @@ async def create_engine(
         db_config: DBConfig
 ) -> AsyncGenerator[AsyncEngine, None]:
 
+    if db_config.is_local:
+        db_url = db_config.sqlite_url
+    else:
+        db_url = db_config.postgres_url
     engine = create_async_engine(
-        url=db_config.postgres_url,
+        url=db_url,
         echo=db_config.ECHO
     )
     yield engine

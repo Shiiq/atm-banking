@@ -145,13 +145,13 @@ files = [
 
 [[package]]
 name = "di"
-version = "0.79.1"
+version = "0.79.2"
 description = "Dependency injection toolkit"
 optional = false
 python-versions = ">=3.8,<4"
 files = [
-    {file = "di-0.79.1-py3-none-any.whl", hash = "sha256:492174d02917caf30fbb9cb7aaf29c3bb2c0b41bf95a672371e923099e22f11a"},
-    {file = "di-0.79.1.tar.gz", hash = "sha256:45a10f539119d2864b5ba2eaac3b1bf25ae630a8cefcbaf8f84f5adb8b472cbd"},
+    {file = "di-0.79.2-py3-none-any.whl", hash = "sha256:4b2ac7c46d4d9e941ca47d37c2029ba739c1f8a0e19e5288731224870f00d6e6"},
+    {file = "di-0.79.2.tar.gz", hash = "sha256:0c65b9ccb984252dadbdcdb39743eeddef0c1f167f791c59fcd70e97bb0d3af8"},
 ]
 
 [package.dependencies]

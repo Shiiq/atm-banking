@@ -11,18 +11,21 @@ from src.infrastructure.config.alter_db_config import get_db_config
 
 
 db_config = get_db_config()
-is_local = db_config.LOCAL
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
-if is_local:
+if db_config.is_local:
     config.set_main_option("sqlalchemy.url", db_config.sqlite_url)
-elif not is_local:
+elif not db_config.is_local:
     config.set_main_option("sqlalchemy.url", db_config.postgres_url)
 else:
-    raise Exception("Please set the environment variable 'EXPORT LOCAL=1'")
+    raise Exception(
+        "If you want to run the application in local mode, "
+        "please set the environment variable 'LOCAL' to 1 "
+        "(e.g. EXPORT LOCAL=1)"
+    )
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

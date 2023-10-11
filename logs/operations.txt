@@ -1,8 +1,0 @@
-2023-10-08 19:54:53::WARNING::root::preparing the cli application
-2023-10-08 19:54:53::WARNING::root::setting up the application
-2023-10-08 19:54:53::WARNING::root::running the cli application
-2023-10-08 19:55:25::INFO::src.presentation.cli.app::Received the 'EXIT' command, work with the terminal is done.
-2023-10-08 20:18:21::WARNING::root::preparing the cli application
-2023-10-08 20:18:21::WARNING::root::setting up the application
-2023-10-08 20:18:21::WARNING::root::running the cli application
-2023-10-08 23:05:12::INFO::src.presentation.cli.app::Received the 'EXIT' command, work with the terminal is done.

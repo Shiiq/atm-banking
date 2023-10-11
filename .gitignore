@@ -130,5 +130,5 @@ dmypy.json
 **.db
 
 .idea
-
+/poetry.lock
 /test_fastapi_app/

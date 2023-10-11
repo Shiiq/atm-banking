@@ -28,5 +28,5 @@ async def lifespan(app):
 app_config = get_api_config()
 application = create_app(
     app_config=app_config,
-    lifespan_cllbl=lifespan
+    lifespan_callble=lifespan
 )

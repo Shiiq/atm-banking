@@ -1,24 +1,55 @@
+# weigth 94 mb
 FROM python:3.11.5-alpine3.18 as base
 
+# python:
 ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    POETRY_VERSION=1.6.1
+    PYTHONDONTWRITEBYTECODE=1
+
+# pip:
+ENV PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100
+
+# poetry:
+ENV POETRY_VERSION=1.6.1 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1
+
+# paths:
+ENV PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/pysetup/.venv"
+
+ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+
+
+FROM base as builder
+
+RUN apk update \
+    && apk add --no-cache gcc
+
+WORKDIR $PYSETUP_PATH
+
+COPY pyproject.toml ./
+
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir setuptools wheel \
+    && pip install --no-cache-dir "poetry==$POETRY_VERSION"
+
+RUN poetry install --only migrations --no-interaction --no-ansi
+
+
+FROM base as deployment
 
 ENV PROJECT_NAME=atm-banking
 
-WORKDIR /${PROJECT_NAME}
+COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
 
-COPY poetry.lock pyproject.toml ./
-
-RUN python -m pip install --upgrade pip \
-    && python -m pip install --no-cache-dir "poetry==$POETRY_VERSION" \
-    && poetry config virtualenvs.in-project true \
-    # && poetry config virtualenvs.create true \
-    && poetry install --only migrations --no-interaction --no-ansi
-
-ENV PATH="$PATH:/${PROJECT_NAME}/.venv/bin/"
+WORKDIR $PROJECT_NAME
 
 COPY alembic.ini ./
 COPY src/infrastructure/alembic ./src/infrastructure/alembic
 COPY src/infrastructure/config ./src/infrastructure/config
 COPY src/infrastructure/database/models ./src/infrastructure/database/models
+
+CMD ["alembic", "upgrade", "head"]

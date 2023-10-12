@@ -12,10 +12,10 @@ services:
     depends_on:
       - db
       - migrations
-#    ports:
-#      - 7002:7000
+    ports:
+      - "10000:10000"
     env_file:
-      - .env.dev
+      - .env.local
     command: ["python", "__main__.py", "-api"]
 
   db:
@@ -39,15 +39,15 @@ services:
     depends_on:
       - db
     env_file:
-      - .env.dev
+      - .env.local
     command: ["alembic", "upgrade", "head"]
 
-  nginx:
-    container_name: reverse_proxy
-    image: nginx:1.25.2-alpine
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - web
+#  nginx:
+#    container_name: reverse_proxy
+#    image: nginx:1.25.2-alpine
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+#    depends_on:
+#      - web

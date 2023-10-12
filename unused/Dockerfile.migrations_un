@@ -1,0 +1,25 @@
+# weigth 182 mb
+FROM python:3.11.5-alpine3.18 as base
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    POETRY_VERSION=1.6.1
+
+ENV PROJECT_NAME=atm-banking
+
+WORKDIR /${PROJECT_NAME}
+
+COPY poetry.lock pyproject.toml ./
+
+RUN python -m pip install --upgrade pip \
+    && python -m pip install --no-cache-dir "poetry==$POETRY_VERSION" \
+    && poetry config virtualenvs.in-project true \
+    # && poetry config virtualenvs.create true \
+    && poetry install --only migrations --no-interaction --no-ansi
+
+ENV PATH="$PATH:/${PROJECT_NAME}/.venv/bin/"
+
+COPY alembic.ini ./
+COPY src/infrastructure/alembic ./src/infrastructure/alembic
+COPY src/infrastructure/config ./src/infrastructure/config
+COPY src/infrastructure/database/models ./src/infrastructure/database/models

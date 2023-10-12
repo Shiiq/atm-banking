@@ -9,11 +9,11 @@ from src.presentation.api.dependencies import setup_dependencies
 from src.presentation.api.routers import setup_routers
 
 
-def create_app(app_config: AppConfig, lifespan_callble) -> FastAPI:
+def create_app(app_config: AppConfig, lifespan_callble=None) -> FastAPI:
     app = FastAPI(
         debug=app_config.debug,
         title=app_config.title,
-        lifespan=lifespan_callble
+        #lifespan=lifespan_callble
     )
     return app
 

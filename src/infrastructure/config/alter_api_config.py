@@ -9,7 +9,7 @@ class APIConfig:
     """Application api config"""
 
     debug: bool = False
-    host: str = field(default="127.0.0.1")
+    host: str = field(default="0.0.0.0")
     port: int = field(default=10000)
     title: str = field(default="ATM")
 

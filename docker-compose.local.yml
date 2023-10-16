@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    depends_on:
+      - migrations
+    ports:
+      - "10000:10000"
+    env_file:
+      - .env.local
+    command: sh -c "alembic upgrade head
+                    && sleep 1
+                    && python3 run.py"

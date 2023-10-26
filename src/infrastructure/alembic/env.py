@@ -24,7 +24,7 @@ else:
     raise Exception(
         "If you want to run the application in local mode, "
         "please set the environment variable 'LOCAL' to 1 "
-        "(e.g. EXPORT LOCAL=1)"
+        "(e.g. EXPORT LOCAL=1) and repeat the operation."
     )
 
 # Interpret the config file for Python logging.

@@ -36,7 +36,7 @@ class Base(DeclarativeBase):
 
 
 class UpdatedAtTimestampMixin:
-    """Add 'updated_at' datetime column to DB model"""
+    """'updated_at' datetime column mixin"""
 
     updated_at: Mapped[datetime] = mapped_column(
         DateTime,

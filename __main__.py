@@ -1,6 +1,7 @@
 import argparse
 import asyncio
 import logging
+import os
 
 from src.infrastructure.config.alter_log_config import get_log_config
 from src.infrastructure.logger.builder import setup_root_logger
@@ -29,6 +30,7 @@ async def parse_args():
         logging.warning("preparing the api application")
         await api_start()
     elif args.cli:
+        os.environ["LOCAL"] = "1"
         logging.warning("preparing the cli application")
         await cli_start()
 

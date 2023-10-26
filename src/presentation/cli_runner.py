@@ -16,18 +16,21 @@ async def cli_start():
     # app = CLIApp(provider=provider,
     #              input_handler=input_handler,
     #              output_handler=output_handler)
-    container = build_container(db_config=get_db_config)
+    # container = build_container(db_config=get_db_config)
+    db_config = get_db_config()
+    container = build_container(db_config=db_config)
     input_handler = InputHandler()
     output_handler = PrettyPrinter()
 
     async with container.enter_scope(scope=DIScope.APP) as app_state:
-        provider = build_provider(di_container=container,
-                                  app_state=app_state)
+        provider = build_provider(di_container=container, app_state=app_state)
         setup_handlers(provider=provider)
 
         logging.warning("setting up the application")
-        app = CLIApp(provider=provider,
-                     input_handler=input_handler,
-                     output_handler=output_handler)
+        app = CLIApp(
+            provider=provider,
+            input_handler=input_handler,
+            output_handler=output_handler
+        )
         logging.warning("running the cli application")
         await app.run()

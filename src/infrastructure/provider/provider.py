@@ -1,5 +1,3 @@
-from src.application.dto import BankOperationType
-from src.application.operation_handlers import BankStatement, Deposit, Withdraw
 from src.infrastructure.di.container import DIContainer, DIScope
 
 

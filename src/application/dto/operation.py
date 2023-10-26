@@ -38,7 +38,6 @@ class BankOperationSearch(DTO):
     bank_operation_type: Optional[BankOperationType] = Field(default=None)
     since: Optional[datetime] = Field(default=None)
     till: Optional[datetime] = Field(default=None)
-    # fullness: bool = Field(default=False)
 
     @field_validator("since", mode="before")
     def convert_since_to_datetime(cls, d: date) -> datetime:
@@ -49,5 +48,3 @@ class BankOperationSearch(DTO):
     def convert_till_to_datetime(cls, d: date) -> datetime:
         t = time(hour=23, minute=59, second=59, microsecond=999999)
         return datetime.combine(d, t)
-
-

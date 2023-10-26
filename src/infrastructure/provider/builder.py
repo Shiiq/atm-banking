@@ -6,12 +6,20 @@ from .provider import Provider
 
 
 def build_provider(di_container: DIContainer, app_state: DIScope):
-    provider = Provider(di_container=di_container,
-                        app_state=app_state)
+    provider = Provider(di_container=di_container, app_state=app_state)
     return provider
 
 
 def setup_handlers(provider: Provider):
-    provider.register_handler(BankOperationType.BANK_STATEMENT, BankStatement)
-    provider.register_handler(BankOperationType.DEPOSIT, Deposit)
-    provider.register_handler(BankOperationType.WITHDRAW, Withdraw)
+    provider.register_handler(
+        BankOperationType.BANK_STATEMENT,
+        BankStatement
+    )
+    provider.register_handler(
+        BankOperationType.DEPOSIT,
+        Deposit
+    )
+    provider.register_handler(
+        BankOperationType.WITHDRAW,
+        Withdraw
+    )

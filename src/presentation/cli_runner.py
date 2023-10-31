@@ -16,9 +16,9 @@ async def cli_start():
     # app = CLIApp(provider=provider,
     #              input_handler=input_handler,
     #              output_handler=output_handler)
-    # container = build_container(db_config=get_db_config)
+    container = build_container(db_config=get_db_config)
     db_config = get_db_config()
-    container = build_container(db_config=db_config)
+    # container = build_container(db_config=db_config)
     input_handler = InputHandler()
     output_handler = PrettyPrinter()
 

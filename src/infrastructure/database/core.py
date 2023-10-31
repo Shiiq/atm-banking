@@ -52,13 +52,17 @@ async def create_db_session(
 
 
 async def make_migrations(
-        engine: AsyncEngine,
-        metadata: MetaData
-):# -> AsyncGenerator[None, None]:
+        # engine: AsyncEngine,
+        # metadata: MetaData
+): # -> AsyncGenerator[None, None]:
     """For local startup only"""
-
-    async with engine.begin() as conn:
-        await conn.run_sync(metadata.drop_all)
-        print("drop_all")
-        await conn.run_sync(metadata.create_all)
-        print("create_all")
+    print("MAKE MIGRATIONDSSS")
+    # print(metadata)
+    # async with engine.begin() as conn:
+    #     await conn.run_sync(metadata.drop_all)
+    #     print("clear_database")
+    #     await conn.run_sync(metadata.create_all)
+    #     print("create_all")
+    #     yield
+    #     await conn.run_sync(metadata.drop_all)
+    #     print("drop_database")

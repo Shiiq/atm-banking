@@ -2,7 +2,7 @@ from typing import Callable
 
 from di import bind_by_type, Container
 from di.executors import AsyncExecutor
-from di.dependent import Dependent
+from di.dependent import Dependent, JoinedDependent
 from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -27,26 +27,35 @@ from .container import DIContainer, DIScope
 
 def setup_db_dependencies(
         container: Container,
-        # db_config: Callable[..., DBConfig],
-        db_config: DBConfig
+        db_config: Callable[..., DBConfig],
+        # db_config: DBConfig
 ):
 
+    # container.bind(bind_by_type(
+    #     Dependent(lambda *args: db_config, scope=DIScope.APP),
+    #     DBConfig
+    # ))
     container.bind(bind_by_type(
-        Dependent(lambda *args: db_config, scope=DIScope.APP),
+        Dependent(db_config, scope=DIScope.APP),
         DBConfig
     ))
-
     container.bind(bind_by_type(
         Dependent(create_engine, scope=DIScope.APP),
         AsyncEngine
     ))
 
-    if db_config.LOCAL:
-        container.bind(bind_by_type(
-            Dependent(lambda *args: Base.metadata, scope=DIScope.APP),
-            MetaData
-        ))
-        container.bind(lambda *args: Dependent(make_migrations, scope=DIScope.APP))
+    # if db_config.LOCAL:
+    #     print("DB_CONFIG LOCAAAAAAAAAAAL")
+    # container.bind(bind_by_type(
+    #     Dependent(lambda *args: Base.metadata, scope=DIScope.APP),
+    #     MetaData
+    # ))
+        # mig = JoinedDependent(
+        #     Dependent(make_migrations, scope=DIScope.APP),
+        #     siblings=[Dependent(create_engine, scope=DIScope.APP)]
+        # )
+        # container.bind(lambda *args: mig)
+    container.bind(lambda *args: Dependent(make_migrations, scope=DIScope.APP))
         # container.solve(
         #     Dependent(make_migrations, scope=DIScope.APP),
         #     scopes=[DIScope.APP, DIScope.REQUEST]
@@ -79,8 +88,8 @@ def setup_db_dependencies(
 
 
 def build_container(
-        # db_config: Callable[..., DBConfig]
-        db_config: DBConfig
+        db_config: Callable[..., DBConfig]
+        # db_config: DBConfig
 ) -> DIContainer:
 
     container = Container()

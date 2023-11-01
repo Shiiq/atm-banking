@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import (AsyncEngine,
                                     async_sessionmaker,
                                     create_async_engine)
 
-from src.infrastructure.config.alter_db_config import DBConfig
+from src.infrastructure.config.db_config import DBConfig
 
 
 async def create_engine(
@@ -22,11 +22,31 @@ async def create_engine(
         url=db_url,
         echo=db_config.ECHO
     )
-    print("create_engine")
-    # async with engine.begin() as conn:
-    #     await conn.run_sync(metadata.create_all)
-    #     print("create_all")
     yield engine
+    await engine.dispose()
+
+
+async def create_engine_local_way(
+        db_config: DBConfig,
+        metadata: MetaData
+) -> AsyncGenerator[AsyncEngine, None]:
+
+    engine = create_async_engine(
+        url=db_config.sqlite_url,
+        echo=db_config.ECHO
+    )
+    async with engine.connect() as conn:
+        await conn.run_sync(metadata.drop_all)
+        print("clear_database")
+
+        await conn.run_sync(metadata.create_all)
+        print("create_database")
+
+        yield engine
+
+        await conn.run_sync(metadata.drop_all)
+        print("drop_database")
+
     await engine.dispose()
     print("dispose_engine")
 
@@ -52,17 +72,17 @@ async def create_db_session(
 
 
 async def make_migrations(
-        # engine: AsyncEngine,
-        # metadata: MetaData
+        engine: AsyncEngine,
+        metadata: MetaData
 ): # -> AsyncGenerator[None, None]:
     """For local startup only"""
     print("MAKE MIGRATIONDSSS")
-    # print(metadata)
-    # async with engine.begin() as conn:
-    #     await conn.run_sync(metadata.drop_all)
-    #     print("clear_database")
-    #     await conn.run_sync(metadata.create_all)
-    #     print("create_all")
-    #     yield
-    #     await conn.run_sync(metadata.drop_all)
-    #     print("drop_database")
+    print(metadata)
+    async with engine.begin() as conn:
+        await conn.run_sync(metadata.drop_all)
+        print("clear_database")
+        await conn.run_sync(metadata.create_all)
+        print("create_all")
+        yield
+        await conn.run_sync(metadata.drop_all)
+        print("drop_database")

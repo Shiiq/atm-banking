@@ -1,7 +1,7 @@
 import logging
 from logging import handlers
 
-from src.infrastructure.config.alter_log_config import LogConfig
+from src.infrastructure.config.log_config import LogConfig
 
 
 def setup_root_logger(log_config: LogConfig):

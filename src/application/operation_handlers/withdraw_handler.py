@@ -1,12 +1,12 @@
 import logging
 
-from src.application.dto import (BankAccountRead,
-                                 BankAccountUpdate,
-                                 BankCustomerSearch,
-                                 BankOperationCreate,
-                                 BankOperationRead,
-                                 WithdrawInput,
-                                 ShortOperationInfo)
+from src.application.dto import BankAccountRead
+from src.application.dto import BankAccountUpdate
+from src.application.dto import BankCustomerSearch
+from src.application.dto import BankOperationCreate
+from src.application.dto import BankOperationRead
+from src.application.dto import WithdrawInput
+from src.application.dto import ShortOperationInfo
 from src.application.exceptions import AccountHasInsufficientFunds
 from .base import BaseHandler
 

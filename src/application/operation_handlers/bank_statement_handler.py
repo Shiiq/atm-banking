@@ -1,9 +1,9 @@
 import logging
 
-from src.application.dto import (BankCustomerSearch,
-                                 BankOperationSearch,
-                                 BankStatementInput,
-                                 ShortBankStatementInfo)
+from src.application.dto import BankCustomerSearch
+from src.application.dto import BankOperationSearch
+from src.application.dto import BankStatementInput
+from src.application.dto import ShortBankStatementInfo
 from .base import BaseHandler
 
 _logger = logging.getLogger(__name__)

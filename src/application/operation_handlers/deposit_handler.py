@@ -1,13 +1,13 @@
 import logging
 
-from src.application.dto import (BankAccountRead,
-                                 BankAccountUpdate,
-                                 BankCustomerCreate,
-                                 BankCustomerSearch,
-                                 BankOperationCreate,
-                                 BankOperationRead,
-                                 DepositInput,
-                                 ShortOperationInfo)
+from src.application.dto import BankAccountRead
+from src.application.dto import BankAccountUpdate
+from src.application.dto import BankCustomerCreate
+from src.application.dto import BankCustomerSearch
+from src.application.dto import BankOperationCreate
+from src.application.dto import BankOperationRead
+from src.application.dto import DepositInput
+from src.application.dto import ShortOperationInfo
 from src.application.exceptions import CustomerNotExist
 from .base import BaseHandler
 

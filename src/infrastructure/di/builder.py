@@ -2,15 +2,15 @@ from typing import Callable
 
 from di import bind_by_type, Container
 from di.executors import AsyncExecutor
-from di.dependent import Dependent, JoinedDependent
+from di.dependent import Dependent
 from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
-# from src.infrastructure.config.db_config import DBConfig
-from src.infrastructure.config.alter_db_config import DBConfig
-from src.infrastructure.database.core import create_engine
+
+from src.infrastructure.config.db_config import DBConfig
+from src.infrastructure.database.core import create_engine, create_engine_local_way
 from src.infrastructure.database.core import create_db_session
 from src.infrastructure.database.core import create_session_factory
 from src.infrastructure.database.core import make_migrations
@@ -27,23 +27,30 @@ from .container import DIContainer, DIScope
 
 def setup_db_dependencies(
         container: Container,
-        db_config: Callable[..., DBConfig],
-        # db_config: DBConfig
+        # db_config: Callable[..., DBConfig],
+        db_config: DBConfig
 ):
 
-    # container.bind(bind_by_type(
-    #     Dependent(lambda *args: db_config, scope=DIScope.APP),
-    #     DBConfig
-    # ))
     container.bind(bind_by_type(
-        Dependent(db_config, scope=DIScope.APP),
+        Dependent(lambda *args: db_config, scope=DIScope.APP),
         DBConfig
     ))
+    # container.bind(bind_by_type(
+    #     Dependent(db_config, scope=DIScope.APP),
+    #     DBConfig
+    # ))
+    # container.bind(bind_by_type(
+    #     Dependent(create_engine, scope=DIScope.APP),
+    #     AsyncEngine
+    # ))
     container.bind(bind_by_type(
-        Dependent(create_engine, scope=DIScope.APP),
+        Dependent(create_engine_local_way, scope=DIScope.APP),
         AsyncEngine
     ))
-
+    container.bind(bind_by_type(
+        Dependent(lambda *args: Base.metadata, scope=DIScope.APP),
+        MetaData
+    ))
     # if db_config.LOCAL:
     #     print("DB_CONFIG LOCAAAAAAAAAAAL")
     # container.bind(bind_by_type(
@@ -55,7 +62,7 @@ def setup_db_dependencies(
         #     siblings=[Dependent(create_engine, scope=DIScope.APP)]
         # )
         # container.bind(lambda *args: mig)
-    container.bind(lambda *args: Dependent(make_migrations, scope=DIScope.APP))
+    # container.bind(lambda *args: Dependent(make_migrations, scope=DIScope.APP))
         # container.solve(
         #     Dependent(make_migrations, scope=DIScope.APP),
         #     scopes=[DIScope.APP, DIScope.REQUEST]
@@ -88,8 +95,8 @@ def setup_db_dependencies(
 
 
 def build_container(
-        db_config: Callable[..., DBConfig]
-        # db_config: DBConfig
+        # db_config: Callable[..., DBConfig]
+        db_config: DBConfig
 ) -> DIContainer:
 
     container = Container()

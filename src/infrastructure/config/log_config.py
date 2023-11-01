@@ -1,12 +1,12 @@
+from dataclasses import dataclass
 from pathlib import Path
-
-from pydantic_settings import BaseSettings
 
 _BASE_DIR = Path(__file__).parent.parent.parent.parent
 _LOGS_PATH = _BASE_DIR.joinpath("logs/", "operations.txt")
 
 
-class LogConfig(BaseSettings):
+@dataclass(frozen=True)
+class LogConfig:
     """Log config"""
 
     LOG_FORMAT: str = "%(asctime)s::%(levelname)s::%(name)s::%(message)s"
@@ -19,4 +19,5 @@ class LogConfig(BaseSettings):
 
 
 def get_log_config():
+    """Return LogConfig object"""
     return LogConfig()

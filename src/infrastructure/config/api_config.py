@@ -8,10 +8,9 @@ from .exceptions import ConfigLoaderError
 class APIConfig:
     """Application api config"""
 
-    debug: bool = False
-    host: str = field(default="0.0.0.0")
-    port: int = field(default=10000)
-    title: str = field(default="ATM")
+    debug: bool = True
+    host: str = "0.0.0.0"
+    port: int = 10000
 
 
 def get_api_config():
@@ -23,16 +22,16 @@ def get_api_config():
     if is_local == is_local_condition:
         return APIConfig()
 
+    debug = os.environ.get("DEBUG")
     host = os.environ.get("API_APP_HOST")
     port = os.environ.get("API_APP_PORT")
-    title = os.environ.get("API_APP_TITLE")
 
-    config = [host, port, title]
+    config = [debug, host, port]
     if not all(config):
         raise ConfigLoaderError("App API config cannot be loaded")
 
     return APIConfig(
+        debug=False,
         host=host,
         port=int(port),
-        title=title
     )

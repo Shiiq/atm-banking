@@ -9,34 +9,33 @@ class DBConfig:
     """Database config"""
 
     # POSTGRES DB
-    POSTGRES_DB: str = field(default="atm_dev_default")
-    POSTGRES_USER: str = field(default="atm_dev_default_user")
-    POSTGRES_PASSWORD: str = field(default="atm_dev_default_password")
-    DB_HOST: str = field(default="db")
-    DB_PORT: int = field(default=5432)
+    postgres_db: str = None
+    postgres_user: str = None
+    postgres_password: str = None
+    db_host: str = None
+    db_port: int = None
 
     # SQLITE DB
-    SQLITE_DATABASE_URL: str = field(default="atm_dev_local.db")
+    sqlite_database_url: str = "atm_local_default.db"
 
-    ECHO: bool = False
-
-    LOCAL: bool = field(default=False)
+    echo: bool = False
+    local: bool = True
 
     @property
     def is_local(self):
-        return self.LOCAL
+        return self.local
 
     @property
     def postgres_url(self):
         """Postgres database url"""
         return ("postgresql+asyncpg://"
-                f"{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
-                f"@{self.DB_HOST}:{self.DB_PORT}/{self.POSTGRES_DB}")
+                f"{self.postgres_user}:{self.postgres_password}"
+                f"@{self.db_host}:{self.db_port}/{self.postgres_db}")
 
     @property
     def sqlite_url(self):
         """SQLITE database url"""
-        return f"sqlite+aiosqlite:///./{self.SQLITE_DATABASE_URL}"
+        return f"sqlite+aiosqlite:///./{self.sqlite_database_url}"
 
 
 def get_db_config() -> DBConfig:
@@ -46,7 +45,7 @@ def get_db_config() -> DBConfig:
     is_local_condition = "1"
     is_local = os.environ.get("LOCAL")
     if is_local == is_local_condition:
-        return DBConfig(LOCAL=True)
+        return DBConfig(local=True)
 
     postgres_db = os.environ.get("POSTGRES_DB")
     postgres_user = os.environ.get("POSTGRES_USER")
@@ -65,9 +64,9 @@ def get_db_config() -> DBConfig:
         raise ConfigLoaderError("Database config cannot be loaded")
 
     return DBConfig(
-        POSTGRES_DB=postgres_db,
-        POSTGRES_USER=postgres_user,
-        POSTGRES_PASSWORD=postgres_password,
-        DB_HOST=db_host,
-        DB_PORT=int(db_port),
+        postgres_db=postgres_db,
+        postgres_user=postgres_user,
+        postgres_password=postgres_password,
+        db_host=db_host,
+        db_port=int(db_port),
     )

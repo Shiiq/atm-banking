@@ -1,0 +1,28 @@
+# CONFIG TEMPLATE FILE
+
+[project]
+  name = "ATM"
+  description = "A small pet project that simulates the operations of an ATM."
+  author = "Kiriakov Petr"
+
+[api]
+  debug = false
+  host = "0.0.0.0"
+  port = 10000
+
+[database]
+  echo = false
+  postgres_db = "atm_remote_default"
+  postgres_user = "atm_remote_default"
+  postgres_password = "atm_remote_default"
+  db_host = "db"
+  db_port = 5432
+
+[logging]
+  log_format = "%(asctime)s::%(levelname)s::%(name)s::%(message)s"
+  datetime_format = "%Y-%m-%d %H:%M:%S"
+  base_level = "INFO"
+  stream_log_level = "WARNING"
+  file_log_level = "INFO"
+  file_log_path = "./logs/operations.txt"
+  file_backup_count = 3

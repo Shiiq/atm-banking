@@ -1,28 +1,29 @@
 import logging
 from logging import handlers
 
-from src.infrastructure.config.log_config import LogConfig
+from src.infrastructure.config.log_config import LoggingConfig
 
 
-def setup_root_logger(log_config: LogConfig):
+def setup_root_logger(log_config: LoggingConfig):
 
     logger = logging.getLogger()
-    logger.setLevel(log_config.BASE_LEVEL)
+    logger.setLevel(log_config.base_level)
     formatter = logging.Formatter(
-        fmt=log_config.LOG_FORMAT,
-        datefmt=log_config.DATETIME_FORMAT
+        fmt=log_config.log_format,
+        datefmt=log_config.datetime_format
     )
 
     # system logging
     stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(level=log_config.STREAM_LOG_LEVEL)
+    stream_handler.setLevel(level=log_config.stream_log_level)
     stream_handler.setFormatter(fmt=formatter)
 
     # app logging
     file_handler = handlers.RotatingFileHandler(
-        filename=log_config.FILE_LOG_PATH,
+        filename=log_config.file_log_path,
+        backupCount=log_config.file_backup_count
     )
-    file_handler.setLevel(level=log_config.FILE_LOG_LEVEL)
+    file_handler.setLevel(level=log_config.file_log_level)
     file_handler.setFormatter(fmt=formatter)
 
     logger.addHandler(stream_handler)

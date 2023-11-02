@@ -8,7 +8,6 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
-
 from src.infrastructure.config.db_config import DBConfig
 from src.infrastructure.database.core import create_engine, create_engine_local_way
 from src.infrastructure.database.core import create_db_session

@@ -3,7 +3,7 @@ import asyncio
 import logging
 import os
 
-from src.infrastructure.config.log_config import get_log_config
+from src.infrastructure.config.config_loader import load_config
 from src.infrastructure.logger.builder import setup_root_logger
 from src.presentation.api_runner import api_start
 from src.presentation.cli_runner import cli_start
@@ -11,8 +11,6 @@ from src.presentation.cli_runner import cli_start
 
 async def parse_args():
 
-    log_config = get_log_config()
-    setup_root_logger(log_config=log_config)
     main_parser = argparse.ArgumentParser(description="api or cli")
     group = main_parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
@@ -26,6 +24,7 @@ async def parse_args():
         help="running the src via cli"
     )
     args = main_parser.parse_args()
+
     if args.api:
         logging.warning("preparing the api application")
         await api_start()

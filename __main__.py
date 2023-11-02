@@ -25,11 +25,13 @@ async def parse_args():
     )
     args = main_parser.parse_args()
 
+    config = load_config()
+    setup_root_logger(log_config=config.logging)
+
     if args.api:
         logging.warning("preparing the api application")
         await api_start()
     elif args.cli:
-        os.environ["LOCAL"] = "1"
         logging.warning("preparing the cli application")
         await cli_start()
 

@@ -18,6 +18,7 @@ class UnitOfWork:
             self,
             session: AsyncSession,
     ):
+        print(10*"-", id(session))
         self._session = session
         self._in_transaction = False
 

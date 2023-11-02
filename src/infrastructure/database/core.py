@@ -36,6 +36,7 @@ async def create_engine_local_way(
         echo=db_config.ECHO
     )
     async with engine.connect() as conn:
+        print(10*"-", id(conn))
         await conn.run_sync(metadata.drop_all)
         print("clear_database")
 

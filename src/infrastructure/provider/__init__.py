@@ -1,8 +1,8 @@
-from .builder import build_provider, setup_handlers
+from .builder import build_provider, setup_provider
 from .provider import Provider
 
 __all__ = (
     "build_provider",
-    "setup_handlers",
+    "setup_provider",
     "Provider",
 )

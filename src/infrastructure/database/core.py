@@ -1,26 +1,26 @@
 from collections.abc import AsyncGenerator
 
 from sqlalchemy import MetaData
-from sqlalchemy.ext.asyncio import (AsyncEngine,
-                                    AsyncSession,
-                                    async_sessionmaker,
-                                    create_async_engine)
+from sqlalchemy.ext.asyncio import AsyncEngine
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import async_sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine
 
 from src.infrastructure.config.db_config import DBConfig
 
 
 async def create_engine(
-        db_config: DBConfig,
-        # metadata: MetaData
+        db_config: DBConfig
 ) -> AsyncGenerator[AsyncEngine, None]:
 
-    if db_config.is_local:
-        db_url = db_config.sqlite_url
-    else:
-        db_url = db_config.postgres_url
+    # if db_config.is_local:
+    #     db_url = db_config.sqlite_url
+    # else:
+    #     db_url = db_config.postgres_url
+
     engine = create_async_engine(
-        url=db_url,
-        echo=db_config.ECHO
+        url=db_config.postgres_url,
+        echo=db_config.echo
     )
     yield engine
     await engine.dispose()
@@ -33,7 +33,7 @@ async def create_engine_local_way(
 
     engine = create_async_engine(
         url=db_config.sqlite_url,
-        echo=db_config.ECHO
+        echo=db_config.echo
     )
     async with engine.connect() as conn:
         print(10*"-", id(conn))
@@ -70,20 +70,3 @@ async def create_db_session(
 
     async with async_session_factory() as session:
         yield session
-
-
-async def make_migrations(
-        engine: AsyncEngine,
-        metadata: MetaData
-): # -> AsyncGenerator[None, None]:
-    """For local startup only"""
-    print("MAKE MIGRATIONDSSS")
-    print(metadata)
-    async with engine.begin() as conn:
-        await conn.run_sync(metadata.drop_all)
-        print("clear_database")
-        await conn.run_sync(metadata.create_all)
-        print("create_all")
-        yield
-        await conn.run_sync(metadata.drop_all)
-        print("drop_database")

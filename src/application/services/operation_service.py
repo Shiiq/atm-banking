@@ -4,8 +4,8 @@ from src.application.dto import BankOperationCreate
 from src.application.dto import BankOperationRead
 from src.application.dto import BankOperationSearch
 from src.application.dto import ShortOperationInfo
+from src.application.interfaces import IOperationRepo
 from src.infrastructure.database.models import BankOperationModel
-from src.infrastructure.database.repositories import IOperationRepo
 from .data_converter import DataConverterMixin
 
 

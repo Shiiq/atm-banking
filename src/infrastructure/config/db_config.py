@@ -16,10 +16,10 @@ class DBConfig:
     db_port: int = None
 
     # SQLITE DB
-    sqlite_database_url: str = "atm_local_default.db"
+    sqlite_database_url: str = field(default="atm_local_default.db")
 
-    echo: bool = False
-    local: bool = True
+    echo: bool = field(default=False)
+    local: bool = field(default=True)
 
     @property
     def is_local(self):

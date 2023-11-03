@@ -5,8 +5,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
+from src.application.interfaces import ICustomerRepo
 from src.infrastructure.database.models import BankCustomerModel
-from .interfaces import ICustomerRepo
 
 
 class CustomerRepo(ICustomerRepo):
@@ -41,9 +41,11 @@ class CustomerRepo(ICustomerRepo):
             customer_last_name: str
     ) -> Optional[BankCustomerModel]:
 
-        query = (select(BankCustomerModel)
-                 .where(BankCustomerModel.first_name == customer_first_name,
-                        BankCustomerModel.last_name == customer_last_name)
-                 .options(joinedload(BankCustomerModel.bank_account)))
+        query = (
+            select(BankCustomerModel)
+            .where(BankCustomerModel.first_name == customer_first_name,
+                   BankCustomerModel.last_name == customer_last_name)
+            .options(joinedload(BankCustomerModel.bank_account))
+        )
         customer = await self._session.scalar(query)
         return customer

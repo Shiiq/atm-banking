@@ -5,8 +5,8 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.application.interfaces import IOperationRepo
 from src.infrastructure.database.models import BankOperationModel
-from .interfaces import IOperationRepo
 
 
 class OperationRepo(IOperationRepo):
@@ -34,8 +34,10 @@ class OperationRepo(IOperationRepo):
             operation_id: UUID
     ) -> Optional[BankOperationModel]:
 
-        query = (select(BankOperationModel)
-                 .where(BankOperationModel.id == operation_id))
+        query = (
+            select(BankOperationModel)
+            .where(BankOperationModel.id == operation_id)
+        )
         operation = await self._session.execute(query)
         return operation.scalars().first()
 
@@ -45,9 +47,11 @@ class OperationRepo(IOperationRepo):
             customer_id: UUID,
     ):
 
-        query = (select(BankOperationModel)
-                 .where(BankOperationModel.bank_account_id == account_id,
-                        BankOperationModel.bank_customer_id == customer_id))
+        query = (
+            select(BankOperationModel)
+            .where(BankOperationModel.bank_account_id == account_id,
+                   BankOperationModel.bank_customer_id == customer_id)
+        )
         operations = await self._session.execute(query)
         return operations.scalars().all()
 
@@ -59,10 +63,11 @@ class OperationRepo(IOperationRepo):
             end_date: datetime
     ):
 
-        query = (select(BankOperationModel)
-                 .where(BankOperationModel.bank_account_id == account_id,
-                        BankOperationModel.bank_customer_id == customer_id,)
-                 .where(BankOperationModel.created_at.between(start_date,
-                                                              end_date)))
+        query = (
+            select(BankOperationModel)
+            .where(BankOperationModel.bank_account_id == account_id,
+                   BankOperationModel.bank_customer_id == customer_id,)
+            .where(BankOperationModel.created_at.between(start_date, end_date))
+        )
         operations = await self._session.execute(query)
         return operations.scalars().all()

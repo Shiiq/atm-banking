@@ -4,7 +4,7 @@ import logging
 import os
 
 from src.infrastructure.config.config_loader import load_config
-from src.infrastructure.logger.builder import setup_root_logger
+from src.infrastructure.logger import setup_root_logger
 from src.presentation.api_runner import api_start
 from src.presentation.cli_runner import cli_start
 
@@ -30,10 +30,10 @@ async def parse_args():
 
     if args.api:
         logging.warning("preparing the api application")
-        await api_start()
+        await api_start(config=config)
     elif args.cli:
         logging.warning("preparing the cli application")
-        await cli_start()
+        await cli_start(config=config)
 
 
 if __name__ == "__main__":

@@ -5,11 +5,16 @@ from sqlalchemy import DateTime, MetaData, sql, Uuid
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, registry
 
 convention = {
-    "ix": "ix_%(column_0_label)s",                                          # INDEX
-    "uq": "uq_%(table_name)s_%(column_0_N_name)s",                          # UNIQUE
-    "ck": "ck_%(table_name)s_%(constraint_name)s",                          # CHECK
-    "fk": "fk_%(table_name)s_%(column_0_N_name)s_%(referred_table_name)s",  # FOREIGN KEY
-    "pk": "pk_%(table_name)s",                                              # PRIMARY KEY
+    # index
+    "ix": "ix_%(column_0_label)s",
+    # unique
+    "uq": "uq_%(table_name)s_%(column_0_N_name)s",
+    # check
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    # foreign key
+    "fk": "fk_%(table_name)s_%(column_0_N_name)s_%(referred_table_name)s",
+    # primary key
+    "pk": "pk_%(table_name)s"
 }
 
 mapper_registry = registry(metadata=MetaData(naming_convention=convention))

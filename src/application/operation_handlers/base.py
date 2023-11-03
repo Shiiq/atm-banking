@@ -1,14 +1,14 @@
-from src.application.services import (AccountService,
-                                      CustomerService,
-                                      OperationService)
-from src.infrastructure.unit_of_work import UnitOfWork
+from src.application.services import AccountService
+from src.application.services import CustomerService
+from src.application.services import OperationService
+from src.application.interfaces import IUnitOfWork
 
 
 class BaseHandler:
 
     def __init__(
             self,
-            uow: UnitOfWork,
+            uow: IUnitOfWork,
             account_service: AccountService,
             customer_service: CustomerService,
             operation_service: OperationService

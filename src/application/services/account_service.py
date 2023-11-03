@@ -4,7 +4,7 @@ from src.application.dto import BankAccountRead
 from src.application.dto import BankAccountUpdate
 from src.application.dto import BankAccountSearch
 from src.application.exceptions import AccountIDNotExist
-from src.infrastructure.database.repositories import IAccountRepo
+from src.application.interfaces import IAccountRepo
 from src.infrastructure.database.models import BankAccountModel
 from .data_converter import DataConverterMixin
 

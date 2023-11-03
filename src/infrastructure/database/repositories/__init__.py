@@ -1,14 +1,9 @@
-from .account_repository import AccountRepo
-from .customer_repository import CustomerRepo
-from .operation_repository import OperationRepo
-from .interfaces import IAccountRepo, ICustomerRepo, IOperationRepo
+from .account_repo import AccountRepo
+from .customer_repo import CustomerRepo
+from .operation_repo import OperationRepo
 
 __all__ = (
     "AccountRepo",
     "CustomerRepo",
     "OperationRepo",
-
-    "IAccountRepo",
-    "ICustomerRepo",
-    "IOperationRepo",
 )

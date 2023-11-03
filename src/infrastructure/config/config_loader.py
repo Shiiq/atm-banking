@@ -24,7 +24,6 @@ def load_config():
     is_local = os.environ.get("LOCAL")
 
     if is_local == IS_LOCAL_CONDITION:
-
         return Config(
             is_local=True,
             api=APIConfig(),
@@ -37,7 +36,6 @@ def load_config():
         api_config = APIConfig(**config_data["api"])
         db_config = DBConfig(**config_data["database"])
         logging_config = LoggingConfig(**config_data["logging"])
-
         return Config(
             is_local=False,
             api=api_config,

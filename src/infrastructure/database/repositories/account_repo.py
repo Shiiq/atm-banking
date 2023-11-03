@@ -4,8 +4,8 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.application.interfaces import IAccountRepo
 from src.infrastructure.database.models import BankAccountModel
-from .interfaces import IAccountRepo
 
 
 class AccountRepo(IAccountRepo):
@@ -27,9 +27,11 @@ class AccountRepo(IAccountRepo):
             account_id: UUID
     ) -> Optional[BankAccountModel]:
 
-        query = (select(BankAccountModel)
-                 .where(BankAccountModel.id == account_id)
-                 .with_for_update())
+        query = (
+            select(BankAccountModel)
+            .where(BankAccountModel.id == account_id)
+            .with_for_update()
+        )
         account = await self._session.execute(query)
         return account.scalars().first()
 

@@ -1,5 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.application.interfaces import IUnitOfWork
+
 
 class UnitOfWorkError(Exception):
 
@@ -11,13 +13,10 @@ class UnitOfWorkError(Exception):
         return self.msg
 
 
-class UnitOfWork:
+class UnitOfWork(IUnitOfWork):
     _in_transaction: bool
 
-    def __init__(
-            self,
-            session: AsyncSession,
-    ):
+    def __init__(self, session: AsyncSession):
         print(10*"-", id(session))
         self._session = session
         self._in_transaction = False

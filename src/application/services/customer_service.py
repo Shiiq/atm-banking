@@ -4,9 +4,9 @@ from src.application.dto import BankCustomerCreate
 from src.application.dto import BankCustomerRead
 from src.application.dto import BankCustomerSearch
 from src.application.exceptions import CustomerNotExist, CustomerIDNotExist
+from src.application.interfaces import ICustomerRepo
 from src.infrastructure.database.models import BankAccountModel
 from src.infrastructure.database.models import BankCustomerModel
-from src.infrastructure.database.repositories import ICustomerRepo
 from .data_converter import DataConverterMixin
 
 

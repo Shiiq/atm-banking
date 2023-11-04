@@ -3,13 +3,13 @@ from typing import Sequence, Optional
 
 from di import Container, ScopeState
 from di.api.scopes import Scope
-from di.executors import AsyncExecutor
 from di.dependent import Dependent
+from di.executors import AsyncExecutor
 
 
 class DIScope(StrEnum):
 
-    APP = "src"
+    APP = "app"
     REQUEST = "request"
 
 
@@ -31,7 +31,6 @@ class DIContainer:
             scope: Scope,
             state: Optional[ScopeState] = None
     ):
-
         return self._container.enter_scope(scope=scope, state=state)
 
     async def execute(

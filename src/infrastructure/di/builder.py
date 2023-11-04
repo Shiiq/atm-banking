@@ -1,6 +1,6 @@
 from di import bind_by_type, Container
-from di.executors import AsyncExecutor
 from di.dependent import Dependent
+from di.executors import AsyncExecutor
 from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlalchemy.ext.asyncio import AsyncSession

@@ -7,10 +7,9 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from src.infrastructure.database.models import Base
-from src.infrastructure.config.db_config import get_db_config
+from src.infrastructure.config.config_loader import Config, load_config
 
-
-db_config = get_db_config()
+db_config = load_config().db
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

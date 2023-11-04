@@ -14,10 +14,10 @@ class UnitOfWorkError(Exception):
 
 
 class UnitOfWork(IUnitOfWork):
+
     _in_transaction: bool
 
     def __init__(self, session: AsyncSession):
-        print(10*"-", id(session))
         self._session = session
         self._in_transaction = False
 

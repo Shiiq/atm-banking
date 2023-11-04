@@ -22,10 +22,6 @@ class DBConfig:
     local: bool = field(default=True)
 
     @property
-    def is_local(self):
-        return self.local
-
-    @property
     def postgres_url(self):
         """Postgres database url"""
         return ("postgresql+asyncpg://"

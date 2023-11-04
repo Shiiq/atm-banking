@@ -13,11 +13,6 @@ async def create_engine(
         db_config: DBConfig
 ) -> AsyncGenerator[AsyncEngine, None]:
 
-    # if db_config.is_local:
-    #     db_url = db_config.sqlite_url
-    # else:
-    #     db_url = db_config.postgres_url
-
     engine = create_async_engine(
         url=db_config.postgres_url,
         echo=db_config.echo
@@ -36,25 +31,20 @@ async def create_engine_local_way(
         echo=db_config.echo
     )
     async with engine.connect() as conn:
-        print(10*"-", id(conn))
         await conn.run_sync(metadata.drop_all)
         print("clear_database")
-
         await conn.run_sync(metadata.create_all)
         print("create_database")
-
         yield engine
-
         await conn.run_sync(metadata.drop_all)
         print("drop_database")
-
     await engine.dispose()
     print("dispose_engine")
 
 
 def create_session_factory(
         engine: AsyncEngine
-) -> async_sessionmaker[AsyncSession]:
+) -> async_sessionmaker:
 
     async_session_factory = async_sessionmaker(
         bind=engine,
@@ -65,7 +55,7 @@ def create_session_factory(
 
 
 async def create_db_session(
-        async_session_factory: async_sessionmaker[AsyncSession]
+        async_session_factory: async_sessionmaker
 ) -> AsyncGenerator[AsyncSession, None]:
 
     async with async_session_factory() as session:

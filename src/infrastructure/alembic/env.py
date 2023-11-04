@@ -9,27 +9,27 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from src.infrastructure.database.models import Base
 from src.infrastructure.config.config_loader import Config, load_config
 
-db_config = load_config().db
-
+config = load_config()
+db_config = config.db
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-config = context.config
+alembic_config = context.config
 
 if db_config.is_local:
-    config.set_main_option("sqlalchemy.url", db_config.sqlite_url)
+    alembic_config.set_main_option("sqlalchemy.url", db_config.sqlite_url)
 elif not db_config.is_local:
-    config.set_main_option("sqlalchemy.url", db_config.postgres_url)
+    alembic_config.set_main_option("sqlalchemy.url", db_config.postgres_url)
 else:
     raise Exception(
         "If you want to run the application in local mode, "
         "please set the environment variable 'LOCAL' to 1 "
-        "(e.g. EXPORT LOCAL=1) and repeat the operation."
+        "(e.g. export LOCAL=1) and repeat the operation."
     )
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+if alembic_config.config_file_name is not None:
+    fileConfig(alembic_config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support

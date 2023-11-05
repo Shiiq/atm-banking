@@ -19,7 +19,7 @@ async def bank_statement(
 ) -> ShortBankStatementInfo:
 
     handler = await provider.get_handler(
-        key_class=bank_statement_input.operation_type
+        key=bank_statement_input.operation_type
     )
     response = await handler.execute(bank_statement_input)
     return response

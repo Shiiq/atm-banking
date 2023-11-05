@@ -58,7 +58,7 @@ class CLIApp(CLIAppBase):
                 continue
 
             handler = await self._provider.get_handler(
-                key_class=request.operation_type
+                key=request.operation_type
             )
             try:
                 response = await handler.execute(request)

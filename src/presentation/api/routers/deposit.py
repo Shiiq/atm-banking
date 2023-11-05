@@ -18,7 +18,7 @@ async def deposit(
 ) -> ShortOperationInfo:
 
     handler = await provider.get_handler(
-        key_class=deposit_input.operation_type
+        key=deposit_input.operation_type
     )
     response = await handler.execute(deposit_input)
     return response

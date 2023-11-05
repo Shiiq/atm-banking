@@ -18,7 +18,7 @@ async def withdraw(
 ) -> ShortOperationInfo:
 
     handler = await provider.get_handler(
-        key_class=withdraw_input.operation_type
+        key=withdraw_input.operation_type
     )
     response = await handler.execute(withdraw_input)
     return response

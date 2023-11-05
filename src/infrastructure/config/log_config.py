@@ -16,8 +16,3 @@ class LoggingConfig:
     file_log_level: str = "INFO"
     file_log_path: str = "./logs/operations.txt"
     file_backup_count: int = 3
-
-
-def get_log_config():
-    """Return LogConfig object"""
-    return LoggingConfig()

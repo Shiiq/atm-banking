@@ -12,8 +12,8 @@ from .data_converter import DataConverterMixin
 class OperationService(DataConverterMixin):
 
     def __init__(self, operation_repo: IOperationRepo):
-        self._list_adapter = TypeAdapter(list[ShortOperationInfo])
         self.operation_repo = operation_repo
+        self._list_adapter = TypeAdapter(list[ShortOperationInfo])
 
     async def create(
             self,
@@ -24,9 +24,7 @@ class OperationService(DataConverterMixin):
             input_data=create_data,
             output_model=BankOperationModel
         )
-        operation = await self.operation_repo.create(
-            operation=operation_orm
-        )
+        operation = await self.operation_repo.create(operation=operation_orm)
         return self._from_orm_to_dto(
             input_data=operation,
             output_model=BankOperationRead

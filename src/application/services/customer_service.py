@@ -62,8 +62,10 @@ class CustomerService(DataConverterMixin):
             customer_last_name=search_data.last_name
         )
         if not customer:
-            raise CustomerNotExist(first_name=search_data.first_name,
-                                   last_name=search_data.last_name)
+            raise CustomerNotExist(
+                first_name=search_data.first_name,
+                last_name=search_data.last_name
+            )
         return self._from_orm_to_dto(
             input_data=customer,
             output_model=BankCustomerRead

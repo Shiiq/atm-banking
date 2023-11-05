@@ -1,5 +1,5 @@
 from enum import StrEnum
-from typing import Sequence, Optional
+from typing import Dict, Sequence, Optional
 
 from di import Container, ScopeState
 from di.api.scopes import Scope

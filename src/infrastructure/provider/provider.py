@@ -8,7 +8,7 @@ HandlerTypeT = TypeVar("HandlerTypeT")
 HandlerImplT = TypeVar("HandlerImplT")
 
 
-class Provider:
+class Provider(Generic[HandlerTypeT, HandlerImplT]):
 
     def __init__(self, di_container: DIContainer, app_state: ScopeState):
         self._app_state = app_state

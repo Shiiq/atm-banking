@@ -3,10 +3,10 @@ from typing import Optional
 
 from pydantic import Field, PositiveInt, NonNegativeInt
 
-from .account import BankAccountRead
-from .customer import BankCustomerRead
-from .operation import BankOperationRead
-from .input import BankOperationType
+from src.application.dto import BankAccountRead
+from src.application.dto import BankCustomerRead
+from src.application.dto import BankOperationRead
+from src.application.dto import BankOperationType
 from .base import FrozenDTO
 
 

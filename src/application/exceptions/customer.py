@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from .base import ApplicationException
+from src.application.exceptions import ApplicationException
 
 
 class CustomerIDNotExist(ApplicationException):

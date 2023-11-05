@@ -32,14 +32,10 @@ async def create_engine_local_way(
     )
     async with engine.connect() as conn:
         await conn.run_sync(metadata.drop_all)
-        print("clear_database")
         await conn.run_sync(metadata.create_all)
-        print("create_database")
         yield engine
         await conn.run_sync(metadata.drop_all)
-        print("drop_database")
     await engine.dispose()
-    print("dispose_engine")
 
 
 def create_session_factory(

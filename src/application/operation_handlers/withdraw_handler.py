@@ -80,7 +80,6 @@ class Withdraw(BaseHandler):
             current_balance: int,
             requested_amount: int
     ) -> bool:
-
         return (current_balance - requested_amount) >= 0
 
     async def _update_bank_account(

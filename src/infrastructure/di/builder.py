@@ -19,8 +19,8 @@ from src.infrastructure.database.models import Base
 from src.infrastructure.database.repositories import AccountRepo
 from src.infrastructure.database.repositories import CustomerRepo
 from src.infrastructure.database.repositories import OperationRepo
+from src.infrastructure.di import DIContainer, DIScope
 from src.infrastructure.unit_of_work import UnitOfWork
-from .container import DIContainer, DIScope
 
 
 def setup_db_dependencies(container: Container, db_config: DBConfig):

@@ -7,7 +7,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from src.infrastructure.database.models import Base
-from src.infrastructure.config.config_loader import Config, load_config
+from src.infrastructure.config import load_config
 
 config = load_config()
 db_config = config.db
@@ -31,10 +31,6 @@ else:
 if alembic_config.config_file_name is not None:
     fileConfig(alembic_config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

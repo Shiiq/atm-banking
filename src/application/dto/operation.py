@@ -1,12 +1,11 @@
-from enum import Enum
 from datetime import date, datetime, time
 from typing import Optional
 from uuid import UUID
 
 from pydantic import Field, PositiveInt, field_validator
 
+from src.application.dto import BankOperationType
 from .base import DTO, FrozenDTO
-from .input import BankOperationType
 
 
 class BankOperationCreate(FrozenDTO):

@@ -1,15 +1,15 @@
 from fastapi import FastAPI
 
-from src.application.exceptions import (AccountIDNotExist,
-                                        AccountHasInsufficientFunds,
-                                        CustomerIDNotExist,
-                                        CustomerNotExist)
+from src.application.exceptions import AccountIDNotExist
+from src.application.exceptions import AccountHasInsufficientFunds
+from src.application.exceptions import CustomerIDNotExist
+from src.application.exceptions import CustomerNotExist
 from src.infrastructure.unit_of_work import UnitOfWorkError
-from .handlers import (account_id_not_exist_callback,
-                       account_has_insufficient_funds_callback,
-                       customer_id_not_exist_callback,
-                       customer_not_exist_callback,
-                       unit_of_work_error_callback)
+from .handlers import account_id_not_exist_callback
+from .handlers import account_has_insufficient_funds_callback
+from .handlers import customer_id_not_exist_callback
+from .handlers import customer_not_exist_callback
+from .handlers import unit_of_work_error_callback
 
 
 def setup_exception_handlers(app: FastAPI):

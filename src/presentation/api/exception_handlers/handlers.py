@@ -5,16 +5,16 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict
 from starlette import status
 
-from src.application.exceptions import (AccountIDNotExist,
-                                        AccountHasInsufficientFunds,
-                                        CustomerIDNotExist,
-                                        CustomerNotExist)
+from src.application.exceptions import AccountIDNotExist
+from src.application.exceptions import AccountHasInsufficientFunds
+from src.application.exceptions import CustomerIDNotExist
+from src.application.exceptions import CustomerNotExist
 from src.infrastructure.unit_of_work import UnitOfWorkError
 
-_Exc = TypeVar("_Exc")
+ExcT = TypeVar("ExcT")
 
 
-class ExceptionData(BaseModel, Generic[_Exc]):
+class ExceptionData(BaseModel, Generic[ExcT]):
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
@@ -22,7 +22,7 @@ class ExceptionData(BaseModel, Generic[_Exc]):
     )
 
     error_message: str
-    error_body: _Exc
+    error_body: ExcT
 
 
 async def account_id_not_exist_callback(

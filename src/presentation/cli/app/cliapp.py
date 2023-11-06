@@ -22,7 +22,6 @@ class CLIApp(CLIAppBase):
     _output_handler: OutputHandler
 
     async def run(self):
-
         # runs the main loop for cli application
         if not self._RUNNING:
             await self._run()
@@ -31,7 +30,7 @@ class CLIApp(CLIAppBase):
             pass
 
     def _print_result(self, msg):
-        self._output_handler.pprint(msg)
+        self._output_handler.print(msg)
 
     async def _run(self):
 
@@ -56,7 +55,6 @@ class CLIApp(CLIAppBase):
                 _logger.info("Received incorrect data")
                 print(err.ui_msg)
                 continue
-
             handler = await self._provider.get_handler(
                 key=request.operation_type
             )
@@ -67,5 +65,4 @@ class CLIApp(CLIAppBase):
                 self._print_result(msg=response)
             except ApplicationException as err:
                 self._print_result(msg=err.ui_msg)
-
             continue

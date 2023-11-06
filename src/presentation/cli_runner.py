@@ -15,7 +15,7 @@ async def cli_start(config: Config):
     async with container.enter_scope(scope=DIScope.APP) as app_state:
         provider = build_provider(di_container=container, app_state=app_state)
         setup_provider(provider=provider)
-        app = CLIApp.create_app(
+        app = CLIApp.create(
             provider=provider,
             input_handler=InputHandler(),
             output_handler=OutputHandler()

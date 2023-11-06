@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from src.application.exceptions import ApplicationException
+from .base import ApplicationException
 
 
 class AccountIDNotExist(ApplicationException):

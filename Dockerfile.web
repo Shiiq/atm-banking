@@ -1,5 +1,5 @@
 # weigth 138 mb
-FROM python:3.11.5-alpine3.18 as base
+FROM python:3.11.6-alpine3.18 as base
 
 # python:
 ENV PYTHONUNBUFFERED=1 \

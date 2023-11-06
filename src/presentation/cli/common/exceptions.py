@@ -10,7 +10,6 @@ _WRONG_OPERATION_MESSAGE = (
 
 class CLIAppException(Exception):
     """Base class for CLI src exception"""
-
     pass
 
 
@@ -43,8 +42,10 @@ class ValidateDataError(CLIAppException):
 
     @property
     def msg(self):
-        return (f"An error '{self._errors_data['msg']}' has occured. "
-                f"Please input in '{self._errors_data['loc']}' fields correct data.")
+        return (
+            f"An error '{self._errors_data['msg']}' has occured. "
+            f"Please input in '{self._errors_data['loc']}' fields correct data."
+        )
 
 
 class WrongOperationError(CLIAppException):

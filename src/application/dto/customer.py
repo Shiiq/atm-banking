@@ -4,7 +4,8 @@ from uuid import UUID
 
 from pydantic import Field
 
-from src.application.dto import BankAccountCreate, BankAccountRead
+# from src.application.dto import BankAccountCreate, BankAccountRead
+from .account import BankAccountCreate, BankAccountRead
 from .base import DTO, FrozenDTO
 
 

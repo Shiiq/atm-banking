@@ -22,7 +22,7 @@ class Provider(Generic[HandlerTypeT, HandlerImplT]):
     def register_handler(self, key: HandlerTypeT, handler: HandlerImplT):
         self._handlers[key] = handler
 
-    async def _build_handler(self, handler: HandlerImplT):
+    async def _build_handler(self, handler: HandlerImplT) -> HandlerImplT:
         async with self._di_container.enter_scope(
                 scope=DIScope.REQUEST, state=self._app_state
         ) as request_state:

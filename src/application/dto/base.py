@@ -1,4 +1,13 @@
+from enum import StrEnum
+
 from pydantic import BaseModel, ConfigDict, Extra
+
+
+class BankOperationType(StrEnum):
+
+    DEPOSIT = "deposit"
+    WITHDRAW = "withdraw"
+    BANK_STATEMENT = "bank_statement"
 
 
 class DTO(BaseModel):

@@ -1,7 +1,6 @@
 import argparse
 import asyncio
 import logging
-import os
 
 from src.infrastructure.config.config_loader import load_config
 from src.infrastructure.logger import setup_root_logger

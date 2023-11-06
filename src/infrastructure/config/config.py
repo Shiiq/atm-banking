@@ -19,7 +19,7 @@ class Config:
     logging: LoggingConfig
 
 
-def load_config():
+def load_config() -> Config:
 
     is_local = os.environ.get("LOCAL")
 

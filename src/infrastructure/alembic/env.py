@@ -9,14 +9,13 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from src.infrastructure.database.models import Base
 from src.infrastructure.config import load_config
 
-config = load_config()
-db_config = config.db
 
+db_config = load_config().db
 alembic_config = context.config
 
-if db_config.is_local:
+if db_config.local:
     alembic_config.set_main_option("sqlalchemy.url", db_config.sqlite_url)
-elif not db_config.is_local:
+elif not db_config.local:
     alembic_config.set_main_option("sqlalchemy.url", db_config.postgres_url)
 else:
     raise Exception(
@@ -50,7 +49,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = alembic_config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -76,7 +75,7 @@ async def run_async_migrations() -> None:
     """
 
     connectable = async_engine_from_config(
-        config.get_section(config.config_ini_section, {}),
+        alembic_config.get_section(alembic_config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )

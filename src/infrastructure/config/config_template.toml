@@ -3,7 +3,7 @@
 [project]
   name = "ATMBanking"
   description = "A small pet project that simulates the operations of an ATM."
-  author = "Kiriakov Petr"
+  author = "Kiriakov Petr KKK"
 
 [api]
   debug = false

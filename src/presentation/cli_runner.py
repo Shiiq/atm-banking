@@ -1,6 +1,6 @@
 import logging
 
-from src.infrastructure.config.config_loader import Config
+from src.infrastructure.config import Config
 from src.infrastructure.di import DIScope, build_container
 from src.infrastructure.provider import build_provider, setup_provider
 from src.presentation.cli.app import CLIApp

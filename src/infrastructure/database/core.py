@@ -5,11 +5,10 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine
+from .db_config import DBConfig
 
-from src.infrastructure.config.db_config import DBConfig
 
-
-async def create_engine(
+async def create_engine_remote_way(
         db_config: DBConfig
 ) -> AsyncGenerator[AsyncEngine, None]:
 

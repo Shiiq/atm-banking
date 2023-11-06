@@ -2,11 +2,11 @@ from dataclasses import dataclass
 import os
 import tomllib
 
-from .api_config import APIConfig
-from .db_config import DBConfig
-from .log_config import LoggingConfig
+from src.infrastructure.database.db_config import DBConfig
+from src.infrastructure.logger.log_config import LoggingConfig
+from src.presentation.api.api_config import APIConfig
 
-CONFIG_TEMPLATE_PATH = "./src/infrastructure/config/config_template.toml"
+CONFIG_TEMPLATE_PATH = "./config_template.toml"
 IS_LOCAL_CONDITION = "1"
 
 

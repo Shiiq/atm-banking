@@ -11,8 +11,7 @@ from src.infrastructure.config import load_config
 
 config = load_config()
 db_config = config.db
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
+
 alembic_config = context.config
 
 if db_config.is_local:

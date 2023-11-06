@@ -1,11 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 
-from src.infrastructure.config.api_config import APIConfig
 from src.infrastructure.provider import Provider
 from src.presentation.api.dependencies import setup_dependencies
 from src.presentation.api.exception_handlers import setup_exception_handlers
 from src.presentation.api.routers import setup_routers
+from .api_config import APIConfig
 
 
 def create_app(app_config: APIConfig) -> FastAPI:

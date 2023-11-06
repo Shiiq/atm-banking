@@ -29,7 +29,7 @@ class CLIApp(CLIAppBase):
             # TODO raise
             pass
 
-    def _print_result(self, msg):
+    def _print(self, msg):
         self._output_handler.print(msg)
 
     async def _run(self):
@@ -62,7 +62,7 @@ class CLIApp(CLIAppBase):
                 response = await handler.execute(request)
                 response = response.model_dump(exclude_none=True)
                 print(OPERATION_SUCCESS_MESSAGE)
-                self._print_result(msg=response)
+                self._print(msg=response)
             except ApplicationException as err:
-                self._print_result(msg=err.ui_msg)
+                self._print(msg=err.ui_msg)
             continue

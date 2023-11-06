@@ -10,11 +10,12 @@ from src.application.interfaces import IAccountRepo
 from src.application.interfaces import ICustomerRepo
 from src.application.interfaces import IOperationRepo
 from src.application.interfaces import IUnitOfWork
-from src.infrastructure.config.db_config import DBConfig
-from src.infrastructure.database.core import create_engine
+# from src.infrastructure.config.db_config import DBConfig
+from src.infrastructure.database.core import create_engine_remote_way
 from src.infrastructure.database.core import create_engine_local_way
 from src.infrastructure.database.core import create_db_session
 from src.infrastructure.database.core import create_session_factory
+from src.infrastructure.database.db_config import DBConfig
 from src.infrastructure.database.models import Base
 from src.infrastructure.database.repositories import AccountRepo
 from src.infrastructure.database.repositories import CustomerRepo
@@ -37,7 +38,7 @@ def setup_db_dependencies(container: Container, db_config: DBConfig):
         )
     else:
         container.bind(bind_by_type(
-            Dependent(create_engine, scope=DIScope.APP), AsyncEngine)
+            Dependent(create_engine_remote_way, scope=DIScope.APP), AsyncEngine)
         )
     container.bind(bind_by_type(
         Dependent(create_session_factory, scope=DIScope.APP), async_sessionmaker)

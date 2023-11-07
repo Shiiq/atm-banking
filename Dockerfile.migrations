@@ -1,5 +1,5 @@
 # weigth 94 mb
-FROM python:3.11.5-alpine3.18 as base
+FROM python:3.11.6-alpine3.18 as base
 
 # python:
 ENV PYTHONUNBUFFERED=1 \
@@ -41,7 +41,7 @@ RUN poetry install --only migrations --no-interaction --no-ansi
 
 FROM base as deployment
 
-ENV PROJECT_NAME=atm-banking
+ENV PROJECT_NAME=ATMBanking
 
 COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
 

@@ -10,7 +10,6 @@ from src.application.interfaces import IAccountRepo
 from src.application.interfaces import ICustomerRepo
 from src.application.interfaces import IOperationRepo
 from src.application.interfaces import IUnitOfWork
-# from src.infrastructure.config.db_config import DBConfig
 from src.infrastructure.database.core import create_engine_remote_way
 from src.infrastructure.database.core import create_engine_local_way
 from src.infrastructure.database.core import create_db_session

@@ -24,7 +24,7 @@ class AccountService(DataConverterMixin):
         )
         if not account:
             raise AccountIDNotExist(account_id=search_data.id)
-        return self._from_orm_to_dto(
+        return self.from_orm_to_dto(
             input_data=account,
             output_model=BankAccountRead
         )
@@ -34,14 +34,14 @@ class AccountService(DataConverterMixin):
             update_data: BankAccountUpdate
     ) -> BankAccountRead:
 
-        account_orm = self._from_dto_to_orm(
+        account_orm = self.from_dto_to_orm(
             input_data=update_data,
             output_model=BankAccountModel
         )
         updated_account_orm = await self.account_repo.update(
             account=account_orm
         )
-        return self._from_orm_to_dto(
+        return self.from_orm_to_dto(
             input_data=updated_account_orm,
             output_model=BankAccountRead
         )

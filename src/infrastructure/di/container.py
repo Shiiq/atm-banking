@@ -1,10 +1,13 @@
 from enum import StrEnum
-from typing import Dict, Sequence, Optional
+from typing import Dict, Generic, Sequence, TypeVar, Optional
 
 from di import Container, ScopeState
 from di.api.scopes import Scope
 from di.dependent import Dependent
 from di.executors import AsyncExecutor
+
+DependencyTypeT = TypeVar("DependencyTypeT")
+SolvedDependencyT = TypeVar("SolvedDependencyT")
 
 
 class DIScope(StrEnum):
@@ -13,7 +16,9 @@ class DIScope(StrEnum):
     REQUEST = "request"
 
 
-class DIContainer:
+class DIContainer(Generic[DependencyTypeT, SolvedDependencyT]):
+
+    _solved_dependencies: Dict[DependencyTypeT, SolvedDependencyT]
 
     def __init__(
             self,
@@ -35,10 +40,10 @@ class DIContainer:
 
     async def execute(
             self,
-            required_dependency,
+            required_dependency: DependencyTypeT,
             scope: Scope,
             state: ScopeState
-    ):
+    ) -> SolvedDependencyT:
 
         solved_dependency = self._solved_dependencies.get(required_dependency)
         if not solved_dependency:

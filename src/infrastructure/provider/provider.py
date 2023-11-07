@@ -10,10 +10,12 @@ HandlerImplT = TypeVar("HandlerImplT")
 
 class Provider(Generic[HandlerTypeT, HandlerImplT]):
 
+    _handlers: Dict[HandlerTypeT, HandlerImplT]
+
     def __init__(self, di_container: DIContainer, app_state: ScopeState):
         self._app_state = app_state
         self._di_container = di_container
-        self._handlers: Dict[HandlerTypeT, HandlerImplT] = {}
+        self._handlers = {}
 
     async def get_handler(self, key: HandlerTypeT) -> HandlerImplT:
         handler = self._handlers.get(key)

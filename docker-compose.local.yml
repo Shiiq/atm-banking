@@ -8,8 +8,6 @@ services:
       dockerfile: Dockerfile.web
     ports:
       - "10000:10000"
-    env_file:
-      - .env.local
-    command: sh -c "alembic upgrade head
-                    && sleep 1
-                    && python3 __main__.py -api"
+    environment:
+      - LOCAL=1
+    command: ["python", "__main__.py", "-api"]

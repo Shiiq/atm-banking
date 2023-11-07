@@ -132,3 +132,4 @@ dmypy.json
 .idea
 /poetry.lock
 /test_fastapi_app/
+/unused/

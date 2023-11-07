@@ -98,7 +98,6 @@ class InputHandler:
             repl=REPL_BANK_STATEMENT_PATTERN,
             string=operation_type
         )
-
         return self._OPERATION_TYPES_MAPPING[operation_type]
 
     def _bank_statement(
@@ -126,7 +125,6 @@ class InputHandler:
         )
         first_name = parsed_data.group("first_name")
         last_name = parsed_data.group("last_name")
-
         return data_model(
             first_name=first_name,
             last_name=last_name,
@@ -148,7 +146,6 @@ class InputHandler:
         first_name = parsed_data.group("first_name")
         last_name = parsed_data.group("last_name")
         amount = parsed_data.group("amount")
-
         return data_model(
             first_name=first_name,
             last_name=last_name,

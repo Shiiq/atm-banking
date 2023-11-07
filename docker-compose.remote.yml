@@ -15,7 +15,7 @@ services:
     ports:
       - "10000:10000"
     env_file:
-      - .env.remote
+      - .env.remote.template
     command: ["python", "__main__.py", "-api"]
 
   db:
@@ -29,7 +29,7 @@ services:
 #    ports:
 #      - 5432:5432
     env_file:
-      - .env.remote
+      - .env.remote.template
 
   migrations:
     container_name: migrations
@@ -39,7 +39,7 @@ services:
     depends_on:
       - db
     env_file:
-      - .env.remote
+      - .env.remote.template
     command: ["alembic", "upgrade", "head"]
 
 #  nginx:

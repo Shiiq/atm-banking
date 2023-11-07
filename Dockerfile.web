@@ -41,7 +41,7 @@ RUN poetry install --no-interaction --no-ansi
 
 FROM base as deployment
 
-ENV PROJECT_NAME=atm-banking
+ENV PROJECT_NAME=ATMBanking
 
 COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
 

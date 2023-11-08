@@ -16,8 +16,6 @@ class CLIAppException(Exception):
 class ExitOperation(CLIAppException):
 
     _msg = _EXIT_MESSAGE
-    # def __init__(self):
-    #     self._msg = _EXIT_MESSAGE
 
     @property
     def ui_msg(self):
@@ -27,8 +25,6 @@ class ExitOperation(CLIAppException):
 class InputDataError(CLIAppException):
 
     _msg = _INCORRECT_DATA_MESSAGE
-    # def __init__(self):
-    #     self._msg = _INCORRECT_DATA_MESSAGE
 
     @property
     def ui_msg(self):
@@ -51,8 +47,6 @@ class ValidateDataError(CLIAppException):
 class WrongOperationError(CLIAppException):
 
     _msg = _WRONG_OPERATION_MESSAGE
-    # def __init__(self):
-    #     self._msg = _WRONG_OPERATION_MESSAGE
 
     @property
     def ui_msg(self):

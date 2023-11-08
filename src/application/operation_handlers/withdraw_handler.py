@@ -5,8 +5,8 @@ from src.application.dto import BankAccountUpdate
 from src.application.dto import BankCustomerSearch
 from src.application.dto import BankOperationCreate
 from src.application.dto import BankOperationRead
-from src.application.dto import WithdrawInput
-from src.application.dto import ShortOperationInfo
+from src.application.dto import WithdrawRequest
+from src.application.dto import OperationShortResponse
 from src.application.exceptions import AccountHasInsufficientFunds
 from .base import BaseHandler
 
@@ -17,8 +17,8 @@ class Withdraw(BaseHandler):
 
     async def execute(
             self,
-            input_data: WithdrawInput
-    ) -> ShortOperationInfo:
+            input_data: WithdrawRequest
+    ) -> OperationShortResponse:
 
         async with self._uow:
             customer_search_data = BankCustomerSearch(
@@ -68,7 +68,7 @@ class Withdraw(BaseHandler):
                 f"Withdraw operation for customer '{customer.id}' "
                 f"was registered"
             )
-            return ShortOperationInfo(
+            return OperationShortResponse(
                 created_at=operation.created_at,
                 bank_operation_type=operation.bank_operation_type,
                 amount=operation.amount,

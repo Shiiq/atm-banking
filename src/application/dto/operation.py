@@ -4,7 +4,6 @@ from uuid import UUID
 
 from pydantic import Field, PositiveInt, field_validator
 
-# from src.application.dto import BankOperationType
 from .base import BankOperationType, DTO, FrozenDTO
 
 

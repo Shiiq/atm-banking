@@ -6,8 +6,8 @@ from src.application.dto import BankCustomerCreate
 from src.application.dto import BankCustomerSearch
 from src.application.dto import BankOperationCreate
 from src.application.dto import BankOperationRead
-from src.application.dto import DepositInput
-from src.application.dto import ShortOperationInfo
+from src.application.dto import DepositRequest
+from src.application.dto import OperationShortResponse
 from src.application.exceptions import CustomerNotExist
 from .base import BaseHandler
 
@@ -18,8 +18,8 @@ class Deposit(BaseHandler):
 
     async def execute(
             self,
-            input_data: DepositInput
-    ) -> ShortOperationInfo:
+            input_data: DepositRequest
+    ) -> OperationShortResponse:
 
         async with self._uow:
             try:
@@ -75,7 +75,7 @@ class Deposit(BaseHandler):
                 f"Deposit operation for customer '{customer.id}' "
                 f"was registered"
             )
-            return ShortOperationInfo(
+            return OperationShortResponse(
                 created_at=operation.created_at,
                 bank_operation_type=operation.bank_operation_type,
                 amount=operation.amount,

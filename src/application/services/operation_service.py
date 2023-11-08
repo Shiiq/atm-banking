@@ -4,7 +4,7 @@ from pydantic import TypeAdapter
 from src.application.dto import BankOperationCreate
 from src.application.dto import BankOperationRead
 from src.application.dto import BankOperationSearch
-from src.application.dto import ShortOperationInfo
+from src.application.dto import OperationShortResponse
 from src.application.interfaces import IOperationRepo
 from src.infrastructure.database.models import BankOperationModel
 from .data_converter import DataConverterMixin
@@ -14,7 +14,7 @@ class OperationService(DataConverterMixin):
 
     def __init__(self, operation_repo: IOperationRepo):
         self.operation_repo = operation_repo
-        self.list_adapter = TypeAdapter(list[ShortOperationInfo])
+        self.list_adapter = TypeAdapter(list[OperationShortResponse])
 
     async def create(
             self,
@@ -47,7 +47,7 @@ class OperationService(DataConverterMixin):
     async def by_customer(
             self,
             search_data: BankOperationSearch
-    ) -> list[Optional[ShortOperationInfo]]:
+    ) -> list[Optional[OperationShortResponse]]:
 
         operations = await self.operation_repo.get_by_customer_id(
             account_id=search_data.bank_account_id,
@@ -58,7 +58,7 @@ class OperationService(DataConverterMixin):
     async def by_date_interval(
             self,
             search_data: BankOperationSearch
-    ) -> list[Optional[ShortOperationInfo]]:
+    ) -> list[Optional[OperationShortResponse]]:
 
         operations = await self.operation_repo.get_by_date_interval(
             account_id=search_data.bank_account_id,

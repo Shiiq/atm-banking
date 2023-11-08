@@ -5,15 +5,13 @@ import tomllib
 from src.infrastructure.database.db_config import DBConfig
 from src.infrastructure.logger.log_config import LoggingConfig
 from src.presentation.api.api_config import APIConfig
-
-CONFIG_TEMPLATE_PATH = "./config_template.toml"
-IS_LOCAL_CONDITION = "1"
+from .constants import CONFIG_TEMPLATE_PATH, ConfigLoaderError, LaunchType
 
 
 @dataclass(frozen=True, slots=True)
 class Config:
 
-    is_local: bool
+    launch_type: LaunchType
     api: APIConfig
     db: DBConfig
     logging: LoggingConfig
@@ -21,23 +19,26 @@ class Config:
 
 def load_config() -> Config:
 
-    is_local = os.environ.get("LOCAL")
+    launch_type = os.environ.get("LAUNCH")
+    if not launch_type:
+        raise ConfigLoaderError()
 
-    if is_local == IS_LOCAL_CONDITION:
+    if launch_type == LaunchType.LOCAL:
         return Config(
-            is_local=True,
+            launch_type=LaunchType.LOCAL,
             api=APIConfig(),
             db=DBConfig(),
             logging=LoggingConfig()
         )
-    else:
+
+    elif launch_type == LaunchType.REMOTE:
         with open(CONFIG_TEMPLATE_PATH, "rb") as f:
             config_data = tomllib.load(f)
         api_config = APIConfig(**config_data["api"])
         db_config = DBConfig(**config_data["database"])
         logging_config = LoggingConfig(**config_data["logging"])
         return Config(
-            is_local=False,
+            launch_type=LaunchType.REMOTE,
             api=api_config,
             db=db_config,
             logging=logging_config

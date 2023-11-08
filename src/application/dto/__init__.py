@@ -8,13 +8,13 @@ from .customer import BankCustomerSearch
 from .operation import BankOperationCreate
 from .operation import BankOperationRead
 from .operation import BankOperationSearch
-from .input import BankStatementInput
-from .input import DepositInput
-from .input import WithdrawInput
-from .output import ShortOperationInfo
-from .output import FullOperationInfo
-from .output import ShortBankStatementInfo
-from .output import FullBankStatementInfo
+from .request import BankStatementRequest
+from .request import DepositRequest
+from .request import WithdrawRequest
+from .response import BankStatementShortResponse
+from .response import BankStatementFullResponse
+from .response import OperationShortResponse
+from .response import OperationFullResponse
 from .base import BankOperationType
 
 __all__ = (
@@ -29,13 +29,14 @@ __all__ = (
     "BankOperationRead",
     "BankOperationSearch",
 
-    "BankOperationType",
-    "BankStatementInput",
-    "DepositInput",
-    "WithdrawInput",
+    "BankStatementRequest",
+    "DepositRequest",
+    "WithdrawRequest",
 
-    "ShortOperationInfo",
-    "FullOperationInfo",
-    "ShortBankStatementInfo",
-    "FullBankStatementInfo",
+    "BankStatementShortResponse",
+    "BankStatementFullResponse",
+    "OperationShortResponse",
+    "OperationFullResponse",
+
+    "BankOperationType",
 )

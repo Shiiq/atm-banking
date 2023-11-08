@@ -1,9 +1,13 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
 class DBConfig:
-    """Database config"""
+    """
+    Database config.
+    Default parameters correspond
+    to the local type of launch of the application.
+    """
 
     # POSTGRES DB
     postgres_db: str = None
@@ -13,10 +17,10 @@ class DBConfig:
     db_port: int = None
 
     # SQLITE DB
-    sqlite_database_url: str = field(default="atm_local_default.db")
+    sqlite_database_url: str = "atm_local_default.db"
 
-    echo: bool = field(default=False)
-    local: bool = field(default=True)
+    echo: bool = False
+    local: bool = True
 
     @property
     def postgres_url(self):

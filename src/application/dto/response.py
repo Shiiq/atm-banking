@@ -3,17 +3,14 @@ from typing import Optional
 
 from pydantic import Field, PositiveInt, NonNegativeInt
 
-# from src.application.dto import BankAccountRead
-# from src.application.dto import BankCustomerRead
-# from src.application.dto import BankOperationRead
-# from src.application.dto import BankOperationType
 from .account import BankAccountRead
 from .customer import BankCustomerRead
 from .operation import BankOperationRead
 from .base import BankOperationType, FrozenDTO
 
 
-class ShortOperationInfo(FrozenDTO):
+class OperationShortResponse(FrozenDTO):
+    """Output model"""
 
     operation_datetime: datetime = Field(
         validation_alias="created_at"
@@ -29,24 +26,24 @@ class ShortOperationInfo(FrozenDTO):
     )
 
 
-class FullOperationInfo(FrozenDTO):
+class OperationFullResponse(FrozenDTO):
 
     account: BankAccountRead
     customer: BankCustomerRead
     operation: BankOperationRead
 
 
-class ShortBankStatementInfo(FrozenDTO):
+class BankStatementShortResponse(FrozenDTO):
 
     since: date
     till: date
     balance: NonNegativeInt
-    operations: list[ShortOperationInfo]
+    operations: list[Optional[OperationShortResponse]]
 
 
-class FullBankStatementInfo(FrozenDTO):
+class BankStatementFullResponse(FrozenDTO):
 
     since: date
     till: date
     customer: BankCustomerRead
-    operations: list[BankOperationRead]
+    operations: list[Optional[BankOperationRead]]

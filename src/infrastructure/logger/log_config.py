@@ -1,13 +1,9 @@
 from dataclasses import dataclass
-from pathlib import Path
-
-_BASE_DIR = Path(__file__).parent.parent.parent.parent
-_LOGS_PATH = _BASE_DIR.joinpath("logs/", "operations.txt")
 
 
 @dataclass(frozen=True)
 class LoggingConfig:
-    """Log config"""
+    """Logging config."""
 
     log_format: str = "%(asctime)s::%(levelname)s::%(name)s::%(message)s"
     datetime_format: str = "%Y-%m-%d %H:%M:%S"

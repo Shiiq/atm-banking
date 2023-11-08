@@ -5,12 +5,14 @@ from src.application.interfaces import IUnitOfWork
 
 class UnitOfWorkError(Exception):
 
+    _msg = "Unit Of Work is already in transaction"
+
     @property
     def msg(self):
-        return "Unit Of Work is already in transaction"
+        return self._msg
 
     def __str__(self):
-        return self.msg
+        return self._msg
 
 
 class UnitOfWork(IUnitOfWork):

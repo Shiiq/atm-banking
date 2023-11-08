@@ -14,6 +14,8 @@ services:
       - migrations
     ports:
       - "10000:10000"
+    environment:
+      - LAUNCH=rem
     env_file:
       - .env.remote.template
     command: ["python", "__main__.py", "-api"]

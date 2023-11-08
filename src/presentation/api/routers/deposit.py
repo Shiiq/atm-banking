@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from starlette import status
 
-from src.application.dto import DepositInput, ShortOperationInfo
+from src.application.dto import DepositRequest, OperationShortResponse
 from src.presentation.api.dependencies import get_provider
 
 deposit_router = APIRouter(prefix="/deposit")
@@ -9,13 +9,13 @@ deposit_router = APIRouter(prefix="/deposit")
 
 @deposit_router.post(
     path="/",
-    response_model=ShortOperationInfo,
+    response_model=OperationShortResponse,
     status_code=status.HTTP_200_OK
 )
 async def deposit(
-        deposit_input: DepositInput,
+        deposit_input: DepositRequest,
         provider=Depends(get_provider)
-) -> ShortOperationInfo:
+) -> OperationShortResponse:
 
     handler = await provider.get_handler(
         key=deposit_input.operation_type

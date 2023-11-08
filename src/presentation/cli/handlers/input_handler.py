@@ -3,9 +3,9 @@ from re import Pattern
 from typing import Type
 
 from src.application.dto import BankOperationType
-from src.application.dto import BankStatementInput
-from src.application.dto import DepositInput
-from src.application.dto import WithdrawInput
+from src.application.dto import BankStatementRequest
+from src.application.dto import DepositRequest
+from src.application.dto import WithdrawRequest
 from src.presentation.cli.common.commands import ExitCommand
 from src.presentation.cli.common.exceptions import ExitOperation
 from src.presentation.cli.common.exceptions import InputDataError
@@ -31,28 +31,28 @@ class InputHandler:
     _OPERATION_PARAMS_MAPPING = {
         BankOperationType.BANK_STATEMENT: {
             "args_pattern": BANK_STATEMENT_OPERATION_PATTERN,
-            "operation_data_model": BankStatementInput
+            "operation_data_model": BankStatementRequest
         },
         BankOperationType.DEPOSIT: {
             "args_pattern": DEPOSIT_OPERATION_PATTERN,
-            "operation_data_model": DepositInput
+            "operation_data_model": DepositRequest
         },
         BankOperationType.WITHDRAW: {
             "args_pattern": WITHDRAW_OPERATION_PATTERN,
-            "operation_data_model": WithdrawInput
+            "operation_data_model": WithdrawRequest
         },
     }
 
     def parse(
             self,
             input_data: str
-    ) -> BankStatementInput | DepositInput | WithdrawInput:
+    ) -> BankStatementRequest | DepositRequest | WithdrawRequest:
         return self._parse(raw_data=input_data.lower())
 
     def _parse(
             self,
             raw_data: str
-    ) -> BankStatementInput | DepositInput | WithdrawInput:
+    ) -> BankStatementRequest | DepositRequest | WithdrawRequest:
 
         operation_type = self._check_operation_type(raw_data)
         operation_params = self._OPERATION_PARAMS_MAPPING[operation_type]
@@ -104,8 +104,8 @@ class InputHandler:
             self,
             pattern: Pattern[str],
             raw_data: str,
-            data_model: Type[BankStatementInput]
-    ) -> BankStatementInput:
+            data_model: Type[BankStatementRequest]
+    ) -> BankStatementRequest:
 
         parsed_data = re.search(pattern=pattern, string=raw_data)
         if not parsed_data:
@@ -136,8 +136,8 @@ class InputHandler:
             self,
             pattern: Pattern[str],
             raw_data: str,
-            data_model: Type[DepositInput | WithdrawInput]
-    ) -> DepositInput | WithdrawInput:
+            data_model: Type[DepositRequest | WithdrawRequest]
+    ) -> DepositRequest | WithdrawRequest:
 
         parsed_data = re.search(pattern=pattern, string=raw_data)
         if not parsed_data:

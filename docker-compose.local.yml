@@ -9,5 +9,5 @@ services:
     ports:
       - "10000:10000"
     environment:
-      - LOCAL=1
+      - LAUNCH=loc
     command: ["python", "__main__.py", "-api"]

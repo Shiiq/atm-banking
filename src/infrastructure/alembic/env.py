@@ -12,29 +12,13 @@ from src.infrastructure.config import load_config
 
 db_config = load_config().db
 alembic_config = context.config
+alembic_config.set_main_option("sqlalchemy.url", db_config.postgres_url)
+# TODO maybe check the state of "db_config.local" param
 
-if db_config.local:
-    alembic_config.set_main_option("sqlalchemy.url", db_config.sqlite_url)
-elif not db_config.local:
-    alembic_config.set_main_option("sqlalchemy.url", db_config.postgres_url)
-else:
-    raise Exception(
-        "If you want to run the application in local mode, "
-        "please set the environment variable 'LOCAL' to 1 "
-        "(e.g. export LOCAL=1) and repeat the operation."
-    )
-
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
 if alembic_config.config_file_name is not None:
     fileConfig(alembic_config.config_file_name)
 
 target_metadata = Base.metadata
-
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
 
 
 def run_migrations_offline() -> None:

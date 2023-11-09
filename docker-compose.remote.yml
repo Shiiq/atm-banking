@@ -40,6 +40,8 @@ services:
       dockerfile: Dockerfile.migrations
     depends_on:
       - db
+    environment:
+      - LAUNCH=rem
     env_file:
       - .env.remote.template
     command: ["alembic", "upgrade", "head"]

@@ -20,7 +20,7 @@ class Config:
 def load_config() -> Config:
 
     launch_type = os.environ.get("LAUNCH")
-    if not launch_type:
+    if not launch_type or launch_type not in iter(LaunchType):
         raise ConfigLoaderError()
 
     if launch_type == LaunchType.LOCAL:

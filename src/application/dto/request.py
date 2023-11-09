@@ -13,9 +13,7 @@ class BankStatementRequest(FrozenDTO):
 
     first_name: str
     last_name: str
-    operation_type: BankOperationType = Field(
-        default=BankOperationType.BANK_STATEMENT
-    )
+    operation_type: BankOperationType = BankOperationType.BANK_STATEMENT
     since: date
     till: date
 
@@ -24,9 +22,7 @@ class DepositRequest(FrozenDTO):
 
     first_name: str
     last_name: str
-    operation_type: BankOperationType = Field(
-        default=BankOperationType.DEPOSIT
-    )
+    operation_type: BankOperationType = BankOperationType.DEPOSIT
     amount: PositiveInt = Field(gt=MIN_AMOUNT, le=MAX_TO_DEPOSIT)
 
 
@@ -34,7 +30,5 @@ class WithdrawRequest(FrozenDTO):
 
     first_name: str
     last_name: str
-    operation_type: BankOperationType = Field(
-        default=BankOperationType.WITHDRAW
-    )
+    operation_type: BankOperationType = BankOperationType.WITHDRAW
     amount: PositiveInt = Field(gt=MIN_AMOUNT, le=MAX_TO_WITHDRAW)

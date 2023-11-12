@@ -1,7 +1,11 @@
 from typing import Generic, TypeVar
 
-DBModelT = TypeVar("DBModelT")
-DTOModelT = TypeVar("DTOModelT")
+from pydantic import BaseModel
+
+from src.infrastructure.database.models import Base
+
+DBModelT = TypeVar("DBModelT", bound=Base)
+DTOModelT = TypeVar("DTOModelT", bound=BaseModel)
 
 
 class DataConverterMixin(Generic[DBModelT, DTOModelT]):
@@ -18,4 +22,4 @@ class DataConverterMixin(Generic[DBModelT, DTOModelT]):
             input_data: DBModelT,
             output_model: type[DTOModelT]
     ) -> DTOModelT:
-        return output_model.from_orm(input_data)
+        return output_model.model_validate(input_data)

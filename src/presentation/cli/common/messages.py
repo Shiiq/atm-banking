@@ -22,6 +22,7 @@ WELCOME_MESSAGE = (
     "\n\n"
 )
 
+
 __all__ = (
     "REQUESTING_MESSAGE",
     "OPERATION_SUCCESS_MESSAGE",

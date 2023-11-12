@@ -2,7 +2,6 @@ import logging
 
 from src.application.dto import BankAccountRead
 from src.application.dto import BankAccountUpdate
-from src.application.dto import BankCustomerSearch
 from src.application.dto import BankOperationCreate
 from src.application.dto import BankOperationRead
 from src.application.dto import WithdrawRequest
@@ -21,12 +20,9 @@ class Withdraw(BaseHandler):
     ) -> OperationShortResponse:
 
         async with self._uow:
-            customer_search_data = BankCustomerSearch(
-                first_name=input_data.first_name,
-                last_name=input_data.last_name
-            )
-            customer = await self._customer_service.by_fullname(
-                search_data=customer_search_data
+            customer = await self._customer_service.get_by_fullname(
+                customer_first_name=input_data.first_name,
+                customer_last_name=input_data.last_name
             )
             _logger.info(
                 f"The customer '{customer.id}' requested "
@@ -42,7 +38,9 @@ class Withdraw(BaseHandler):
                     f"An account '{customer.bank_account.id}' "
                     f"has insufficient funds"
                 )
-                raise AccountHasInsufficientFunds(account_id=customer.bank_account_id)
+                raise AccountHasInsufficientFunds(
+                    account_id=customer.bank_account_id
+                )
 
             account_update_data = BankAccountUpdate(
                 id=customer.bank_account_id,

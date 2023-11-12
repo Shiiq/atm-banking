@@ -10,7 +10,7 @@ BANK_OPERATION = "bank_operation"
 
 
 class BankOperationsDB(StrEnum):
-    """Bank operations to write to DB"""
+    """Bank operations to write to DB."""
 
     DEPOSIT = "deposit"
     WITHDRAW = "withdraw"

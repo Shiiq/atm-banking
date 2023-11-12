@@ -11,10 +11,10 @@ from src.application.exceptions import CustomerIDNotExist
 from src.application.exceptions import CustomerNotExist
 from src.infrastructure.unit_of_work import UnitOfWorkError
 
-ExcT = TypeVar("ExcT")
+ExcDataT = TypeVar("ExcDataT")
 
 
-class ExceptionData(BaseModel, Generic[ExcT]):
+class ExceptionData(BaseModel, Generic[ExcDataT]):
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
@@ -22,7 +22,7 @@ class ExceptionData(BaseModel, Generic[ExcT]):
     )
 
     error_message: str
-    error_body: ExcT
+    error_body: ExcDataT
 
 
 async def account_id_not_exist_callback(
@@ -85,8 +85,10 @@ async def convert_exception_to_json(
         status_code: int, error
 ):
     return JSONResponse(
-        content=ExceptionData(error_message=error.msg,
-                              error_body=error)
+        content=ExceptionData(
+            error_message=error.msg,
+            error_body=error
+        )
         .model_dump(exclude={"error_body"}),
         status_code=status_code
     )

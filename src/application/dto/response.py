@@ -10,7 +10,7 @@ from .base import BankOperationType, FrozenDTO
 
 
 class OperationShortResponse(FrozenDTO):
-    """Output model"""
+    """Output data model with short operation information."""
 
     operation_datetime: datetime = Field(
         validation_alias="created_at"
@@ -21,9 +21,7 @@ class OperationShortResponse(FrozenDTO):
     operation_amount: PositiveInt = Field(
         validation_alias="amount"
     )
-    current_balance: Optional[NonNegativeInt] = Field(
-        default=None
-    )
+    current_balance: Optional[NonNegativeInt] = None
 
 
 class OperationFullResponse(FrozenDTO):
@@ -34,6 +32,7 @@ class OperationFullResponse(FrozenDTO):
 
 
 class BankStatementShortResponse(FrozenDTO):
+    """Output data model with short bank statement information."""
 
     since: date
     till: date

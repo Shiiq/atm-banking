@@ -1,4 +1,4 @@
-# weigth 138 mb
+# weigth ~135 mb
 FROM python:3.11.6-alpine3.18 as base
 
 # python:
@@ -49,4 +49,4 @@ WORKDIR $PROJECT_NAME
 
 COPY ./ ./
 
-CMD ["python", "__main__.py", "-api"]
+CMD ["python", "runner.py", "-api"]

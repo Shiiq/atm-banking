@@ -22,7 +22,7 @@ class CLIApp(CLIAppBase):
     _output_handler: OutputHandler
 
     async def run(self):
-        # runs the main loop for cli application
+        # runs the main loop for application cli
         if not self._RUNNING:
             await self._run()
         else:

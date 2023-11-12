@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends
 from starlette import status
 
-from src.application.dto import WithdrawRequest, OperationShortResponse
+from src.application.dto import WithdrawRequest
+from src.application.dto import OperationShortResponse
 from src.presentation.api.dependencies import get_provider
 
 withdraw_router = APIRouter(prefix="/withdraw")

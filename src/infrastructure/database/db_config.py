@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass(frozen=True)
@@ -10,11 +11,11 @@ class DBConfig:
     """
 
     # POSTGRES DB
-    postgres_db: str = None
-    postgres_user: str = None
-    postgres_password: str = None
-    db_host: str = None
-    db_port: int = None
+    postgres_db: Optional[str] = None
+    postgres_user: Optional[str] = None
+    postgres_password: Optional[str] = None
+    db_host: Optional[str] = None
+    db_port: Optional[str] = None
 
     # SQLITE DB
     sqlite_database_url: str = "atm_local_default.db"

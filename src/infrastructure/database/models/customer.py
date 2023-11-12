@@ -25,7 +25,7 @@ class BankCustomerModel(UpdatedAtTimestampMixin, Base):
         ForeignKey("bank_account.id"),
         nullable=True
     )
-    bank_account: Mapped["BankAccountModel"] = relationship(
+    bank_account = relationship(
         "BankAccountModel",
         uselist=False,
         back_populates="customer"

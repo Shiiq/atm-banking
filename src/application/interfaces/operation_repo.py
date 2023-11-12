@@ -1,19 +1,23 @@
-from typing import Protocol
+from datetime import datetime
+from typing import Protocol, Sequence
+from uuid import UUID
+
+from src.infrastructure.database.models import BankOperationModel
 
 
 class IOperationRepo(Protocol):
 
-    async def create(self, operation):
+    async def create(
+            self,
+            operation: BankOperationModel
+    ) -> BankOperationModel:
         ...
 
-    async def get_all(self):
-        ...
-
-    async def get_by_id(self, operation_id):
-        ...
-
-    async def get_by_customer_id(self, account_id, customer_id):
-        ...
-
-    async def get_by_date_interval(self, account_id, customer_id, start_date, end_date):
+    async def get_by_date_interval(
+            self,
+            account_id: UUID,
+            customer_id: UUID,
+            start_date: datetime,
+            end_date: datetime
+    ) -> Sequence[BankOperationModel]:
         ...

@@ -1,15 +1,14 @@
 from datetime import datetime
-from typing import Optional
 from uuid import UUID
 
 from pydantic import Field
 
 from .account import BankAccountCreate, BankAccountRead
-from .base import DTO, FrozenDTO
+from .base import FrozenDTO
 
 
 class BankCustomerCreate(FrozenDTO):
-    """Bank customer model for creating"""
+    """Bank customer data model for creating."""
 
     first_name: str
     last_name: str
@@ -19,7 +18,7 @@ class BankCustomerCreate(FrozenDTO):
 
 
 class BankCustomerRead(FrozenDTO):
-    """Bank customer output model from DB"""
+    """Bank customer output data model from DB."""
 
     id: UUID
     first_name: str
@@ -27,13 +26,4 @@ class BankCustomerRead(FrozenDTO):
     bank_account_id: UUID
     created_at: datetime
     updated_at: datetime
-    bank_account: Optional[BankAccountRead] = Field(default=None)
-
-
-class BankCustomerSearch(DTO):
-    """Bank customer search data model"""
-
-    id: Optional[UUID] = Field(default=None)
-    first_name: Optional[str] = Field(default=None)
-    last_name: Optional[str] = Field(default=None)
-    bank_account_id: Optional[UUID] = Field(default=None)
+    bank_account: BankAccountRead

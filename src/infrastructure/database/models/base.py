@@ -21,7 +21,7 @@ mapper_registry = registry(metadata=MetaData(naming_convention=convention))
 
 
 class Base(DeclarativeBase):
-    """Base DB model"""
+    """Base DB model."""
 
     __abstract__ = True
 
@@ -41,7 +41,7 @@ class Base(DeclarativeBase):
 
 
 class UpdatedAtTimestampMixin:
-    """'updated_at' datetime column mixin"""
+    """'updated_at' datetime column mixin."""
 
     updated_at: Mapped[datetime] = mapped_column(
         DateTime,

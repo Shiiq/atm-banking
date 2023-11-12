@@ -1,10 +1,14 @@
+from src.application.common import MAX_AMOUNT_TO_DEPOSIT
+from src.application.common import MAX_AMOUNT_TO_WITHDRAW
 
 _EXIT_MESSAGE = "Work with the ATM is completed\n"
 _INCORRECT_DATA_MESSAGE = (
-    "Incorrect data has been entered, please repeat your request\n"
+    "Incorrect data has been entered, please repeat your request.\n"
+    f"Maximum amount to top up a bank account is {MAX_AMOUNT_TO_DEPOSIT},"
+    f"and for withdrawal is {MAX_AMOUNT_TO_WITHDRAW}.\n"
 )
 _WRONG_OPERATION_MESSAGE = (
-    "Unknown operation, please enter your request again, or enter <Exit>\n"
+    "Unknown operation, please repeat your request, or enter <Exit>\n"
 )
 
 
@@ -31,19 +35,6 @@ class InputDataError(CLIAppException):
         return self._msg
 
 
-class ValidateDataError(CLIAppException):
-
-    def __init__(self, errors_data: list):
-        self._errors_data = errors_data[0]
-
-    @property
-    def msg(self):
-        return (
-            f"An error '{self._errors_data['msg']}' has occured. "
-            f"Please input in '{self._errors_data['loc']}' fields correct data."
-        )
-
-
 class WrongOperationError(CLIAppException):
 
     _msg = _WRONG_OPERATION_MESSAGE
@@ -51,3 +42,10 @@ class WrongOperationError(CLIAppException):
     @property
     def ui_msg(self):
         return self._msg
+
+
+__all__ = (
+    "ExitOperation",
+    "InputDataError",
+    "WrongOperationError",
+)

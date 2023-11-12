@@ -1,8 +1,8 @@
 from typing import Optional
+from uuid import UUID
 
 from src.application.dto import BankAccountRead
 from src.application.dto import BankAccountUpdate
-from src.application.dto import BankAccountSearch
 from src.application.exceptions import AccountIDNotExist
 from src.application.interfaces import IAccountRepo
 from src.infrastructure.database.models import BankAccountModel
@@ -14,25 +14,17 @@ class AccountService(DataConverterMixin):
     def __init__(self, account_repo: IAccountRepo):
         self.account_repo = account_repo
 
-    async def by_id(
-            self,
-            search_data: BankAccountSearch
-    ) -> Optional[BankAccountRead]:
+    async def get_by_id(self, account_id: UUID) -> BankAccountRead:
 
-        account = await self.account_repo.get_by_id(
-            account_id=search_data.id
-        )
+        account = await self.account_repo.get_by_id(account_id=account_id)
         if not account:
-            raise AccountIDNotExist(account_id=search_data.id)
+            raise AccountIDNotExist(account_id=account_id)
         return self.from_orm_to_dto(
             input_data=account,
             output_model=BankAccountRead
         )
 
-    async def update(
-            self,
-            update_data: BankAccountUpdate
-    ) -> BankAccountRead:
+    async def update(self, update_data: BankAccountUpdate) -> BankAccountRead:
 
         account_orm = self.from_dto_to_orm(
             input_data=update_data,

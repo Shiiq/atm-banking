@@ -3,7 +3,6 @@ import logging
 from src.application.dto import BankAccountRead
 from src.application.dto import BankAccountUpdate
 from src.application.dto import BankCustomerCreate
-from src.application.dto import BankCustomerSearch
 from src.application.dto import BankOperationCreate
 from src.application.dto import BankOperationRead
 from src.application.dto import DepositRequest
@@ -23,12 +22,9 @@ class Deposit(BaseHandler):
 
         async with self._uow:
             try:
-                customer_search_data = BankCustomerSearch(
-                    first_name=input_data.first_name,
-                    last_name=input_data.last_name
-                )
-                customer = await self._customer_service.by_fullname(
-                    search_data=customer_search_data
+                customer = await self._customer_service.get_by_fullname(
+                    customer_first_name=input_data.first_name,
+                    customer_last_name=input_data.last_name
                 )
                 _logger.info(
                     f"The customer '{customer.id}' requested "
@@ -40,12 +36,12 @@ class Deposit(BaseHandler):
                     f"A customer '{input_data.first_name} "
                     f"{input_data.last_name}' does not exist"
                 )
-                customer_create_data = BankCustomerCreate(
+                new_customer_data = BankCustomerCreate(
                     first_name=input_data.first_name,
                     last_name=input_data.last_name
                 )
                 customer = await self._customer_service.create(
-                    create_data=customer_create_data
+                    create_data=new_customer_data
                 )
                 _logger.info(
                     f"Customer '{customer.first_name} {customer.last_name}' "
@@ -60,7 +56,7 @@ class Deposit(BaseHandler):
             )
             _logger.info(
                 f"Deposit operation for customer '{customer.id}' "
-                f"was successful"
+                "was successful"
             )
             operation_register_data = BankOperationCreate(
                 amount=input_data.amount,

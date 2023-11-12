@@ -1,8 +1,8 @@
 from typing import Optional
+from uuid import UUID
 
 from src.application.dto import BankCustomerCreate
 from src.application.dto import BankCustomerRead
-from src.application.dto import BankCustomerSearch
 from src.application.exceptions import CustomerNotExist, CustomerIDNotExist
 from src.application.interfaces import ICustomerRepo
 from src.infrastructure.database.models import BankAccountModel
@@ -29,42 +29,39 @@ class CustomerService(DataConverterMixin):
             last_name=create_data.last_name,
             bank_account=account_orm
         )
-        customer = await self.customer_repo.create(
-            customer=customer_orm
-        )
+        customer = await self.customer_repo.create(customer=customer_orm)
         return self.from_orm_to_dto(
             input_data=customer,
             output_model=BankCustomerRead
         )
 
-    async def by_id(
+    async def get_by_id(
             self,
-            search_data: BankCustomerSearch
-    ) -> Optional[BankCustomerRead]:
+            customer_id: UUID
+    ) -> BankCustomerRead:
 
-        customer = await self.customer_repo.get_by_id(
-            customer_id=search_data.id
-        )
+        customer = await self.customer_repo.get_by_id(customer_id=customer_id)
         if not customer:
-            raise CustomerIDNotExist(customer_id=search_data.id)
+            raise CustomerIDNotExist(customer_id=customer_id)
         return self.from_orm_to_dto(
             input_data=customer,
             output_model=BankCustomerRead
         )
 
-    async def by_fullname(
+    async def get_by_fullname(
             self,
-            search_data: BankCustomerSearch
-    ) -> Optional[BankCustomerRead]:
+            customer_first_name: str,
+            customer_last_name: str
+    ) -> BankCustomerRead:
 
         customer = await self.customer_repo.get_by_fullname(
-            customer_first_name=search_data.first_name,
-            customer_last_name=search_data.last_name
+            customer_first_name=customer_first_name,
+            customer_last_name=customer_last_name
         )
         if not customer:
             raise CustomerNotExist(
-                first_name=search_data.first_name,
-                last_name=search_data.last_name
+                first_name=customer_first_name,
+                last_name=customer_last_name
             )
         return self.from_orm_to_dto(
             input_data=customer,

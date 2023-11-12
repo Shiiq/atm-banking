@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends
 from starlette import status
 
-from src.application.dto import BankStatementRequest, BankStatementShortResponse
+from src.application.dto import BankStatementRequest
+from src.application.dto import BankStatementShortResponse
 from src.presentation.api.dependencies import get_provider
 
 bank_statement_router = APIRouter(prefix="/bank_statement")

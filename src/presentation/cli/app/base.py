@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Self
 
 ProviderT = TypeVar("ProviderT")
 InputHandlerT = TypeVar("InputHandlerT")
@@ -24,7 +24,7 @@ class CLIAppBase(Generic[ProviderT, InputHandlerT, OutputHandlerT]):
         self._output_handler = output_handler
 
     @classmethod
-    def create(cls, provider, input_handler, output_handler):
+    def create(cls, provider, input_handler, output_handler) -> Self:
         return cls(
             provider=provider,
             input_handler=input_handler,

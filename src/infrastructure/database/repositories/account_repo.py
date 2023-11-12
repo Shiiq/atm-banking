@@ -13,15 +13,6 @@ class AccountRepo(IAccountRepo):
     def __init__(self, session: AsyncSession):
         self._session = session
 
-    async def create(
-            self,
-            account: BankAccountModel
-    ) -> BankAccountModel:
-
-        self._session.add(account)
-        await self._session.flush()
-        return account
-
     async def get_by_id(
             self,
             account_id: UUID

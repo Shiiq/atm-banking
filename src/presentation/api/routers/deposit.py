@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends
 from starlette import status
 
-from src.application.dto import DepositRequest, OperationShortResponse
+from src.application.dto import DepositRequest
+from src.application.dto import OperationShortResponse
 from src.presentation.api.dependencies import get_provider
 
 deposit_router = APIRouter(prefix="/deposit")

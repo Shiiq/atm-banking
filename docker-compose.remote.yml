@@ -18,7 +18,7 @@ services:
       - LAUNCH=rem
     env_file:
       - .env.remote.template
-    command: ["python", "__main__.py", "-api"]
+    command: ["python", "runner.py", "-api"]
 
   db:
     container_name: db

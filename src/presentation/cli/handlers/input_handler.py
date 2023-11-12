@@ -2,6 +2,8 @@ import re
 from re import Pattern
 from typing import Type
 
+from pydantic import ValidationError
+
 from src.application.dto import BankOperationType
 from src.application.dto import BankStatementRequest
 from src.application.dto import DepositRequest
@@ -73,10 +75,7 @@ class InputHandler:
                 data_model=data_model
             )
 
-    def _check_operation_type(
-            self,
-            raw_data: str
-    ) -> BankOperationType:
+    def _check_operation_type(self, raw_data: str) -> BankOperationType:
 
         parsed_input = re.search(
             pattern=OPERATION_TYPES_PATTERN,
@@ -125,12 +124,15 @@ class InputHandler:
         )
         first_name = parsed_data.group("first_name")
         last_name = parsed_data.group("last_name")
-        return data_model(
-            first_name=first_name,
-            last_name=last_name,
-            since=since,
-            till=till
-        )
+        try:
+            return data_model(
+                first_name=first_name,
+                last_name=last_name,
+                since=since,
+                till=till
+            )
+        except ValidationError:
+            raise InputDataError
 
     def _deposit_or_withdraw(
             self,
@@ -146,8 +148,11 @@ class InputHandler:
         first_name = parsed_data.group("first_name")
         last_name = parsed_data.group("last_name")
         amount = parsed_data.group("amount")
-        return data_model(
-            first_name=first_name,
-            last_name=last_name,
-            amount=amount
-        )
+        try:
+            return data_model(
+                first_name=first_name,
+                last_name=last_name,
+                amount=amount
+            )
+        except ValidationError:
+            raise InputDataError

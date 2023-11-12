@@ -28,10 +28,10 @@ async def parse_args():
     setup_root_logger(log_config=config.logging)
 
     if args.api:
-        logging.warning("preparing the api application")
+        logging.warning("preparing the application api")
         await api_start(config=config)
     elif args.cli:
-        logging.warning("preparing the cli application")
+        logging.warning("preparing the application cli")
         await cli_start(config=config)
 
 

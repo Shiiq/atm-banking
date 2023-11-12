@@ -4,6 +4,7 @@ from pydantic import BaseModel, ConfigDict, Extra
 
 
 class BankOperationType(StrEnum):
+    """Possible operations for interaction with the app."""
 
     DEPOSIT = "deposit"
     WITHDRAW = "withdraw"
@@ -11,6 +12,7 @@ class BankOperationType(StrEnum):
 
 
 class DTO(BaseModel):
+    """Base DTO model config."""
 
     model_config = ConfigDict(
         extra=Extra.ignore,
@@ -21,6 +23,7 @@ class DTO(BaseModel):
 
 
 class FrozenDTO(DTO):
+    """Base frozen DTO model config."""
 
     model_config = ConfigDict(
         frozen=True

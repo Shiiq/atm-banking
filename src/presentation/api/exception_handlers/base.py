@@ -13,7 +13,6 @@ from .handlers import unit_of_work_error_callback
 
 
 def setup_exception_handlers(app: FastAPI):
-
     app.add_exception_handler(
         AccountIDNotExist,
         account_id_not_exist_callback

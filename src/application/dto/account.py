@@ -2,7 +2,7 @@ from datetime import date, datetime
 from typing import Optional
 from uuid import UUID
 
-from pydantic import Field, NonNegativeInt
+from pydantic import NonNegativeInt
 
 from .base import DTO, FrozenDTO
 
@@ -10,13 +10,13 @@ DEFAULT_BALANCE = 0
 
 
 class BankAccountCreate(FrozenDTO):
-    """Bank account model for creating"""
+    """Bank account data model for creating."""
 
-    balance: NonNegativeInt = Field(default=DEFAULT_BALANCE)
+    balance: NonNegativeInt = DEFAULT_BALANCE
 
 
 class BankAccountRead(FrozenDTO):
-    """Bank account output model from DB"""
+    """Bank account output data model from DB."""
 
     id: UUID
     balance: NonNegativeInt
@@ -25,16 +25,7 @@ class BankAccountRead(FrozenDTO):
 
 
 class BankAccountUpdate(DTO):
-    """Bank account update data model"""
+    """Bank account update data model."""
 
     id: UUID
     balance: NonNegativeInt
-
-
-class BankAccountSearch(DTO):
-    """Bank account search data model"""
-
-    id: Optional[UUID] = Field(default=None)
-    customer_id: Optional[UUID] = Field(default=None)
-    created_at: Optional[date] = Field(default=None)
-    updated_at: Optional[date] = Field(default=None)

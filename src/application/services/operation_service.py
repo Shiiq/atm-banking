@@ -1,9 +1,10 @@
-from typing import Optional
+from datetime import date, datetime, time
+from uuid import UUID
+
 from pydantic import TypeAdapter
 
 from src.application.dto import BankOperationCreate
 from src.application.dto import BankOperationRead
-from src.application.dto import BankOperationSearch
 from src.application.dto import OperationShortResponse
 from src.application.interfaces import IOperationRepo
 from src.infrastructure.database.models import BankOperationModel
@@ -31,39 +32,26 @@ class OperationService(DataConverterMixin):
             output_model=BankOperationRead
         )
 
-    async def by_id(
+    async def get_by_date_interval(
             self,
-            search_data: BankOperationSearch
-    ) -> Optional[BankOperationRead]:
+            account_id: UUID,
+            customer_id: UUID,
+            since: date,
+            till: date
+    ) -> list[OperationShortResponse]:
 
-        operation = await self.operation_repo.get_by_id(
-            operation_id=search_data.id
+        start_date = datetime.combine(
+            since,
+            time(hour=0, minute=0, second=0, microsecond=0)
         )
-        return self.from_orm_to_dto(
-            input_data=operation,
-            output_model=BankOperationRead
+        end_date = datetime.combine(
+            till,
+            time(hour=23, minute=59, second=59, microsecond=999999)
         )
-
-    async def by_customer(
-            self,
-            search_data: BankOperationSearch
-    ) -> list[Optional[OperationShortResponse]]:
-
-        operations = await self.operation_repo.get_by_customer_id(
-            account_id=search_data.bank_account_id,
-            customer_id=search_data.bank_customer_id
-        )
-        return self.list_adapter.validate_python(operations)
-
-    async def by_date_interval(
-            self,
-            search_data: BankOperationSearch
-    ) -> list[Optional[OperationShortResponse]]:
-
         operations = await self.operation_repo.get_by_date_interval(
-            account_id=search_data.bank_account_id,
-            customer_id=search_data.bank_customer_id,
-            start_date=search_data.since,
-            end_date=search_data.till
+            account_id=account_id,
+            customer_id=customer_id,
+            start_date=start_date,
+            end_date=end_date
         )
         return self.list_adapter.validate_python(operations)

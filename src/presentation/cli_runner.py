@@ -20,5 +20,5 @@ async def cli_start(config: Config):
             input_handler=InputHandler(),
             output_handler=OutputHandler()
         )
-        logging.warning("running the cli application")
+        logging.warning("running the application cli")
         await app.run()

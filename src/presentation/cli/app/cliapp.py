@@ -64,5 +64,5 @@ class CLIApp(CLIAppBase):
                 print(OPERATION_SUCCESS_MESSAGE)
                 self._print(msg=response)
             except ApplicationException as err:
-                self._print(msg=err.ui_msg)
+                self._print(msg=err.msg)
             continue

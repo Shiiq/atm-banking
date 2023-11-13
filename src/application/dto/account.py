@@ -1,5 +1,4 @@
-from datetime import date, datetime
-from typing import Optional
+from datetime import datetime
 from uuid import UUID
 
 from pydantic import NonNegativeInt

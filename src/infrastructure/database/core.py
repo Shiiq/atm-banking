@@ -30,10 +30,10 @@ async def create_engine_local_way(
         echo=db_config.echo
     )
     async with engine.connect() as conn:
-        await conn.run_sync(metadata.drop_all)
-        await conn.run_sync(metadata.create_all)
+        # await conn.run_sync(metadata.drop_all)
+        # await conn.run_sync(metadata.create_all)
         yield engine
-        await conn.run_sync(metadata.drop_all)
+        # await conn.run_sync(metadata.drop_all)
     await engine.dispose()
 
 

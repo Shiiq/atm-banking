@@ -16,13 +16,13 @@ ExcDataT = TypeVar("ExcDataT")
 
 class ExceptionData(BaseModel, Generic[ExcDataT]):
 
+    error_message: str
+    error_body: ExcDataT
+
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
         frozen=True
     )
-
-    error_message: str
-    error_body: ExcDataT
 
 
 async def account_id_not_exist_callback(

@@ -1,10 +1,9 @@
-from datetime import date, datetime, time
-from typing import Optional
+from datetime import datetime
 from uuid import UUID
 
-from pydantic import PositiveInt, field_validator
+from pydantic import PositiveInt
 
-from .base import BankOperationType, DTO, FrozenDTO
+from .base import BankOperationType, FrozenDTO
 
 
 class BankOperationCreate(FrozenDTO):

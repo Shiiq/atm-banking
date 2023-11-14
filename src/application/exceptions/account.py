@@ -10,7 +10,9 @@ class AccountIDNotExist(ApplicationException):
 
     @property
     def msg(self):
-        return f"An account with ID '{self.account_id}' does not exist"
+        return (
+            f"An account with ID '{self.account_id}' does not exist"
+        )
 
 
 class AccountHasInsufficientFunds(ApplicationException):
@@ -20,4 +22,6 @@ class AccountHasInsufficientFunds(ApplicationException):
 
     @property
     def msg(self):
-        return f"An account with ID '{self.account_id}' has insufficient funds"
+        return (
+            f"An account with ID '{self.account_id}' has insufficient funds"
+        )

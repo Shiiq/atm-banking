@@ -12,9 +12,9 @@ class LaunchType(StrEnum):
 class ConfigLoaderError(Exception):
 
     _msg = (
-        "Cannot read the LAUNCH environment variable."
-        " Please set LAUNCH to 'loc' (e.g. export LAUNCH=loc)"
-        " and restart the application. Or if you run the application remotely,"
+        "Cannot read the LAUNCH environment variable. "
+        "Please set LAUNCH to 'loc' (e.g. export LAUNCH=loc) "
+        "and restart the application. Or if you run the application remotely,"
         " check the environment variables in docker-compose files."
     )
 

@@ -37,7 +37,7 @@ class BankStatementShortResponse(FrozenDTO):
     since: date
     till: date
     balance: NonNegativeInt
-    operations: list[Optional[OperationShortResponse]]
+    operations: list[OperationShortResponse]
 
 
 class BankStatementFullResponse(FrozenDTO):
@@ -45,4 +45,4 @@ class BankStatementFullResponse(FrozenDTO):
     since: date
     till: date
     customer: BankCustomerRead
-    operations: list[Optional[BankOperationRead]]
+    operations: list[BankOperationRead]

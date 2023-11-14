@@ -1,4 +1,6 @@
-/atm_dev.db
+/atm_local_default.db
+/unused
+/test_fastapi_app
 *docker-compose*
 *Dockerfile*
 *.env
@@ -6,3 +8,4 @@
 *.gitignore
 *.git
 *nginx.conf
+*.mypy_cache

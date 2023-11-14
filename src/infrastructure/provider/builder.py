@@ -8,7 +8,10 @@ from src.infrastructure.di import DIContainer
 from .provider import Provider
 
 
-def build_provider(di_container: DIContainer, app_state: ScopeState) -> Provider:
+def build_provider(
+        di_container: DIContainer,
+        app_state: ScopeState
+) -> Provider:
     provider = Provider(di_container=di_container, app_state=app_state)
     return provider
 

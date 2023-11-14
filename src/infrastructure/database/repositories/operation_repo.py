@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Sequence, Optional
+from typing import Sequence
 from uuid import UUID
 
 from sqlalchemy import select
@@ -29,12 +29,12 @@ class OperationRepo(IOperationRepo):
             customer_id: UUID,
             start_date: datetime,
             end_date: datetime
-    ) -> Sequence[Optional[BankOperationModel]]:
+    ) -> Sequence[BankOperationModel]:
 
         query = (
             select(BankOperationModel)
             .where(BankOperationModel.bank_account_id == account_id,
-                   BankOperationModel.bank_customer_id == customer_id,)
+                   BankOperationModel.bank_customer_id == customer_id)
             .where(BankOperationModel.created_at.between(start_date,
                                                          end_date))
         )

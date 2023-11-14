@@ -35,4 +35,6 @@ class DBConfig:
     @property
     def sqlite_url(self):
         """SQLITE database url"""
-        return f"sqlite+aiosqlite:///./{self.sqlite_database_url}"
+        return (
+            f"sqlite+aiosqlite:///./{self.sqlite_database_url}"
+        )

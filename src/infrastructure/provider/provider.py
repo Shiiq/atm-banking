@@ -18,7 +18,7 @@ class Provider(Generic[HandlerTypeT, HandlerImplT]):
         self._handlers = {}
 
     async def get_handler(self, key: HandlerTypeT) -> HandlerImplT:
-        handler = self._handlers.get(key)
+        handler = self._handlers[key]
         return await self._build_handler(handler=handler)
 
     def register_handler(self, key: HandlerTypeT, handler: HandlerImplT):

@@ -30,9 +30,14 @@ async def create_engine_local_way(
         echo=db_config.echo
     )
     async with engine.connect() as conn:
+        # pre-migrations database cleanup
         await conn.run_sync(metadata.drop_all)
+        # applying the migrations
         await conn.run_sync(metadata.create_all)
+
         yield engine
+
+        # teardown the database
         await conn.run_sync(metadata.drop_all)
     await engine.dispose()
 

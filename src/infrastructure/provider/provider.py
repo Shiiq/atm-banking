@@ -2,7 +2,7 @@ from typing import Generic, TypeVar, Dict
 
 from di import ScopeState
 
-from src.infrastructure.di import DIContainer, DIScope
+from src.infrastructure.dependency_injection import DIContainer, DIScope
 
 HandlerTypeT = TypeVar("HandlerTypeT")
 HandlerImplT = TypeVar("HandlerImplT")

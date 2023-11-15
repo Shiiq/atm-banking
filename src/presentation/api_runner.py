@@ -1,7 +1,7 @@
 import logging
 
 from src.infrastructure.config import Config
-from src.infrastructure.di import DIScope, build_container
+from src.infrastructure.dependency_injection import DIScope, build_container
 from src.infrastructure.provider import build_provider, setup_provider
 from src.presentation.api.app import create_app, setup_app, run_app
 

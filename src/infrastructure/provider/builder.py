@@ -4,7 +4,7 @@ from src.application.dto import BankOperationType
 from src.application.operation_handlers import BankStatement
 from src.application.operation_handlers import Deposit
 from src.application.operation_handlers import Withdraw
-from src.infrastructure.di import DIContainer
+from src.infrastructure.dependency_injection import DIContainer
 from .provider import Provider
 
 

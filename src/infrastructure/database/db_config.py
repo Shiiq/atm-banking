@@ -20,7 +20,7 @@ class DBConfig:
     # SQLITE DB
     sqlite_database_url: str = "atm_local_default.db"
 
-    echo: bool = False
+    echo: bool = True
     local: bool = True
 
     @property

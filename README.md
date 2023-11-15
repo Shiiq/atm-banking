@@ -5,30 +5,41 @@
 2. Локальный запуск API сервиса (можно как через docker-compose, так и без)
 3. Запуск API на удаленном сервере
 
-Установка приложения:
+Установка приложения:  
+Шаг 1 - скачивание приложения
 ```
 mkdir atm && cd atm
 git clone https://github.com/Shiiq/atm-banking.git
 ```
-Если нет Poetry
+Шаг 2 - настройка виртуального окружения  
+Windows
+```
+python -m venv venv
+venv\Scripts\activate.bat
+cd atm-banking
+```
+*nix
 ```
 python3 -m venv venv
 source venv/bin/activate
-python3 -m pip install -r requirements.txt
-```
-Если есть Poetry
-```
 cd atm-banking
+```
+Шаг 3 - установка зависимостей  
+Через pip
+```
+python -m pip install -r requirements.txt
+```
+через poetry
+```
 poetry install
 ```
-
-Запуск CLI приложения
+Шаг 4 - запуск CLI приложения
 ```
 export LAUNCH=loc
-python3 atm/runner.py -cli
+python atm/runner.py -cli
 ```
 
 Примеры запросов:  
 ```deposit john doe 15000``` внести сумму на счет  
 ```withdraw john doe 5000``` снять сумму со счета  
-```bankstatement john doe 01-01-2023 31-12-2023```  список совершенных операций за указанный период
+```bankstatement john doe 01-01-2023 31-12-2024``` список совершенных операций за указанный период

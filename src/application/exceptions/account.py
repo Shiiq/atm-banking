@@ -14,6 +14,12 @@ class AccountIDNotExist(ApplicationException):
             f"An account with ID '{self.account_id}' does not exist"
         )
 
+    def __str__(self):
+        return self.msg
+
+    def __repr__(self):
+        return self.msg
+
 
 class AccountHasInsufficientFunds(ApplicationException):
 
@@ -25,3 +31,9 @@ class AccountHasInsufficientFunds(ApplicationException):
         return (
             f"An account with ID '{self.account_id}' has insufficient funds"
         )
+
+    def __str__(self):
+        return self.msg
+
+    def __repr__(self):
+        return self.msg

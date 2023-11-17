@@ -14,6 +14,9 @@ class UnitOfWorkError(Exception):
     def __str__(self):
         return self._msg
 
+    def __repr__(self):
+        return self._msg
+
 
 class UnitOfWork(IUnitOfWork):
 

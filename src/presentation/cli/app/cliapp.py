@@ -62,7 +62,7 @@ class CLIApp(CLIAppBase):
                 response = await handler.execute(request)
                 response = response.model_dump(exclude_none=True)
                 print(OPERATION_SUCCESS_MESSAGE)
-                self._print(msg=response)
+                self._print(response)
             except ApplicationException as err:
-                print(err.msg)
+                self._print(err)
             continue

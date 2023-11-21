@@ -60,7 +60,7 @@ class CLIApp(CLIAppBase):
             )
             try:
                 response = await handler.execute(request)
-                response = response.model_dump(exclude_none=True)
+                # response = response.model_dump(exclude_none=True)
                 print(OPERATION_SUCCESS_MESSAGE)
                 self._print(response)
             except ApplicationException as err:

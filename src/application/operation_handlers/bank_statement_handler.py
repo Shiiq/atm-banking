@@ -36,6 +36,6 @@ class BankStatement(BaseHandler):
             return BankStatementShortResponse(
                 since=input_data.since,
                 till=input_data.till,
-                balance=customer.bank_account.balance,
+                current_balance=customer.bank_account.balance,
                 operations=operations
             )

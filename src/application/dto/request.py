@@ -11,8 +11,8 @@ from .base import BankOperationType, FrozenDTO
 
 class BankStatementRequest(FrozenDTO):
 
-    first_name: str = Field(pattern=CUSTOMER_NAME_PATTERN)
-    last_name: str = Field(pattern=CUSTOMER_NAME_PATTERN)
+    first_name: str = Field(pattern=CUSTOMER_NAME_PATTERN, max_length=50)
+    last_name: str = Field(pattern=CUSTOMER_NAME_PATTERN, max_length=50)
     operation_type: BankOperationType = BankOperationType.BANK_STATEMENT
     since: date
     till: date
@@ -20,15 +20,15 @@ class BankStatementRequest(FrozenDTO):
 
 class DepositRequest(FrozenDTO):
 
-    first_name: str = Field(pattern=CUSTOMER_NAME_PATTERN)
-    last_name: str = Field(pattern=CUSTOMER_NAME_PATTERN)
+    first_name: str = Field(pattern=CUSTOMER_NAME_PATTERN, max_length=50)
+    last_name: str = Field(pattern=CUSTOMER_NAME_PATTERN, max_length=50)
     operation_type: BankOperationType = BankOperationType.DEPOSIT
     amount: PositiveInt = Field(gt=MIN_AMOUNT, le=MAX_AMOUNT_TO_DEPOSIT)
 
 
 class WithdrawRequest(FrozenDTO):
 
-    first_name: str = Field(pattern=CUSTOMER_NAME_PATTERN)
-    last_name: str = Field(pattern=CUSTOMER_NAME_PATTERN)
+    first_name: str = Field(pattern=CUSTOMER_NAME_PATTERN, max_length=50)
+    last_name: str = Field(pattern=CUSTOMER_NAME_PATTERN, max_length=50)
     operation_type: BankOperationType = BankOperationType.WITHDRAW
     amount: PositiveInt = Field(gt=MIN_AMOUNT, le=MAX_AMOUNT_TO_WITHDRAW)

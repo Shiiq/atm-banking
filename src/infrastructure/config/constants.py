@@ -1,9 +1,12 @@
 from enum import StrEnum
+from pathlib import Path
 
-CONFIG_TEMPLATE_PATH = "./config_template.toml"
+_BASE_DIR = Path(__file__).parent.parent.parent.parent
+CONFIG_TEMPLATE_PATH = _BASE_DIR.joinpath("./config_template.toml")
 
 
 class LaunchType(StrEnum):
+    """The two types of the application launch."""
 
     LOCAL = "loc"
     REMOTE = "rem"
@@ -23,7 +26,4 @@ class ConfigLoaderError(Exception):
         return self._msg
 
     def __str__(self):
-        return self._msg
-
-    def __repr__(self):
         return self._msg

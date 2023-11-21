@@ -12,10 +12,11 @@ class CustomerIDNotExist(ApplicationException):
     def msg(self):
         return f"A customer with ID '{self.customer_id}' does not exist"
 
-    def __str__(self):
-        return self.msg
+    @property
+    def ui_msg(self):
+        return "A customer does not exist"
 
-    def __repr__(self):
+    def __str__(self):
         return self.msg
 
 
@@ -29,11 +30,12 @@ class CustomerNotExist(ApplicationException):
     def msg(self):
         return f"A customer '{self._fullname()}' does not exist"
 
+    @property
+    def ui_msg(self):
+        return self.msg
+
     def _fullname(self):
         return f"{self.first_name} {self.last_name}"
 
     def __str__(self):
-        return self.msg
-
-    def __repr__(self):
         return self.msg

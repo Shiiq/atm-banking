@@ -14,9 +14,6 @@ class UnitOfWorkError(Exception):
     def __str__(self):
         return self._msg
 
-    def __repr__(self):
-        return self._msg
-
 
 class UnitOfWork(IUnitOfWork):
 
@@ -29,7 +26,6 @@ class UnitOfWork(IUnitOfWork):
     async def __aenter__(self):
         if self._in_transaction:
             raise UnitOfWorkError()
-
         self._in_transaction = True
         await self._session.begin()
 

@@ -1,67 +1,82 @@
-from pprint import PrettyPrinter
-
 from src.application.dto import BankStatementShortResponse
 from src.application.dto import OperationShortResponse
 
 
-class OutputHandler(PrettyPrinter):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def _print(self, *args, **kwargs):
-        super().pprint(*args, **kwargs)
+class OutputHandler:
 
     def print(self, data):
-        print(55 * "=")
         if isinstance(data, BankStatementShortResponse):
             print(self.get_bankstatement_info_msg(data))
         elif isinstance(data, OperationShortResponse):
             print(self.get_operation_info_msg(data))
-        print(55 * "=")
+        else:
+            print(data)
 
     def get_operation_info_msg(
             self,
             operation_data: OperationShortResponse
     ) -> str:
-        msg = (
-            "| date            | {date!s:<33} |"
-            "\n"
-            "| operation       | {operation:<33} |"
-            "\n"
-            "| amount          | {amount:<33,} |"
-            "\n"
+
+        msg = 55 * "="
+        msg += self._render_operation_msg(operation_data)
+        msg += (
             "| current balance | {current_balance:<33,} |"
-            .format(
-                date=operation_data.created_at,
-                operation=operation_data.bank_operation_type,
-                amount=operation_data.amount,
-                current_balance=operation_data.current_balance
-            )
+            "\n"
+            .format(current_balance=operation_data.current_balance)
         )
+        msg += 55 * "="
         return msg
 
     def get_bankstatement_info_msg(
             self,
             operation_data: BankStatementShortResponse
     ) -> str:
-        header = (
+
+        header = 55 * "="
+        header += (
+            "\n"
             "| since           | {since!s:<33} |"
             "\n"
             "| till            | {till!s:<33} |"
             "\n"
             "| current balance | {current_balance:<33,} |"
+            "\n"
             .format(
                 since=operation_data.since,
                 till=operation_data.till,
                 current_balance=operation_data.current_balance
             )
         )
+        body = 55 * "="
         if not operation_data.operations:
-            body = "\n| There aren't operations for the specified period |"
+            body += (
+                "\n"
+                f"| {'There arent operations for the specified period':^51} |"
+                "\n"
+            )
         else:
-            body = ""
-            for o in operation_data.operations:
-                body += self.get_operation_info_msg(o)
-                body += 55 * "="
+            for op in operation_data.operations:
+                body += self._render_operation_msg(op)
+        body += 55 * "="
         return header+body
+
+    def _render_operation_msg(
+            self,
+            data: BankStatementShortResponse | OperationShortResponse
+    ) -> str:
+
+        msg = (
+            "\n"
+            "| date            | {date!s:<33} |"
+            "\n"
+            "| operation       | {operation:<33} |"
+            "\n"
+            "| amount          | {amount:<33,} |"
+            "\n"
+            .format(
+                date=data.created_at,
+                operation=data.bank_operation_type,
+                amount=data.amount,
+            )
+        )
+        return msg

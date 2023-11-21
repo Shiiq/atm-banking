@@ -10,7 +10,9 @@ _bank_statement_operation_pattern = (
     r"(?P<since>(\d{2})[.-](\d{2})[.-](\d{4}))\s+"
     r"(?P<till>(\d{2})[.-](\d{2})[.-](\d{4}))"
 )
-BANK_STATEMENT_OPERATION_PATTERN = re.compile(_bank_statement_operation_pattern)
+BANK_STATEMENT_OPERATION_PATTERN = re.compile(
+    _bank_statement_operation_pattern
+)
 
 _deposit_operation_pattern = (
     r"(?P<operation_type>deposit)\s+"
@@ -29,7 +31,9 @@ _withdraw_operation_pattern = (
 WITHDRAW_OPERATION_PATTERN = re.compile(_withdraw_operation_pattern)
 
 _bank_statement_variations_pattern = r"bank[\s_]?statement"
-BANK_STATEMENT_VARIATIONS_PATTERN = re.compile(_bank_statement_variations_pattern)
+BANK_STATEMENT_VARIATIONS_PATTERN = re.compile(
+    _bank_statement_variations_pattern
+)
 REPL_BANK_STATEMENT_PATTERN = r"bank_statement"
 
 _date_variations_pattern = r"(\d{2})[.-](\d{2})[.-](\d{4})"

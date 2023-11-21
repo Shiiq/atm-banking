@@ -4,7 +4,7 @@ from pydantic import BaseModel, ConfigDict, Extra
 
 
 class BankOperationType(StrEnum):
-    """Possible operations for interaction with the app."""
+    """Possible operations for interacting with the app."""
 
     DEPOSIT = "deposit"
     WITHDRAW = "withdraw"

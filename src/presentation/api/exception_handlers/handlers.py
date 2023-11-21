@@ -82,7 +82,8 @@ async def unit_of_work_error_callback(
 
 async def convert_exception_to_json(
         request: Request,
-        status_code: int, error
+        status_code: int,
+        error: ExcDataT
 ):
     return JSONResponse(
         content=ExceptionData(

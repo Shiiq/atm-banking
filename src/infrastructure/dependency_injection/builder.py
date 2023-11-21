@@ -26,37 +26,47 @@ from .container import DIContainer, DIScope
 def setup_db_dependencies(container: Container, db_config: DBConfig):
 
     container.bind(bind_by_type(
-        Dependent(lambda *args: db_config, scope=DIScope.APP), DBConfig)
+        Dependent(lambda *args: db_config, scope=DIScope.APP),
+        DBConfig)
     )
     if db_config.local:
         container.bind(bind_by_type(
-            Dependent(lambda *args: Base.metadata, scope=DIScope.APP), MetaData)
+            Dependent(lambda *args: Base.metadata, scope=DIScope.APP),
+            MetaData)
         )
         container.bind(bind_by_type(
-            Dependent(create_engine_local_way, scope=DIScope.APP), AsyncEngine)
+            Dependent(create_engine_local_way, scope=DIScope.APP),
+            AsyncEngine)
         )
     else:
         container.bind(bind_by_type(
-            Dependent(create_engine_remote_way, scope=DIScope.APP), AsyncEngine)
+            Dependent(create_engine_remote_way, scope=DIScope.APP),
+            AsyncEngine)
         )
     container.bind(bind_by_type(
-        Dependent(create_session_factory, scope=DIScope.APP), async_sessionmaker)
+        Dependent(create_session_factory, scope=DIScope.APP),
+        async_sessionmaker)
     )
     container.bind(bind_by_type(
-        Dependent(create_db_session, scope=DIScope.REQUEST), AsyncSession)
+        Dependent(create_db_session, scope=DIScope.REQUEST),
+        AsyncSession)
     )
 
     container.bind(bind_by_type(
-        Dependent(UnitOfWork, scope=DIScope.REQUEST), IUnitOfWork)
+        Dependent(UnitOfWork, scope=DIScope.REQUEST),
+        IUnitOfWork)
     )
     container.bind(bind_by_type(
-        Dependent(AccountRepo, scope=DIScope.REQUEST), IAccountRepo)
+        Dependent(AccountRepo, scope=DIScope.REQUEST),
+        IAccountRepo)
     )
     container.bind(bind_by_type(
-        Dependent(CustomerRepo, scope=DIScope.REQUEST), ICustomerRepo)
+        Dependent(CustomerRepo, scope=DIScope.REQUEST),
+        ICustomerRepo)
     )
     container.bind(bind_by_type(
-        Dependent(OperationRepo, scope=DIScope.REQUEST), IOperationRepo)
+        Dependent(OperationRepo, scope=DIScope.REQUEST),
+        IOperationRepo)
     )
 
 

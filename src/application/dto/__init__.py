@@ -22,15 +22,12 @@ __all__ = (
     "BankCustomerRead",
     "BankOperationCreate",
     "BankOperationRead",
-
     "BankStatementRequest",
     "DepositRequest",
     "WithdrawRequest",
-
     "BankStatementShortResponse",
     "BankStatementFullResponse",
     "OperationShortResponse",
     "OperationFullResponse",
-
     "BankOperationType",
 )

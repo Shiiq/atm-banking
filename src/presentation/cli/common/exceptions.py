@@ -11,11 +11,25 @@ _INCORRECT_DATA_MESSAGE = (
 _WRONG_OPERATION_MESSAGE = (
     "Unknown operation, please repeat your request, or enter <Exit>\n"
 )
+_RUNTIME_ERROR_MESSAGE = "The application is already running"
 
 
 class CLIAppException(Exception):
     """Base class for CLI src exception"""
+
     pass
+
+
+class CLIAppRuntimeError(CLIAppException):
+
+    _msg = _RUNTIME_ERROR_MESSAGE
+
+    @property
+    def ui_msg(self):
+        return self._msg
+
+    def __str__(self):
+        return self._msg
 
 
 class ExitOperation(CLIAppException):
@@ -46,6 +60,7 @@ class WrongOperationError(CLIAppException):
 
 
 __all__ = (
+    "CLIAppRuntimeError",
     "ExitOperation",
     "InputDataError",
     "WrongOperationError",

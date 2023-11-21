@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import Optional
 
-from pydantic import Field, PositiveInt, NonNegativeInt
+from pydantic import PositiveInt, NonNegativeInt
 
 from .account import BankAccountRead
 from .customer import BankCustomerRead

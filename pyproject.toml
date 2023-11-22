@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "ATMBanking"
 version = "0.1.0"
-description = ""
+description = "A small pet project that simulates the operations of an ATM."
 authors = ["Shiiq <anjunatown@gmail.com>"]
 readme = "README.md"
 

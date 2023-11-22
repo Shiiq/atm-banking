@@ -5,11 +5,17 @@ from src.application.dto import OperationShortResponse
 class OutputHandler:
 
     def print(self, data):
+
+        # if we get BankStatementShortResponse or OperationShortResponse,
+        # we need to parse it to form an output message
         if isinstance(data, BankStatementShortResponse):
             print(self.get_bankstatement_info_msg(data))
         elif isinstance(data, OperationShortResponse):
             print(self.get_operation_info_msg(data))
-        else:
+        # but if we get as data a simple string
+        # e.g. exception message or operational message,
+        # we print it directly
+        elif isinstance(data, str):
             print(data)
 
     def get_operation_info_msg(

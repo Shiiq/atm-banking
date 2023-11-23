@@ -137,7 +137,7 @@ docker compose -f docker-compose.remote.yml up -d --build
 #### Примеры запросов для API:  
 POST /deposit/
 ```shell
-curl -X POST http://localhost:8080/deposit/ \
+curl -X POST http://127.0.0.1:8080/deposit/ \
   -H "Content-Type: application/json" \
   -d '{
     "first_name":"john",
@@ -155,7 +155,7 @@ curl -X POST http://localhost:8080/deposit/ \
 ```
 POST /withdraw/
 ```shell
-curl -X POST http://0.0.0.1:8080/withdraw/ \
+curl -X POST http://127.0.0.1:8080/withdraw/ \
   -H "Content-Type: application/json" \
   -d '{
     "first_name":"john",
@@ -173,7 +173,7 @@ curl -X POST http://0.0.0.1:8080/withdraw/ \
 ```
 POST /bank_statement/
 ```shell
-curl -X POST http://0.0.0.1:8080/bank_statement/ \
+curl -X POST http://127.0.0.1:8080/bank_statement/ \
   -H "Content-Type: application/json" \
   -d '{
     "first_name": "john",

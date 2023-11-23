@@ -1,11 +1,13 @@
 
 _BANK_STATEMENT_FORMAT_MESSAGE = (
-    "bank statement <first name> <last name> "
+    "<command[bankstatement]> "
+    "<your first name> <your last name> "
     "<since[DD-MM-YYYY]> <till[DD-MM-YYYY]>\n"
 )
 
 _DEPOSIT_OR_WITHDRAW_FORMAT_MESSAGE = (
-    "<[deposit or withdraw]> <first name> <last name> <amount>\n"
+    "<command[deposit or withdraw]> "
+    "<your first name> <your last name> <amount>\n"
 )
 
 REQUESTING_MESSAGE = "Please enter your request >>> "

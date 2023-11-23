@@ -4,7 +4,10 @@ from src.application.dto import OperationShortResponse
 
 class OutputHandler:
 
-    def print(self, data):
+    def print(
+            self,
+            data: str | BankStatementShortResponse | OperationShortResponse
+    ):
 
         # if we get BankStatementShortResponse or OperationShortResponse,
         # we need to parse it to form an output message

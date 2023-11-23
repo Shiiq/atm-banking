@@ -77,14 +77,14 @@ class InputHandler:
 
     def _check_operation_type(self, raw_data: str) -> BankOperationType:
 
-        parsed_input = re.search(
+        parsed_data = re.search(
             pattern=OPERATION_TYPES_PATTERN,
             string=raw_data
         )
-        if not parsed_input:
+        if not parsed_data:
             raise WrongOperationError
 
-        operation_type = parsed_input.group()
+        operation_type = parsed_data.group()
         if operation_type == ExitCommand.EXIT:
             raise ExitOperation
 

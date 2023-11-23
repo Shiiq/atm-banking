@@ -20,7 +20,7 @@ async def parse_args():
     group.add_argument(
         "-cli",
         action="store_true",
-        help="running the src via cli"
+        help="running the application via cli"
     )
     args = main_parser.parse_args()
 

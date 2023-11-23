@@ -19,10 +19,10 @@ class CLIApp(CLIAppBase):
     _output_handler: OutputHandler
 
     async def run(self):
-        if not self._RUNNING:
-            await self._run()
-        else:
+        if self._RUNNING:
             raise CLIAppRuntimeError
+        else:
+            await self._run()
 
     async def _run(self):
 
@@ -57,8 +57,6 @@ class CLIApp(CLIAppBase):
 
             except ApplicationException as err:
                 self._print(err.ui_msg)
-
-            continue
 
     def _print(self, msg):
         self._output_handler.print(msg)

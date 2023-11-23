@@ -7,5 +7,4 @@
 *.venv
 *.gitignore
 *.git
-*nginx.conf
 *.mypy_cache

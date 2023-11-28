@@ -3,9 +3,7 @@
 Это небольшой пет проект, который своим функционалом повторяет 
 некоторые возможности обычного банкомата, такие как 
 внесение какой-либо суммы на счет, снятие со счета или запрос 
-списка банковских операций за определенный период. При операции пополения счета, если 
-такого клиента нет в базе данных, то он добавится. Если
-
+списка банковских операций за определенный период.
 
 Приложение допускает несколько вариантов запуска:
 1. Локальный, с взаимодействием через CLI или API  
@@ -64,7 +62,7 @@ python3 runner.py -api
 `bankstatement john doe 01-01-2023 31-12-2024`  
 - **Чтобы закончить работу с терминалом**  
 `exit`
-
+d
 #### Примеры запросов для API:  
 - **POST /deposit/**
 ```shell
@@ -142,12 +140,12 @@ git clone https://github.com/Shiiq/atm-banking.git
 Шаг 2 - разворачивание и запуск сервиса
 ```shell
 cd atm-banking
-docker compose -f docker-compose.remote.yml up -d --build
+docker compose --env-file .env.template -f docker-compose.remote.yml up -d --build
 ```
 #### Примеры запросов для API:  
 - **POST /deposit/**
 ```shell
-curl -X POST http://127.0.0.1:8080/deposit/ \
+curl -X POST http://127.0.0.1:18900/deposit/ \
   -H "Content-Type: application/json" \
   -d '{
     "first_name":"john",
@@ -165,7 +163,7 @@ curl -X POST http://127.0.0.1:8080/deposit/ \
 ```
 - **POST /withdraw/**
 ```shell
-curl -X POST http://127.0.0.1:8080/withdraw/ \
+curl -X POST http://127.0.0.1:18900/withdraw/ \
   -H "Content-Type: application/json" \
   -d '{
     "first_name":"john",
@@ -183,7 +181,7 @@ curl -X POST http://127.0.0.1:8080/withdraw/ \
 ```
 - **POST /bank_statement/**
 ```shell
-curl -X POST http://127.0.0.1:8080/bank_statement/ \
+curl -X POST http://127.0.0.1:18900/bank_statement/ \
   -H "Content-Type: application/json" \
   -d '{
     "first_name": "john",
@@ -214,6 +212,5 @@ curl -X POST http://127.0.0.1:8080/bank_statement/ \
 
 #### TODO:
 - [ ] тесты
+- [ ] CI/CD
 - [ ] ...
-- [ ] ...
-

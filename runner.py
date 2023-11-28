@@ -2,10 +2,10 @@ import argparse
 import asyncio
 import logging
 
-from src.infrastructure.config import load_config
-from src.infrastructure.logger import setup_root_logger
-from src.presentation.api_runner import api_start
-from src.presentation.cli_runner import cli_start
+from atm_banking.infrastructure.config import load_config
+from atm_banking.infrastructure.logger import setup_root_logger
+from atm_banking.presentation.api_runner import api_start
+from atm_banking.presentation.cli_runner import cli_start
 
 
 async def parse_args():

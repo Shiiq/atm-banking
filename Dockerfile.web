@@ -36,7 +36,7 @@ RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir setuptools wheel \
     && pip install --no-cache-dir "poetry==$POETRY_VERSION"
 
-RUN poetry install --no-interaction --no-ansi
+RUN poetry install --only remote_deploy --no-interaction --no-ansi
 
 
 FROM base as deployment
@@ -49,6 +49,6 @@ WORKDIR $PROJECT_NAME
 
 COPY ./ ./
 
-CMD ["gunicorn", "runner_remote:app", \
+CMD ["gunicorn", "atm.__runner_remote__:app", \
      "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", \
-     "--bind", "0.0.0.0:80"]
+     "--bind", "0.0.0.0:10000"]

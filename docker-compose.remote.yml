@@ -17,7 +17,7 @@ services:
 #    env_file:
 #      - .env.remote.template
 #    restart: always
-#    command: python runner.py -api
+#    command: python atm -api
 
   web:
     container_name: web
@@ -31,9 +31,9 @@ services:
       - LAUNCH=rem
     restart: always
     command: [
-      "gunicorn", "runner_remote:app",
+      "gunicorn", "atm.__runner_remote__:app",
       "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker",
-      "--bind", "${API_HOST}:${API_PORT}"
+      "--bind", "0.0.0.0:10000"
     ]
 
   db:
@@ -44,7 +44,6 @@ services:
     restart: always
     volumes:
       - postgres_data_atm_banking:/var/lib/postgresql/data/
-
 
   migrations:
     container_name: migrations
@@ -61,10 +60,8 @@ services:
   nginx:
     container_name: reverse_proxy
     image: nginx:1.25.3-alpine
-#    env_file:
-#      - .env.template
     ports:
-      - "18900:${NGINX_PORT}"
+      - "18900:8080"
     restart: always
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf

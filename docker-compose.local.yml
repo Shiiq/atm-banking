@@ -10,4 +10,4 @@ services:
       - "10000:10000"
     environment:
       - LAUNCH=loc
-    command: ["python", "atm", "-api"]
+    command: ["python", "-m", "atm", "-api"]

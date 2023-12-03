@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ATMBanking"
+name = "atm-banking"
 version = "0.1.0"
 description = "A small pet project that simulates the operations of an ATM."
 authors = ["Shiiq <anjunatown@gmail.com>", "Shiiq <anjunat@yandex.ru>"]
@@ -20,12 +20,6 @@ uvicorn = {extras = ["standard"], version = "^0.24.0"}
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.23"}
 
 
-[tool.poetry.group.migrations.dependencies]
-alembic = "^1.12.0"
-asyncpg = "^0.29.0"
-sqlalchemy = {extras = ["asyncio"], version = "^2.0.23"}
-
-
 [tool.poetry.group.remote_deploy.dependencies]
 alembic = "^1.10.3"
 asyncpg = "^0.29.0"
@@ -35,6 +29,12 @@ gunicorn = "^21.2.0"
 pydantic = {extras = ["settings"], version = "^2.0.2"}
 pydantic-settings = "^2.0.1"
 uvicorn = {extras = ["standard"], version = "^0.24.0"}
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.23"}
+
+
+[tool.poetry.group.migrations.dependencies]
+alembic = "^1.12.0"
+asyncpg = "^0.29.0"
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.23"}
 
 

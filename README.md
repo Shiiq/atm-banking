@@ -5,6 +5,12 @@ ___
 внесение какой-либо суммы на счет, снятие со счета или запрос 
 списка банковских операций за определенный период.
 ___
+Стек:
+- Python 3.11
+- FastAPI, SQLAlchemy, Alembic, di
+- PostgreSQL, SQLite
+- Nginx
+___
 Приложение допускает несколько вариантов запуска:
 1. Локальный, с взаимодействием через CLI или API  
 
@@ -45,9 +51,9 @@ poetry install
 export LAUNCH=loc
 ```
 ```shell
-python3 atm -cli
+python3 -m atm -cli
 или
-python3 atm -api 
+python3 -m atm -api 
 ```
 
 #### Примеры запросов для CLI:  

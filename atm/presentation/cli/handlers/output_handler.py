@@ -15,7 +15,7 @@ class OutputHandler:
             print(self.get_bankstatement_info_msg(data))
         elif isinstance(data, OperationShortResponse):
             print(self.get_operation_info_msg(data))
-        # but if we get as data a simple string
+        # but if we get data as a simple string
         # e.g. exception message or operational message,
         # we print it directly
         elif isinstance(data, str):

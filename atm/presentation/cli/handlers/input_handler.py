@@ -56,7 +56,7 @@ class InputHandler:
             raw_data: str
     ) -> BankStatementRequest | DepositRequest | WithdrawRequest:
 
-        operation_type = self._check_operation_type(raw_data)
+        operation_type = self._get_operation_type(raw_data)
         operation_params = self._OPERATION_PARAMS_MAPPING[operation_type]
         args_pattern = operation_params["args_pattern"]
         data_model = operation_params["operation_data_model"]
@@ -75,7 +75,7 @@ class InputHandler:
                 data_model=data_model
             )
 
-    def _check_operation_type(self, raw_data: str) -> BankOperationType:
+    def _get_operation_type(self, raw_data: str) -> BankOperationType:
 
         parsed_data = re.search(
             pattern=OPERATION_TYPES_PATTERN,

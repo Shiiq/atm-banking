@@ -114,7 +114,7 @@ curl -X POST http://127.0.0.1:10000/bank_statement/ \
     "first_name": "john",
     "last_name": "doe",
     "since": "2023-01-01",
-    "till": "2023-12-31"
+    "till": "2024-12-31"
   }'
 ```
 ```json
@@ -193,7 +193,7 @@ curl -X POST http://127.0.0.1:18900/bank_statement/ \
     "first_name": "john",
     "last_name": "doe",
     "since": "2023-01-01",
-    "till": "2023-12-31"
+    "till": "2024-12-31"
   }'
 ```
 ```json
